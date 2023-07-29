@@ -1,0 +1,35 @@
+services:
+  backend:
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./server:/app
+    depends_on:
+      - postgres
+
+  frontend:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+
+  postgres:
+    image: postgres:13
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - ./server/.env
+    volumes:
+      - database:/var/lib/postgresql/data
+
+volumes:
+  database:

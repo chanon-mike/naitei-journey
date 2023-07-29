@@ -26,6 +26,7 @@ tsconfig.tsbuildinfo
 npm-debug.log*
 
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -33,3 +34,7 @@ npm-debug.log*
 
 # vercel
 .vercel
+
+# Python
+.venv
+__pycache__

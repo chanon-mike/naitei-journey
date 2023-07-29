@@ -11,5 +11,8 @@
   "editor.tabSize": 2,
   "prettier.prettierPath": "node_modules/prettier",
   "stylelint.validate": ["css", "less", "postcss"],
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "[python]": {
+    "editor.tabSize": 4
+  }
 }
