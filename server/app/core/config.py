@@ -6,6 +6,10 @@ class Settings(BaseSettings):
     """
     Settings for the application
     """
+    # AWS
+    COGNITO_URL: str
+
+    # Core Settings
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
