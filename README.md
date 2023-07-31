@@ -6,6 +6,13 @@
 
 ## Installation
 
+Frontend install package
+```
+cd frontend
+npm install
+```
+
+Running docker locally
 ```
 docker-compose up -d --build
 ```
@@ -16,8 +23,9 @@ docker-compose up -d --build
 erDiagram
   User {
     int id
-    string name
-    string email
+    string auth0Id UK
+    string name 
+    string email UK
     datetime createdAt
   }
   Category {
