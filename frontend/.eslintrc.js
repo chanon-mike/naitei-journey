@@ -20,7 +20,8 @@ module.exports = {
   },
   parserOptions: {
     sourceType: 'module',
-    project: './frontend/tsconfig.json',
+    tsconfigRootDir: __dirname,
+    project: './tsconfig.json',
     ecmaFeatures: { jsx: true },
   },
   rules: {
