@@ -8,6 +8,9 @@ class Settings(BaseSettings):
     """
     # AWS
     COGNITO_URL: str
+    COGNITO_USER_POOL_ID: str
+    COGNITO_APP_CLIENT_ID: str
+    COGNITO_APP_CLIENT_SECRET: str
 
     # Core Settings
     POSTGRES_USER: str

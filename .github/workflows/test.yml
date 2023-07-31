@@ -19,5 +19,8 @@ jobs:
           key: npm-${{ hashFiles('package-lock.json') }}
       - run: npm install
         if: steps.npm-cache.outputs.cache-hit != 'true'
+        working-directory: ./frontend
       - run: npm run lint
+        working-directory: ./frontend
       - run: npm run typecheck
+        working-directory: ./frontend

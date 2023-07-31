@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Work directory
-WORKDIR /
+WORKDIR /app
 COPY ./pyproject.toml ./poetry.lock /app/
 
 # Install poetry

@@ -1,40 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 内定 Journey
 
-# Installation
+就活管理アプリ
+
+この作品は技育 CAMP のマンスリーハッカソンで作成し、技育展に登壇します
+
+## Installation
 
 ```
 docker-compose up -d --build
 ```
 
-## Getting Started
+## ER 図
 
-First, run the development server:
+```mermaid
+erDiagram
+  User {
+    int id
+    string name
+    string email
+    datetime createdAt
+  }
+  Category {
+    int id
+    string name "気になる, 選考中, 内定, 不通過"
+    int userId FK
+  }
+  Job {
+    int id
+    int categoryId FK
+    string companyName
+    string companyIndustry
+    string position
+    string ranking "S,A,B,C,D"
+    boolean isInternship
+    int internshipDuration "day"
+    datetime internshipDate "yyyy-mm-dd"
+    string url
+    string description
+    datetime createdAt
+  }
+  ApplicationStatus {
+    int id
+    int jobId FK
+    string status "ES, Webテスト, 1次面接, 2次面接, 3次面接, 最終面接, その他（自由）"
+    string process "未完了, 調整中, 結果待ち"
+    datetime date "yyyy-mm-dd"
+  }
+  SelectionFlow {
+    int id
+    int jobId FK
+    string step "ES, Webテスト, 1次面接, 2次面接, 3次面接, 最終面接, その他（自由）"
+  }
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+  User ||--|{ Category: "has 4"
+  Category ||--o{ Job: "contains"
+  Job ||--|| ApplicationStatus: "has"
+  Job ||--o{ SelectionFlow: "has"
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
