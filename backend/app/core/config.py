@@ -1,4 +1,5 @@
 from functools import lru_cache
+
 from pydantic_settings import BaseSettings
 
 
@@ -6,11 +7,16 @@ class Settings(BaseSettings):
     """
     Settings for the application
     """
+
     # Core Settings
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     CORS_ORIGIN: str
+
+    # AUTH0 Settings
+    AUTH0_DOMAIN: str
+    AUTH0_AUDIENCE: str
 
     class Config:
         """
