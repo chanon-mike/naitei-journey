@@ -1,7 +1,6 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { ReactNode } from 'react';
 
 type WrapperProps = {
   children: ReactNode;

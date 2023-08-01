@@ -1,10 +1,10 @@
 // app/page.tsx
+import ActionAreaCard from '@/components/board/ActionArea';
+import AddButton from '@/components/board/AddButton';
+import Board from '@/components/board/Board';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import ActionAreaCard from '@/components/board/ActionArea';
-import Board from '@/components/board/Board';
-import AddButton from '@/components/board/AddButton';
 
 const Home = () => {
   return (
@@ -31,6 +31,6 @@ const Home = () => {
       </Container>
     </main>
   );
-}
+};
 
-export default Home
+export default Home;
