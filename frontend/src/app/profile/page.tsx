@@ -29,7 +29,7 @@ const Profile = () => {
         <div className="profile-grid">
           <div className="profile__header">
             <Image
-              src={user.picture || defaultPicture}
+              src={defaultPicture}
               alt="Profile"
               className="profile__avatar"
               width={80}
