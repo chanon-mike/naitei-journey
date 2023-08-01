@@ -6,12 +6,7 @@ import Box from '@mui/material/Box';
 
 const AddButton = () => {
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      height="100vh"
-      alignItems="flex-start"
-    >
+    <Box display="flex" justifyContent="center" height="100vh" alignItems="flex-start">
       <Stack direction="row" spacing={1}>
         <IconButton color="primary" aria-label="add to button" size="large">
           <AddCircleOutlineIcon fontSize="inherit" />
@@ -19,6 +14,6 @@ const AddButton = () => {
       </Stack>
     </Box>
   );
-}
+};
 
-export default AddButton
+export default AddButton;

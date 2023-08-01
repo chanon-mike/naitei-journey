@@ -7,7 +7,7 @@ import { Widgets } from '@mui/icons-material';
 
 type WrapperProps = {
   children: ReactNode;
-}
+};
 
 const Board = ({ children }: WrapperProps) => {
   return (
@@ -29,7 +29,7 @@ const Board = ({ children }: WrapperProps) => {
             variant="outlined"
             style={{ width: '60%' }}
             inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-            size='small'
+            size="small"
           />
         </Box>
         {children}
@@ -38,5 +38,4 @@ const Board = ({ children }: WrapperProps) => {
   );
 };
 
-
-export default Board
+export default Board;
