@@ -15,5 +15,8 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "[python]": {
     "editor.tabSize": 4
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   }
 }
