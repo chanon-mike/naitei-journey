@@ -2,6 +2,8 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { TextField } from '@mui/material';
+import { Widgets } from '@mui/icons-material';
 
 type WrapperProps = {
   children: ReactNode;
@@ -21,6 +23,15 @@ const Board = ({ children }: WrapperProps) => {
       }}
     >
       <Paper style={{ margin: '20px' }}>
+        <Box display="flex" justifyContent="center" style={{ margin: '20px' }}>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            style={{ width: '60%' }}
+            inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+            size='small'
+          />
+        </Box>
         {children}
       </Paper>
     </Box>

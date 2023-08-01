@@ -20,28 +20,16 @@ export default function Home() {
           justifyContent="center"
         >
           <Board>
-            <Category>
-              <Typography variant="h6" style={{ textAlign: 'center' }}> 項目1</Typography>
-            </Category>
             <ActionAreaCard />
             <AddButton />
           </Board>
           <Board>
-            <Category>
-              <Typography variant="h6" style={{ textAlign: 'center' }}> 項目2</Typography>
-            </Category>
             <AddButton />
           </Board>
           <Board>
-            <Category>
-              <Typography variant="h6" style={{ textAlign: 'center' }}> 項目3</Typography>
-            </Category>
             <AddButton />
           </Board>
           <Board>
-            <Category>
-              <Typography variant="h6" style={{ textAlign: 'center' }}> 項目4</Typography>
-            </Category>
             <AddButton />
           </Board>
         </Box>
