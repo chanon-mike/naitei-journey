@@ -1,13 +1,11 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
+import { TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { TextField } from '@mui/material';
-import { Widgets } from '@mui/icons-material';
+import type { ReactNode } from 'react';
 
 type WrapperProps = {
   children: ReactNode;
-}
+};
 
 const Board = ({ children }: WrapperProps) => {
   return (
@@ -29,7 +27,7 @@ const Board = ({ children }: WrapperProps) => {
             variant="outlined"
             style={{ width: '60%' }}
             inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-            size='small'
+            size="small"
           />
         </Box>
         {children}
@@ -38,5 +36,4 @@ const Board = ({ children }: WrapperProps) => {
   );
 };
 
-
-export default Board
+export default Board;
