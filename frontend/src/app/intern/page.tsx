@@ -6,7 +6,7 @@ import ActionAreaCard from '@/components/board/ActionArea';
 import Board from '@/components/board/Board';
 import AddButton from '@/components/board/AddButton';
 
-export default function Home() {
+const Home = () => {
   return (
     <main>
       <Container>
@@ -32,3 +32,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default Home
