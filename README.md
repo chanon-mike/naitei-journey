@@ -7,15 +7,19 @@
 ## Installation
 
 Frontend install package
+
 ```
 cd frontend
 npm install
 ```
 
 Running docker locally
+
 ```
 docker-compose up -d --build
 ```
+
+When server dependencies are updated, build docker again using above command.
 
 ## ER 図
 
@@ -24,7 +28,7 @@ erDiagram
   User {
     int id
     string auth0Id UK
-    string name 
+    string name
     string email UK
     datetime createdAt
   }
