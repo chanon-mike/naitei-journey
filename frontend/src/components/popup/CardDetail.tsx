@@ -1,15 +1,16 @@
-import * as React from 'react';
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import * as React from 'react';
 import AddButton from '../board/AddButton';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import FlowSetting from './Flow';
 import SelectRank from './SelectRank';
-import State from './State';
+import StateSelect from './State';
 
 const CardDetail = () => {
   const [open, setOpen] = React.useState(false);
@@ -32,7 +33,12 @@ const CardDetail = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle fontWeight={'bold'}>カード作成</DialogTitle>
         <DialogContent>
-          <Box display="flex" justifyContent="space-between" marginBottom={'20px'} marginTop={'20px'}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            marginBottom={'20px'}
+            marginTop={'20px'}
+          >
             <TextField
               id="outlined-basic"
               variant="outlined"
@@ -118,13 +124,8 @@ const CardDetail = () => {
             />
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <State />
-            <Button
-              variant="outlined"
-              style={{ width: '40%' }}
-            >
-              選考フロー
-            </Button>
+            <StateSelect />
+            <FlowSetting />
           </Box>
         </DialogContent>
         <DialogActions>
@@ -134,5 +135,5 @@ const CardDetail = () => {
       </Dialog>
     </div>
   );
-}
-export default CardDetail
+};
+export default CardDetail;

@@ -152,7 +152,9 @@ const Home = () => {
             </Box>
             <Box display="flex">
               {columns.map((column) => (
-                <Board key={column.id} id={column.id} title={column.title} cards={column.cards} />
+                <Box key={column.id} width="300px">
+                  <Board id={column.id} title={column.title} cards={column.cards} />
+                </Box>
               ))}
             </Box>
           </Container>

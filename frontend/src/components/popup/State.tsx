@@ -1,15 +1,14 @@
-import * as React from 'react';
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
-import SelectRank from './SelectRank';
+import TextField from '@mui/material/TextField';
+import * as React from 'react';
 
-const State = () => {
+const StateSelect = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -22,101 +21,110 @@ const State = () => {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        style={{ width: '100%' }}
-        onClick={handleClickOpen}
-      >
+      <Button variant="outlined" style={{ width: '100%' }} onClick={handleClickOpen}>
         志望状況
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle fontWeight={'bold'}>カード作成</DialogTitle>
+        <DialogTitle fontWeight={'bold'}>選考状況選択</DialogTitle>
         <DialogContent>
-          <Box display="flex" justifyContent="space-between" marginBottom={'20px'} marginTop={'20px'}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="企業名"
-              style={{ width: '40%' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="medium"
-            />
-            <SelectRank />
+          <Box>
+            <Typography variant="h6">フロー</Typography>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              <Button variant="outlined" style={{ width: '30%' }}>
+                ES
+              </Button>
+              <Button variant="outlined" style={{ width: '30%' }}>
+                Webテスト
+              </Button>
+              <Button variant="outlined" style={{ width: '30%' }}>
+                1次面接
+              </Button>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              <Button variant="outlined" style={{ width: '30%' }}>
+                2次面接
+              </Button>
+              <Button variant="outlined" style={{ width: '30%' }}>
+                3次面接
+              </Button>
+              <Button variant="outlined" style={{ width: '30%' }}>
+                最終面接
+              </Button>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              <Button variant="outlined" style={{ width: '30%' }}>
+                その他
+              </Button>
+            </Box>
           </Box>
-          <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="業種"
-              style={{ width: '30%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="職種"
-              style={{ width: '30%' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-          </Box>
-          <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="0"
-              style={{ width: '10%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="週"
-              style={{ width: '10%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="4/1"
-              style={{ width: '10%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <Typography variant="h5" fontWeight={'bold'}>
-              ~
+
+          <hr />
+
+          <Box>
+            <Typography variant="h6" marginTop={'20px'}>
+              選考状況
             </Typography>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="4/2"
-              style={{ width: '10%', marginLeft: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              <Button variant="outlined" style={{ width: '30%' }}>
+                未完了
+              </Button>
+              <Button variant="outlined" style={{ width: '30%' }}>
+                調整中
+              </Button>
+              <Button variant="outlined" style={{ width: '30%' }}>
+                結果待ち
+              </Button>
+            </Box>
           </Box>
-          <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="URL"
-              style={{ width: '60%' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-          </Box>
-          <Box marginBottom={'20px'}>
-            <TextField
-              id="outlined-multiline-static"
-              label="メモ"
-              style={{ width: '80%' }}
-              multiline
-              rows={4}
-            />
+
+          <hr />
+
+          <Box>
+            <Typography variant="h6" marginTop={'20px'}>
+              日程
+            </Typography>
+            <Box display="flex" justifyContent="flex-start" marginTop={'20px'}>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="月"
+                style={{ width: '10%', marginRight: '20px' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+              />
+              <Typography variant="h5" fontWeight={'bold'}>
+                /
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="日"
+                style={{ width: '10%', marginLeft: '20px' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+              />
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>
@@ -126,5 +134,5 @@ const State = () => {
       </Dialog>
     </div>
   );
-}
-export default State
+};
+export default StateSelect;

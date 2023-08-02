@@ -5,7 +5,7 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
 import * as React from 'react';
 
-const SelectRank = () => {
+const SelectFlow = () => {
   const [age, setAge] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -14,8 +14,8 @@ const SelectRank = () => {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-helper-label">志望度</InputLabel>
+      <FormControl sx={{ m: 1, minWidth: '300px' }}>
+        <InputLabel id="demo-simple-select-helper-label">フロー</InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
@@ -23,15 +23,16 @@ const SelectRank = () => {
           label="Age"
           onChange={handleChange}
         >
-          <MenuItem value="S">S</MenuItem>
-          <MenuItem value="A">A</MenuItem>
-          <MenuItem value="B">B</MenuItem>
-          <MenuItem value="C">C</MenuItem>
-          <MenuItem value="D">D</MenuItem>
+          <MenuItem value="ES">ES</MenuItem>
+          <MenuItem value="Web">Web</MenuItem>
+          <MenuItem value="1次面接">1次面接</MenuItem>
+          <MenuItem value="2次面接">2次面接</MenuItem>
+          <MenuItem value="3次面接以降">3次面接</MenuItem>
+          <MenuItem value="最終面接">最終面接</MenuItem>
         </Select>
       </FormControl>
     </div>
   );
 };
 
-export default SelectRank;
+export default SelectFlow;
