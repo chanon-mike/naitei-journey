@@ -7,6 +7,7 @@ import type { FC } from 'react';
 import type { CardType } from './ActionArea';
 import ActionAreaCard from './ActionArea';
 import AddButton from './AddButton';
+import CardDetail from '../popup/CardDetail';
 
 export type ColumnType = {
   id: string;
@@ -46,7 +47,7 @@ const Board: FC<ColumnType> = ({ id, title, cards }: ColumnType) => {
                 state={card.state}
               />
             ))}
-            <AddButton />
+            <CardDetail />
           </Paper>
         </Box>
       </div>
