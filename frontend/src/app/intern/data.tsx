@@ -52,6 +52,13 @@ export const data: ColumnType[] = [
   {
     id: 'board4',
     title: '不通過',
-    cards: [],
+    cards: [
+      {
+        id: 'card6',
+        title: 'やすとんマーチン',
+        rank: 'D',
+        state: 'お祈り',
+      },
+    ],
   },
 ];

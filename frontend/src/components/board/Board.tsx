@@ -4,9 +4,9 @@ import { TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
+import CardDetail from '../popup/CardDetail';
 import type { CardType } from './ActionArea';
 import ActionAreaCard from './ActionArea';
-import AddButton from './AddButton';
 
 export type ColumnType = {
   id: string;
@@ -26,7 +26,7 @@ const Board: FC<ColumnType> = ({ id, title, cards }: ColumnType) => {
             flexWrap: 'wrap',
           }}
         >
-          <Paper style={{ margin: '20px', minHeight: '100vh' }}>
+          <Paper style={{ margin: '20px', minHeight: '100vh', width: '300px' }}>
             <Box display="flex" justifyContent="center" style={{ margin: '20px' }}>
               <TextField
                 id="outlined-basic"
@@ -46,7 +46,7 @@ const Board: FC<ColumnType> = ({ id, title, cards }: ColumnType) => {
                 state={card.state}
               />
             ))}
-            <AddButton />
+            <CardDetail />
           </Paper>
         </Box>
       </div>
