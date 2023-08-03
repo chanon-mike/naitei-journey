@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     """
 
     # Core Settings
+    POSTGRES_SERVER: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
