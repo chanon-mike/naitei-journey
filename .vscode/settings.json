@@ -14,9 +14,11 @@
   "stylelint.validate": ["css", "less", "postcss"],
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "[python]": {
-    "editor.tabSize": 4
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  },
+  "python.formatting.provider": "none"
 }
