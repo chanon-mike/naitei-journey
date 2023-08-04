@@ -1,16 +1,16 @@
 from typing import Optional
-from app.schemas.job import FullJobCreate, FullJobUpdate
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+import app.repository.application_status as status_repo
+import app.repository.category as category_repo
+import app.repository.job as job_repo
+import app.repository.selection_flow as flow_repo
 from app.db.database import get_db
+from app.schemas.job import FullJobCreate, FullJobUpdate
 from app.security.payload import Payload
 from app.security.verify_token import verify_token
-import app.repository.job as job_repo
-import app.repository.category as category_repo
-import app.repository.application_status as status_repo
-import app.repository.selection_flow as flow_repo
 
 router = APIRouter(prefix="/job", tags=["job"])
 

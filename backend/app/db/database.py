@@ -1,6 +1,7 @@
-from app.config import get_settings, Settings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+from app.config import Settings, get_settings
 
 settings: Settings = get_settings()
 

@@ -1,9 +1,7 @@
-import React from 'react';
 import { getAccessToken, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import ClientComponent from './client-component';
 import ServerComponent from './server-component';
 import UserButton from './user-button';
-
 
 export default withPageAuthRequired(
   async function Page() {

@@ -1,12 +1,13 @@
 from datetime import date
+
+from pydantic import BaseModel
+
 from app.schemas.application_status import ApplicationStatus, ApplicationStatusCreate
 from app.schemas.selection_flow import (
     SelectionFlow,
     SelectionFlowCreate,
     SelectionFlowUpdate,
 )
-
-from pydantic import BaseModel
 
 
 class JobBase(BaseModel):
