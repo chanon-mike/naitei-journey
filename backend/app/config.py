@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Optional
 
 from pydantic_settings import BaseSettings
 
@@ -9,10 +10,11 @@ class Settings(BaseSettings):
     """
 
     # Core Settings
-    POSTGRES_SERVER: str
+    POSTGRES_NAME: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
+    POSTGRES_SERVER: Optional[str] = None
     CORS_ORIGIN: str
 
     # AUTH0 Settings
