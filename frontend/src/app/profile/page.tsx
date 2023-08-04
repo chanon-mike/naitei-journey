@@ -17,8 +17,6 @@ export default withPageAuthRequired(
         <h2>Page:</h2>
         <h3>Access Token</h3>
         <pre>{JSON.stringify({ accessToken: session?.accessToken }, null, 2)}</pre>
-        <h3>Access AccessToken</h3>
-        <pre>{JSON.stringify({ accessToken: accessToken.accessToken }, null, 2)}</pre>
         <h3>User</h3>
         <pre>{JSON.stringify(session?.user, null, 2)}</pre>
         <h2>Server Component:</h2>
