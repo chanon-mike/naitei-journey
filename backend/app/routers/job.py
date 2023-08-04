@@ -52,7 +52,6 @@ def create_job(
     status_repo.create_application_status(db, full_job.application_status)
     flow_repo.create_selection_flows(db, full_job.selection_flows)
 
-    # Query job_db, status_db, and flow_db into a single object
     return {"message": "Successfully created job data"}
 
 
@@ -97,7 +96,6 @@ def update_job(
     status_repo.update_application_status(db, full_job.application_status, job_id)
     flow_repo.update_selection_flows(db, full_job.selection_flows)
 
-    # Query job_db, status_db, and flow_db into a single object
     return {"message": "Successfully updated job data"}
 
 

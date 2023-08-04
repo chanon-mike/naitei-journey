@@ -27,9 +27,6 @@ def create_selection_flows(
     return db_flows
 
 
-# TODO: Currently, bulk update is not working without primary key
-# Primary key needed to be update in SelectionFlow schema
-# Migrate database first to add step and process too
 def update_selection_flows(db: Session, flows: list[SelectionFlowUpdate]):
     mappings = [{**flow.model_dump()} for flow in flows]
     db.bulk_update_mappings(SelectionFlow, mappings)
