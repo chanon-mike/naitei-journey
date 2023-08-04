@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app.models.selection_flow import SelectionFlow
-from app.schemas.selection_flow import SelectionFlowCreate
-from app.schemas.selection_flow import SelectionFlow as SelectionFlowSchema
+from app.schemas.selection_flow import SelectionFlowCreate, SelectionFlowUpdate
 
 
 def get_selection_flow(db: Session, job_id: int) -> SelectionFlow:
@@ -11,12 +10,13 @@ def get_selection_flow(db: Session, job_id: int) -> SelectionFlow:
 
 def create_selection_flows(
     db: Session, flows: list[SelectionFlowCreate]
-) -> list[SelectionFlowSchema]:
+) -> list[SelectionFlow]:
     db_flows = [
         SelectionFlow(
             **{
                 "job_id": flow.job_id,
                 "step": flow.step,
+                "process": flow.process,
             }
         )
         for flow in flows
@@ -30,9 +30,9 @@ def create_selection_flows(
 # TODO: Currently, bulk update is not working without primary key
 # Primary key needed to be update in SelectionFlow schema
 # Migrate database first to add step and process too
-def update_selection_flows(db: Session, flows: list[SelectionFlowCreate]):
+def update_selection_flows(db: Session, flows: list[SelectionFlowUpdate]):
     mappings = [{**flow.model_dump()} for flow in flows]
-    db.bulk_update_mappings(SelectionFlowCreate, mappings)
+    db.bulk_update_mappings(SelectionFlow, mappings)
     db.commit()
     return mappings
 

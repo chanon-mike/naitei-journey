@@ -1,5 +1,5 @@
 from typing import Optional
-from app.schemas.job import FullJobCreate, Job
+from app.schemas.job import FullJobCreate, FullJobUpdate
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -48,12 +48,12 @@ def create_job(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
         )
 
-    job_db = job_repo.create_job(db, full_job.job)
+    job_repo.create_job(db, full_job.job)
     status_repo.create_application_status(db, full_job.application_status)
     flow_repo.create_selection_flows(db, full_job.selection_flows)
 
     # Query job_db, status_db, and flow_db into a single object
-    return job_repo.get_job(db, job_db.id)
+    return {"message": "Successfully created job data"}
 
 
 @router.get("/{job_id}")
@@ -76,9 +76,9 @@ def get_job(
     return job
 
 
-@router.put("/{job_id}", response_model=Job)
+@router.put("/{job_id}")
 def update_job(
-    full_job: FullJobCreate,
+    full_job: FullJobUpdate,
     job_id: int,
     db: Session = Depends(get_db),
     token: Payload = Depends(verify_token),
@@ -98,7 +98,7 @@ def update_job(
     flow_repo.update_selection_flows(db, full_job.selection_flows)
 
     # Query job_db, status_db, and flow_db into a single object
-    return job_repo.get_job(db, job_db.id)
+    return {"message": "Successfully updated job data"}
 
 
 @router.delete("/{job_id}")

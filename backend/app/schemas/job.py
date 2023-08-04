@@ -1,6 +1,10 @@
 from datetime import date
 from app.schemas.application_status import ApplicationStatus, ApplicationStatusCreate
-from app.schemas.selection_flow import SelectionFlow, SelectionFlowCreate
+from app.schemas.selection_flow import (
+    SelectionFlow,
+    SelectionFlowCreate,
+    SelectionFlowUpdate,
+)
 
 from pydantic import BaseModel
 
@@ -34,6 +38,12 @@ class FullJobCreate(BaseModel):
     job: JobCreate
     application_status: ApplicationStatusCreate
     selection_flows: list[SelectionFlowCreate]
+
+
+class FullJobUpdate(BaseModel):
+    job: JobCreate
+    application_status: ApplicationStatusCreate
+    selection_flows: list[SelectionFlowUpdate]
 
 
 class FullJob(JobBase):

@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 
 from app.models.application_status import ApplicationStatus
 from app.schemas.application_status import ApplicationStatusCreate
-from app.schemas.application_status import ApplicationStatus as ApplicationStatusSchema
 
 
 def get_application_status(db: Session, job_id: int) -> ApplicationStatus:
@@ -13,7 +12,7 @@ def get_application_status(db: Session, job_id: int) -> ApplicationStatus:
 
 def create_application_status(
     db: Session, status: ApplicationStatusCreate
-) -> ApplicationStatusSchema:
+) -> ApplicationStatus:
     db_status = ApplicationStatus(
         job_id=status.job_id,
         status=status.status,

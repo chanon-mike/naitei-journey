@@ -1,14 +1,18 @@
-from typing import Optional
 from pydantic import BaseModel
 
 
 class SelectionFlowBase(BaseModel):
     job_id: int
-    step: str
+    step: int
+    process: str
 
 
 class SelectionFlowCreate(SelectionFlowBase):
     pass
+
+
+class SelectionFlowUpdate(SelectionFlowBase):
+    id: int
 
 
 class SelectionFlow(SelectionFlowBase):
@@ -16,9 +20,3 @@ class SelectionFlow(SelectionFlowBase):
 
     class Config:
         orm_mode = True
-
-
-class SelectionFlowOperations(BaseModel):
-    create: Optional[list[SelectionFlowCreate]]
-    update: Optional[list[SelectionFlowCreate]]
-    delete: Optional[list[SelectionFlowCreate]]
