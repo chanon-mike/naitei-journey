@@ -7,7 +7,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from app.config import Settings, get_settings
 from app.db.base import Base
 from app.db.database import engine
-from app.routers import user
+from app.routers import job, user
 from app.security.auth0 import VerifyToken
 from app.security.verify_token import token_auth_scheme
 
@@ -34,6 +34,7 @@ async def http_exception_handler(request, exc):
 
 
 app.include_router(user.router)
+app.include_router(job.router)
 
 
 @app.get("/api/public")

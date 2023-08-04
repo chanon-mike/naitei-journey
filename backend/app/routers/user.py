@@ -1,12 +1,13 @@
-from app.schemas.user import User, UserCreate
-from app.schemas.category import CategoryCreate
-from app.security.payload import Payload
-from fastapi import Depends, APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.db.database import get_db
-from app.security.verify_token import verify_token
-import app.repository.user as user_repo
+
 import app.repository.category as category_repo
+import app.repository.user as user_repo
+from app.db.database import get_db
+from app.schemas.category import CategoryCreate
+from app.schemas.user import User, UserCreate
+from app.security.payload import Payload
+from app.security.verify_token import verify_token
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -90,4 +91,5 @@ def delete_user(
     db_user = user_repo.delete_user(db, auth0_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return db_user
+
+    return {"message": f"User {auth0_id} deleted successfully"}
