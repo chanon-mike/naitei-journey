@@ -1,4 +1,6 @@
 from datetime import date
+from app.schemas.application_status import ApplicationStatus, ApplicationStatusCreate
+from app.schemas.selection_flow import SelectionFlow, SelectionFlowCreate
 
 from pydantic import BaseModel
 
@@ -28,5 +30,16 @@ class Job(JobBase):
         orm_mode = True
 
 
-class FullJob(Job):
-    pass
+class FullJobCreate(BaseModel):
+    job: JobCreate
+    application_status: ApplicationStatusCreate
+    selection_flows: list[SelectionFlowCreate]
+
+
+class FullJob(JobBase):
+    id: int
+    application_status: ApplicationStatus
+    selection_flows: list[SelectionFlow]
+
+    class Config:
+        orm_mode = True

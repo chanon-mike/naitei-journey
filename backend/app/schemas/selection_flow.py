@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -15,3 +16,9 @@ class SelectionFlow(SelectionFlowBase):
 
     class Config:
         orm_mode = True
+
+
+class SelectionFlowOperations(BaseModel):
+    create: Optional[list[SelectionFlowCreate]]
+    update: Optional[list[SelectionFlowCreate]]
+    delete: Optional[list[SelectionFlowCreate]]

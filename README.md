@@ -54,7 +54,7 @@ Running docker locally from root directory
 $ docker-compose up -d --build
 ```
 
-When server dependencies are updated｜build docker again using above command.
+When server dependencies are updated ｜ build docker again using above command.
 
 ## ER 図
 
@@ -96,7 +96,8 @@ erDiagram
   SelectionFlow {
     int id PK
     int jobId FK
-    string step "ES｜Webテスト｜1次面接｜2次面接｜3次面接｜最終面接｜その他（自由）"
+    string process "ES｜Webテスト｜1次面接｜2次面接｜3次面接｜最終面接｜その他（自由）"
+    int step
   }
 
   User ||--|{ Category: "has 4"

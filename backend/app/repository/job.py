@@ -1,23 +1,40 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
-# from app.models.category import Category
 from app.models.job import Job
 from app.models.user import User
 from app.schemas.job import FullJob, JobCreate
 
 
 def get_job(db: Session, job_id: int) -> FullJob:
-    return db.query(Job).filter(Job.id == job_id).first()
+    return (
+        db.query(Job)
+        .options(joinedload(Job.application_status), joinedload(Job.selection_flows))
+        .filter(Job.id == job_id)
+        .first()
+    )
 
 
 def get_jobs(db: Session, skip: int = 0, limit: int = 200) -> list[FullJob]:
-    return db.query(Job).offset(skip).limit(limit).all()
+    return (
+        db.query(Job)
+        .options(joinedload(Job.application_status), joinedload(Job.selection_flows))
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_jobs_by_user_id(
     db: Session, auth0_id: str, skip: int = 0, limit: int = 200
 ) -> list[FullJob]:
-    return db.query(Job).filter(User.id == auth0_id).offset(skip).limit(limit).all()
+    return (
+        db.query(Job)
+        .options(joinedload(Job.application_status), joinedload(Job.selection_flows))
+        .filter(User.id == auth0_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def create_job(db: Session, job: JobCreate) -> Job:
