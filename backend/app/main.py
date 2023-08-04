@@ -1,20 +1,20 @@
 from fastapi import Depends, FastAPI, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBearer
 from sqlalchemy.orm import configure_mappers
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.core.config import Settings, get_settings
-from app.db.database import Base, engine
-from app.security.verify_token import VerifyToken
+from app.config import Settings, get_settings
+from app.db.base import Base
+from app.db.database import engine
+from app.routers import user
+from app.security.auth0 import VerifyToken
+from app.security.verify_token import token_auth_scheme
 
 configure_mappers()
-
 Base.metadata.create_all(bind=engine)
 
 settings: Settings = get_settings()
-token_auth_scheme = HTTPBearer()
 
 app = FastAPI()
 
@@ -30,8 +30,10 @@ app.add_middleware(
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request, exc):
     message = str(exc.detail)
-
     return JSONResponse({"message": message}, status_code=exc.status_code)
+
+
+app.include_router(user.router)
 
 
 @app.get("/api/public")

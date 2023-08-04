@@ -1,12 +1,12 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, Date
 from sqlalchemy.orm import relationship
-from app.db.database import Base
+from app.db.base import Base
 
 
 class Job(Base):
     __tablename__ = "jobs"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     category_id = Column(Integer, ForeignKey("categories.id"))
     company_name = Column(String, nullable=False)
     company_industry = Column(String)
