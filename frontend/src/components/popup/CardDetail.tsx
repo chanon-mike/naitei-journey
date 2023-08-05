@@ -6,6 +6,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import { DatePicker } from '@mui/x-date-pickers-pro/';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import ja from 'date-fns/locale/ja';
 import * as React from 'react';
 import AddButton from '../board/AddButton';
 import FlowSetting from './FlowSetting';
@@ -118,12 +122,13 @@ const CardDetail = () => {
                 onChange={(e) => setRole(e.target.value)}
               />
             </Box>
+
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
-                label="長さ"
-                style={{ width: '10%', marginRight: '20px' }}
+                label="日"
+                style={{ width: '20%', marginRight: '20px' }}
                 inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
                 size="small"
                 value={date}
@@ -135,29 +140,15 @@ const CardDetail = () => {
                 }}
               />
               <SelectPeriod onPeriodChange={handlePeriodChange} />
-              <TextField
-                id="outlined-basic"
-                variant="outlined"
-                label="開始日"
-                style={{ width: '20%', marginRight: '20px' }}
-                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-                size="small"
-                value={start}
-                onChange={(e) => setStart(e.target.value)}
-              />
-              <Typography variant="h5" fontWeight={'bold'}>
-                ~
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                variant="outlined"
-                label="終了日"
-                style={{ width: '20%', marginLeft: '20px' }}
-                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-                size="small"
-                value={end}
-                onChange={(e) => setEnd(e.target.value)}
-              />
+            </Box>
+            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
+              <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
+                <DatePicker label="開始日" slotProps={{ textField: { size: 'small' } }} />
+                <Typography variant="h5" fontWeight={'bold'} marginLeft={2} marginRight={2}>
+                  ~
+                </Typography>
+                <DatePicker label="終了日" slotProps={{ textField: { size: 'small' } }} />
+              </LocalizationProvider>
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField

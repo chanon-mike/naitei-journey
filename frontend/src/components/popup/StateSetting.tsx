@@ -5,7 +5,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
+import { DatePicker } from '@mui/x-date-pickers-pro/';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import ja from 'date-fns/locale/ja';
 import * as React from 'react';
 import FlowButton from './FlowButton';
 import StateButton from './StateButton';
@@ -146,39 +149,9 @@ const StateSetting = () => {
                 日程
               </Typography>
               <Box display="flex" justifyContent="flex-start" marginTop={'20px'}>
-                <TextField
-                  id="outlined-basic"
-                  variant="outlined"
-                  label="月"
-                  style={{ width: '10%', marginRight: '20px' }}
-                  inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-                  size="small"
-                  value={month}
-                  onChange={(e) => {
-                    const newValue = e.target.value;
-                    if (newValue === '' || /^[0-9]+$/.test(newValue)) {
-                      setMonth(newValue);
-                    }
-                  }}
-                />
-                <Typography variant="h5" fontWeight={'bold'}>
-                  /
-                </Typography>
-                <TextField
-                  id="outlined-basic"
-                  variant="outlined"
-                  label="日"
-                  style={{ width: '10%', marginLeft: '20px' }}
-                  inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-                  size="small"
-                  value={date}
-                  onChange={(e) => {
-                    const newValue = e.target.value;
-                    if (newValue === '' || /^[0-9]+$/.test(newValue)) {
-                      setDate(newValue);
-                    }
-                  }}
-                />
+                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
+                  <DatePicker label="日程" />
+                </LocalizationProvider>
               </Box>
             </Box>
           </DialogContent>

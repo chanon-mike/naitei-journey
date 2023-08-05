@@ -11,8 +11,9 @@ const FlowButton: React.FC<FlowButtonProps> = ({ selectedFlow, flow, handleFlowC
   <Button
     variant={selectedFlow === flow ? 'contained' : 'outlined'}
     style={{
-      width: '30%',
+      width: '150px',
       backgroundColor: selectedFlow === flow ? '#2196F3' : 'transparent',
+      marginRight: '20px',
     }}
     onClick={() => handleFlowChange(flow)}
   >
