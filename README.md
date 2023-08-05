@@ -128,3 +128,20 @@ erDiagram
   Job ||--|| ApplicationStatus: "has"
   Job ||--o{ SelectionFlow: "has"
 ```
+
+## Error
+
+フロントエンドとバックエンドを Docker で起動した際に、フロントエンドからバックエンドにリクエストを送ると、以下のエラーが発生する
+
+```
+Error: fetch failed localhost
+```
+
+これは、フロントエンドの Docker コンテナからバックエンドの Docker コンテナにリクエストを送る際に、問題が発生している。
+
+```
+docker ps
+docker inspect コンテナID | grep IPAddress
+```
+
+参考：https://qiita.com/ryuichi1208/items/2a2e0e2b2f1d3e2b2a2e

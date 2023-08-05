@@ -4,10 +4,13 @@ from app.models.category import Category
 from app.schemas.category import CategoryCreate
 
 
-def get_categories(db: Session, auth0_id: str = None) -> list[Category]:
-    if not auth0_id:
-        return db.query(Category).all()
-    return db.query(Category).filter(Category.user_id == auth0_id)
+def get_categories(db: Session, auth0_id: str, type: str) -> list[Category]:
+    return (
+        db.query(Category)
+        .filter(Category.user_id == auth0_id)
+        .filter(Category.type == type)
+        .all()
+    )
 
 
 def get_category(db: Session, category_id: int) -> Category:

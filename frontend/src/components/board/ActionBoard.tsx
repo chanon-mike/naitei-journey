@@ -1,6 +1,7 @@
 'use client';
 
 import { data } from '@/app/intern/data';
+import type { ColumnType } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
   DndContext,
@@ -13,10 +14,14 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
 import { useState } from 'react';
-import type { ColumnType } from './Board';
 import Board from './Board';
 
-const ActionBoard = () => {
+type ActionBoardProps = {
+  type: string;
+  userId: string;
+};
+
+const ActionBoard = ({ type, userId }: ActionBoardProps) => {
   const [columns, setColumns] = useState<ColumnType[]>(data);
 
   // Function to handle empty string
@@ -92,6 +97,20 @@ const ActionBoard = () => {
     });
   };
 
+  const updateColumnCards = (
+    column: ColumnType,
+    activeIndex: number | undefined,
+    overIndex: number | undefined,
+    cards = column.cards
+  ): ColumnType => {
+    if (activeIndex === undefined || overIndex === undefined || cards.length === 0) {
+      return column; // Or some other appropriate default handling
+    }
+
+    const newCards = arrayMove(cards, activeIndex, overIndex);
+    return { ...column, cards: newCards };
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     const activeId = String(active.id);
@@ -113,20 +132,6 @@ const ActionBoard = () => {
       });
     });
   };
-
-  function updateColumnCards(
-    column: ColumnType,
-    activeIndex: number | undefined,
-    overIndex: number | undefined,
-    cards = column.cards
-  ): ColumnType {
-    if (activeIndex === undefined || overIndex === undefined || cards.length === 0) {
-      return column; // Or some other appropriate default handling
-    }
-
-    const newCards = arrayMove(cards, activeIndex, overIndex);
-    return { ...column, cards: newCards };
-  }
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -151,7 +156,13 @@ const ActionBoard = () => {
         <Box display="flex" justifyContent="center" flexDirection="row">
           {columns.map((column) => (
             <Box key={column.id} minWidth="300px">
-              <Board id={column.id} title={column.title} cards={column.cards} />
+              <Board
+                id={column.id}
+                userId={userId}
+                type={type}
+                name={column.name}
+                cards={column.cards}
+              />
             </Box>
           ))}
         </Box>
