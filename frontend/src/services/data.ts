@@ -33,14 +33,14 @@ export const data: ColumnType[] = [
         url: 'https://test.com',
         description: 'test',
         applicationStatus: {
-          id: 1,
+          id: '1',
           job_id: 'card00',
           process: 'ES',
           date: '2023-04-01',
         },
         selectionFlows: [
           {
-            id: 1,
+            id: '1',
             job_id: 'card00',
             step: 1,
             process: 'ES',
@@ -63,7 +63,7 @@ export const data: ColumnType[] = [
         url: 'https://test.com',
         description: 'memo01',
         applicationStatus: {
-          id: 2,
+          id: '2',
           job_id: 'card01',
           process: 'ES',
           date: '2023-04-01',
@@ -94,7 +94,7 @@ export const data: ColumnType[] = [
         url: 'https://test.com',
         description: 'memo02',
         applicationStatus: {
-          id: 3,
+          id: '3',
           job_id: 'card02',
           process: 'ES',
           date: '2023-04-01',
@@ -125,7 +125,7 @@ export const data: ColumnType[] = [
         url: 'https://test.com',
         description: 'memo04',
         applicationStatus: {
-          id: 4,
+          id: '4',
           job_id: 'card03',
           process: 'ES',
           date: '2023-04-01',
@@ -148,7 +148,7 @@ export const data: ColumnType[] = [
         url: 'https://test04.com',
         description: 'memo04',
         applicationStatus: {
-          id: 5,
+          id: '5',
           job_id: 'card04',
           process: 'ES',
           date: '2023-04-01',
@@ -179,7 +179,7 @@ export const data: ColumnType[] = [
         url: 'https://test05.com',
         description: 'memo05',
         applicationStatus: {
-          id: 6,
+          id: '6',
           job_id: 'card05',
           process: 'ES',
           date: '2023-04-01',

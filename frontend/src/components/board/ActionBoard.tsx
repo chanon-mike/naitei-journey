@@ -1,6 +1,6 @@
 'use client';
 
-import { data } from '@/app/intern/data';
+import { data } from '@/services/data';
 import type { ColumnType } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
@@ -167,7 +167,7 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
           ))}
         </Box>
       </Container>
-    </DndContext>
+    </DndContext >
   );
 };
 

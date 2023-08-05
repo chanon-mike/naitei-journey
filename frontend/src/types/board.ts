@@ -1,7 +1,7 @@
 // TODO: Update Backend API to use random string instead of number for id
 
 export type ColumnType = {
-  id: string; // Should be number, but react-beautiful-dnd requires string
+  id: string;
   userId: string;
   type: string;
   name: string;
@@ -9,8 +9,8 @@ export type ColumnType = {
 };
 
 export type CardDetailType = {
-  id: string; // Should be number, but react-beautiful-dnd requires string
-  categoryId: string; // Should be number, but react-beautiful-dnd requires string
+  id: string;
+  categoryId: string;
   cardPosition: number;
   companyName: string;
   companyIndustry: string;
@@ -28,15 +28,15 @@ export type CardDetailType = {
 };
 
 export type ApplicationStatusType = {
-  id: number;
-  job_id: string; // Should be number, but react-beautiful-dnd requires string
+  id: string;
+  job_id: string;
   process: string;
   date: string;
 };
 
 export type SelectionFlowType = {
-  id: number;
-  job_id: string; // Should be number, but react-beautiful-dnd requires string
+  id: string;
+  job_id: string;
   step: number;
   process: string;
 };

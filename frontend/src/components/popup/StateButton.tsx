@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import React from 'react';
 
 interface StateButtonProps {
@@ -11,17 +11,22 @@ const StateButton: React.FC<StateButtonProps> = ({
   selectedStatus,
   status,
   handleStatusChange,
-}) => (
-  <Button
-    variant={selectedStatus === status ? 'contained' : 'outlined'}
-    style={{
-      width: '30%',
-      backgroundColor: selectedStatus === status ? '#2196F3' : 'transparent',
-    }}
-    onClick={() => handleStatusChange(status)}
-  >
-    {status}
-  </Button>
-);
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Button
+      variant={selectedStatus === status ? 'contained' : 'outlined'}
+      style={{
+        width: '30%',
+        backgroundColor: selectedStatus === status ? theme.palette.secondary.main : 'transparent',
+        color: selectedStatus === status ? theme.palette.secondary.contrastText : theme.palette.primary.dark,
+      }}
+      onClick={() => handleStatusChange(status)}
+    >
+      {status}
+    </Button>
+  );
+};
 
 export default StateButton;

@@ -156,8 +156,8 @@ const StateSetting = () => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Subscribe</Button>
+            <Button onClick={handleClose}>キャンセル</Button>
+            <Button type="submit">保存</Button>
           </DialogActions>
         </form>
       </Dialog>

@@ -16,8 +16,9 @@ import FlowSetting from './FlowSetting';
 import SelectPeriod from './PeriodSelector';
 import SelectRank from './RankSelector';
 import StateSetting from './StateSetting';
+import type { CardDetailType, ColumnType } from '@/types/board';
 
-const CardDetail = () => {
+const CardForm = () => {
   const [open, setOpen] = React.useState(false);
   const [companyName, setCompanyName] = React.useState('');
   const [rank, setRank] = React.useState('');
@@ -48,28 +49,42 @@ const CardDetail = () => {
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //handleSubscribe();
+    handleSaveCard();
   };
 
-  /*
-  const handleSubscribe = () => {
-    const detail = {
-      category_id: 'card1',
-      company_name,
-      company_industry,
-      position
-      ranking,
-      is_internship,
-      internship_duration,
-      period,
-      internship_start_date,
-      internship_end_date,
-      url,
-      description,
+  const handleSaveCard = () => {
+    const detail: CardDetailType = {
+      id: 'cardTest',
+      categoryId: '1',
+      cardPosition: 1,
+      companyName: 'Test00',
+      companyIndustry: 'IT',
+      occupation: 'SE',
+      ranking: 'S',
+      isInternship: true,
+      internshipDuration: 3,
+      internshipPeriod: '日',
+      internshipStartDate: '2023-09-05',
+      internshipEndDate: '2023-09-08',
+      url: 'https://test.com',
+      description: 'lorem ipsum',
+      applicationStatus: {
+        id: 'testStatus',
+        job_id: 'cardTest',
+        process: 'ES',
+        date: '2023-08-01',
+      },
+      selectionFlows: [
+        {
+          id: 'testFlow',
+          job_id: 'cardTest',
+          step: 1,
+          process: 'ES',
+        },
+      ],
     };
-    addCardDetail(detail);
     handleClose();
-  };*/
+  };
 
   return (
     <div>
@@ -79,23 +94,19 @@ const CardDetail = () => {
         </div>
       </Box>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle fontWeight={'bold'}>カード作成</DialogTitle>
+        <DialogTitle fontWeight={'bold'}>選考カード作成</DialogTitle>
         <form onSubmit={handleFormSubmit}>
           <DialogContent>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              marginBottom={'20px'}
-              marginTop={'20px'}
-            >
+            <Box display="flex" justifyContent="space-between" sx={{ marginBottom: '20px' }}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
                 label="企業名"
-                style={{ width: '40%' }}
-                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                sx={{ width: '70%' }}
+                inputProps={{ style: { textAlign: 'left', fontSize: '16px' } }}
                 size="medium"
                 value={companyName}
+                autoComplete="off"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
               <SelectRank onRankChange={handleRankChange} />
@@ -105,20 +116,22 @@ const CardDetail = () => {
                 id="outlined-basic"
                 variant="outlined"
                 label="業種"
-                style={{ width: '30%', marginRight: '20px' }}
-                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-                size="small"
+                style={{ width: '45%', marginRight: '10%' }}
+                inputProps={{ style: { fontSize: '16px' } }}
+                size="medium"
                 value={industry}
+                autoComplete="off"
                 onChange={(e) => setIndustry(e.target.value)}
               />
               <TextField
                 id="outlined-basic"
                 variant="outlined"
                 label="職種"
-                style={{ width: '30%' }}
-                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-                size="small"
+                style={{ width: '45%' }}
+                inputProps={{ style: { fontSize: '16px' } }}
+                size="medium"
                 value={role}
+                autoComplete="off"
                 onChange={(e) => setRole(e.target.value)}
               />
             </Box>
@@ -128,10 +141,12 @@ const CardDetail = () => {
                 id="outlined-basic"
                 variant="outlined"
                 label="日"
-                style={{ width: '20%', marginRight: '20px' }}
-                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-                size="small"
+                style={{ width: '10%', marginRight: '20px' }}
+                inputProps={{ style: { fontSize: '16px' } }}
+                size="medium"
                 value={date}
+                autoComplete="off"
+                // Only numeric number
                 onChange={(e) => {
                   const newValue = e.target.value;
                   if (newValue === '' || /^[0-9]+$/.test(newValue)) {
@@ -155,10 +170,11 @@ const CardDetail = () => {
                 id="outlined-basic"
                 variant="outlined"
                 label="URL"
-                style={{ width: '60%' }}
-                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                style={{ width: '100%' }}
+                inputProps={{ style: { fontSize: '16px' } }}
                 size="small"
                 value={URL}
+                autoComplete="off"
                 onChange={(e) => setURL(e.target.value)}
               />
             </Box>
@@ -166,7 +182,7 @@ const CardDetail = () => {
               <TextField
                 id="outlined-multiline-static"
                 label="メモ"
-                style={{ width: '80%' }}
+                style={{ width: '100%' }}
                 multiline
                 rows={4}
                 value={memo}
@@ -179,12 +195,12 @@ const CardDetail = () => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Subscribe</Button>
+            <Button onClick={handleClose}>キャンセル</Button>
+            <Button type="submit">保存</Button>
           </DialogActions>
         </form>
       </Dialog>
     </div>
   );
 };
-export default CardDetail;
+export default CardForm;

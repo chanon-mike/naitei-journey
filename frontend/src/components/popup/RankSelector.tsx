@@ -19,14 +19,15 @@ const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <>
+      <FormControl sx={{ minWidth: 120, m: 0 }}>
         <InputLabel id="demo-simple-select-helper-label">志望度</InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
           value={rank}
-          label="Age"
+          size="medium"
+          label="ranking"
           onChange={handleChange}
         >
           <MenuItem value="S">S</MenuItem>
@@ -36,7 +37,7 @@ const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
           <MenuItem value="D">D</MenuItem>
         </Select>
       </FormControl>
-    </div>
+    </>
   );
 };
 

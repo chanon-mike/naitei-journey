@@ -5,8 +5,8 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
-import CardDetail from '../popup/CardDetail';
 import ActionAreaCard from './ActionArea';
+import CardForm from '../popup/CardForm';
 
 const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
   const { setNodeRef } = useDroppable({ id });
@@ -50,7 +50,7 @@ const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
                 ranking={card.ranking}
               />
             ))}
-            <CardDetail />
+            <CardForm />
           </Paper>
         </Box>
       </div>
