@@ -27,6 +27,11 @@ export type CardDetailType = {
   selectionFlows: SelectionFlowType[];
 };
 
+export type CompanyDetailType = {
+  id: string;
+  
+}
+
 export type ApplicationStatusType = {
   id: number;
   job_id: string; // Should be number, but react-beautiful-dnd requires string
