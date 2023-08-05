@@ -40,9 +40,10 @@ def get_jobs_by_user_id(
 def create_job(db: Session, job: JobCreate) -> Job:
     db_job = Job(
         category_id=job.category_id,
+        card_position=job.card_position,
         company_name=job.company_name,
         company_industry=job.company_industry,
-        position=job.position,
+        occupation=job.occupation,
         ranking=job.ranking,
         is_internship=job.is_internship,
         internship_duration=job.internship_duration,
@@ -62,9 +63,10 @@ def update_job(db: Session, job: JobCreate, job_id: int) -> Job:
     if db_job is None:
         return None
     db_job.category_id = job.category_id
+    db_job.card_position = job.card_position
     db_job.company_name = job.company_name
     db_job.company_industry = job.company_industry
-    db_job.position = job.position
+    db_job.occupation = job.occupation
     db_job.ranking = job.ranking
     db_job.is_internship = job.is_internship
     db_job.internship_duration = job.internship_duration

@@ -9,9 +9,10 @@ class Job(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     category_id = Column(Integer, ForeignKey("categories.id"))
+    card_position = Column(Integer)
     company_name = Column(String, nullable=False)
     company_industry = Column(String)
-    position = Column(String)
+    occupation = Column(String)
     ranking = Column(String, nullable=False)
     is_internship = Column(Boolean)
     internship_duration = Column(String)

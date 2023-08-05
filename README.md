@@ -86,9 +86,10 @@ erDiagram
   Job {
     int id PK
     int categoryId FK
+    int cardPosition
     string companyName
     string companyIndustry
-    string position
+    string occupation
     string ranking "S｜A｜B｜C｜D"
     boolean isInternship
     string internshipDuration "日｜週｜月"
