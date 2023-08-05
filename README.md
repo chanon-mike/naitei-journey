@@ -10,9 +10,9 @@
 
 ### バックエンド
 
-```
+```bash
 # Backend
-$ cp backend/.env.example backend/.env
+cp backend/.env.example backend/.env
 ```
 
 ```
@@ -29,9 +29,9 @@ AUTH0_AUDIENCE=AUTH0_AUDIENCE
 
 ### フロントエンド
 
-```
+```bash
 # Frontend
-$ cp frontend/.env.example frontend/.env
+cp frontend/.env.example frontend/.env
 ```
 
 ```
@@ -47,24 +47,35 @@ NEXT_PUBLIC_API_ENDPOINT=http://localhost:8000
 
 パッケージのインストール
 
-```
-$ cd frontend
-$ npm install
+```bash
+cd frontend
+npm install
 ```
 
 ### アプリを起動
 
 ルートディレクトリからローカルで docker を実行する
 
-```
-$ docker-compose up -d --build
+```bash
+docker-compose up -d --build
 ```
 
 サーバーの依存関係を更新した場合は、以下のコマンドを実行してコンテナ内の依存関係を更新する必要がある
 
+```bash
+docker-compose down
+docker-compose up -d --build
 ```
-$ docker-compose down
-$ docker-compose up -d --build
+
+データベースが変更される場合、以下のコマンドを実行してデータベースを更新する必要がある
+
+```bash
+# モデルの変更
+cd /backend/app/db/
+# マイグレーションを作成した場合のみ
+alembic revision --autogenerate -m '変更内容'
+# マイグレーションを行う
+alembic upgrade head
 ```
 
 ## ER 図

@@ -14,9 +14,10 @@ POST /job
 {
   "job": {
     "category_id": 1,
+    "card_position": 1,
     "company_name": "A社",
     "company_industry": "IT",
-    "position": "エンジニア",
+    "occupation": "エンジニア",
     "ranking": "A",
     "is_internship": true,
     "internship_duration": "1 月",
@@ -73,9 +74,10 @@ PUT /job/:job_id
 {
   "job": {
     "category_id": 1,
+    "card_position": 1,
     "company_name": "B社",
     "company_industry": "IT",
-    "position": "エンジニア",
+    "occupation": "エンジニア",
     "ranking": "S",
     "is_internship": true,
     "internship_duration": "1 日",
