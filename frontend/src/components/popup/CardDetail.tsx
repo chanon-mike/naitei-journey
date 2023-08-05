@@ -26,9 +26,9 @@ const CardDetail = () => {
   return (
     <div>
       <Box display="flex" justifyContent="center" alignItems="flex-start">
-        <Button onClick={handleClickOpen}>
+        <div onClick={handleClickOpen}>
           <AddButton />
-        </Button>
+        </div>
       </Box>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle fontWeight={'bold'}>カード作成</DialogTitle>
