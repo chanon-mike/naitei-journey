@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-import { Box, Button, Link, Popover, Typography, useTheme } from '@mui/material';
+import { Box, Button, Link, Popover, Typography } from '@mui/material';
 
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -48,7 +48,6 @@ const UserBoxLabel = styled(Typography)(
 // );
 
 function HeaderUserbox() {
-  const theme = useTheme();
   const { user } = useUser();
   const ref = useRef(null);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -64,7 +63,7 @@ function HeaderUserbox() {
   return (
     <>
       <UserBoxButton color="inherit" ref={ref} onClick={handleOpen}>
-        <SettingsIcon sx={{ fill: theme.palette.primary.main }} fontSize='large' />
+        <SettingsIcon sx={{ fill: "text" }} fontSize='large' />
       </UserBoxButton>
       <Popover
         anchorEl={ref.current}
