@@ -1,3 +1,4 @@
+import type { CardDetailType } from '@/types/board';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CardActionArea } from '@mui/material';
@@ -6,11 +7,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
-import type { CardDetailType } from '../../app/intern/data';
 
-type ActionAreaCardProps = Pick<CardDetailType, 'id' | 'companyName' | 'rank'>;
+type ActionAreaCardProps = Pick<CardDetailType, 'id' | 'companyName' | 'ranking'>;
 
-const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, companyName, rank }) => {
+const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, companyName, ranking }) => {
   const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
 
   const style = {
@@ -29,7 +29,7 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, companyName, rank }) => {
                     {companyName}
                   </Typography>
                   <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
-                    {rank}
+                    {ranking}
                   </Typography>
                 </Box>
                 <Typography variant="body1" color="text.primary">

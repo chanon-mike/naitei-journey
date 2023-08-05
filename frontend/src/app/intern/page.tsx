@@ -21,12 +21,13 @@ async function getData(token: string) {
 export default withPageAuthRequired(
   async function Home() {
     const session = await getSession();
-    const data = await getData(session?.accessToken ?? '');
+    // const data = await getData(session?.accessToken ?? '');
+    const boardType = 'インターンシップ';
 
     return (
       <main>
-        <p>{JSON.stringify(data)}</p>
-        <ActionBoard />
+        {/* <p>{JSON.stringify(data)}</p> */}
+        <ActionBoard type={boardType} userId={session?.user.sub} />
       </main>
     );
   },

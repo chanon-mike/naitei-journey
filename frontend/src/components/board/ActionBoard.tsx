@@ -13,10 +13,15 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
 import { useState } from 'react';
-import type { ColumnType } from './Board';
 import Board from './Board';
+import type { ColumnType } from '@/types/board';
 
-const ActionBoard = () => {
+type ActionBoardProps = {
+  type: string;
+  userId: string;
+}
+
+const ActionBoard = ({ type, userId }: ActionBoardProps) => {
   const [columns, setColumns] = useState<ColumnType[]>(data);
 
   // Function to handle empty string
@@ -151,7 +156,7 @@ const ActionBoard = () => {
         <Box display="flex" justifyContent="center" flexDirection="row">
           {columns.map((column) => (
             <Box key={column.id} minWidth="300px">
-              <Board id={column.id} title={column.title} cards={column.cards} />
+              <Board id={column.id} userId={userId} type={type} name={column.name} cards={column.cards} />
             </Box>
           ))}
         </Box>
