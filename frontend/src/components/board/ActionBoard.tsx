@@ -92,6 +92,20 @@ const ActionBoard = () => {
     });
   };
 
+  const updateColumnCards = (
+    column: ColumnType,
+    activeIndex: number | undefined,
+    overIndex: number | undefined,
+    cards = column.cards
+  ): ColumnType => {
+    if (activeIndex === undefined || overIndex === undefined || cards.length === 0) {
+      return column; // Or some other appropriate default handling
+    }
+
+    const newCards = arrayMove(cards, activeIndex, overIndex);
+    return { ...column, cards: newCards };
+  }
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     const activeId = String(active.id);
@@ -113,20 +127,6 @@ const ActionBoard = () => {
       });
     });
   };
-
-  function updateColumnCards(
-    column: ColumnType,
-    activeIndex: number | undefined,
-    overIndex: number | undefined,
-    cards = column.cards
-  ): ColumnType {
-    if (activeIndex === undefined || overIndex === undefined || cards.length === 0) {
-      return column; // Or some other appropriate default handling
-    }
-
-    const newCards = arrayMove(cards, activeIndex, overIndex);
-    return { ...column, cards: newCards };
-  }
 
   const sensors = useSensors(
     useSensor(PointerSensor),
