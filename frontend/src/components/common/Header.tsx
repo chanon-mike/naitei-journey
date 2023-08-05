@@ -1,8 +1,8 @@
 'use client';
+import HomeIcon from '@mui/icons-material/Home';
 import { Box, Divider, Link, Stack, alpha, lighten, styled, useTheme } from '@mui/material';
 import HeaderMenu from './HeaderBox';
 import HeaderUserbox from './HeaderUserBox';
-import HomeIcon from '@mui/icons-material/Home';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -35,13 +35,13 @@ function Header() {
         boxShadow:
           theme.palette.mode === 'dark'
             ? `0 1px 0 ${alpha(
-              lighten(theme.palette.primary.main, 0.5),
-              0.15
-            )}, 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)`
+                lighten(theme.palette.primary.main, 0.5),
+                0.15
+              )}, 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)`
             : `0px 2px 8px -3px ${alpha('#223354', 0.2)}, 0px 5px 22px -4px ${alpha(
-              '#223354',
-              0.1
-            )}`,
+                '#223354',
+                0.1
+              )}`,
       }}
     >
       <Link href="/" underline="none" sx={{ m: 1 }}>
@@ -51,7 +51,7 @@ function Header() {
             <stop offset={1} stopColor={theme.palette.secondary.main} />
           </linearGradient>
         </svg>
-        <HomeIcon sx={{ fill: 'url(#linearColors)' }} fontSize='large' />
+        <HomeIcon sx={{ fill: 'url(#linearColors)' }} fontSize="large" />
       </Link>
       <Stack
         direction="row"

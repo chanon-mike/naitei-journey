@@ -10,10 +10,9 @@ import React from 'react';
 import theme from './theme';
 
 type ThemeRegistryProps = {
-  options: Options;  // This is a general type, you might want to refine it if you know the shape of the options
+  options: Options; // This is a general type, you might want to refine it if you know the shape of the options
   children: React.ReactNode;
 };
-
 
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902

@@ -1,13 +1,20 @@
 'use client';
 
-import { data } from "@/app/intern/data";
-import type { DragOverEvent, DragEndEvent } from "@dnd-kit/core";
-import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, closestCorners } from "@dnd-kit/core";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { Container, Box, Typography } from "@mui/material";
-import { useState } from "react";
-import type { ColumnType } from "./Board";
-import Board from "./Board";
+import { data } from '@/app/intern/data';
+import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCorners,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { Box, Container, Typography } from '@mui/material';
+import { useState } from 'react';
+import type { ColumnType } from './Board';
+import Board from './Board';
 
 const ActionBoard = () => {
   const [columns, setColumns] = useState<ColumnType[]>(data);
@@ -137,7 +144,9 @@ const ActionBoard = () => {
     >
       <Container>
         <Box>
-          <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">インターンシップ</Typography>
+          <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">
+            インターンシップ
+          </Typography>
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="row">
           {columns.map((column) => (
@@ -148,7 +157,7 @@ const ActionBoard = () => {
         </Box>
       </Container>
     </DndContext>
-  )
-}
+  );
+};
 
 export default ActionBoard;

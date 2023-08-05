@@ -1,9 +1,9 @@
 import Header from '@/components/common/Header';
 import ThemeRegistry from '@/components/theme/ThemeRegistry';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { Box } from '@mui/material';
 import type { Metadata } from 'next';
 import './globals.css';
-import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
   title: '内定Journey',
@@ -18,9 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <body>
           <ThemeRegistry options={{ key: 'mui' }}>
             <Header />
-            <Box sx={{ mt: '100px' }}>
-              {children}
-            </Box>
+            <Box sx={{ mt: '100px' }}>{children}</Box>
           </ThemeRegistry>
         </body>
       </UserProvider>

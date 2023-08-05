@@ -27,18 +27,26 @@ const Board: FC<ColumnType> = ({ id, title, cards }: ColumnType) => {
           }}
         >
           <Paper style={{ margin: '20px', minHeight: '100vh', width: '300px' }}>
-            <Box display="flex" justifyContent="center" alignItems="center" style={{ margin: '20px' }} sx={{
-              textAlign: 'center',
-              border: 1,
-              borderColor: 'primary.dark',
-            }}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              style={{ margin: '20px' }}
+              sx={{
+                textAlign: 'center',
+                border: 1,
+                borderColor: 'primary.dark',
+              }}
+            >
               <Typography
                 id="outlined-basic"
                 variant="h6"
                 component="div"
                 fontWeight={'bold'}
                 sx={{ p: 1 }}
-              >{title}</Typography>
+              >
+                {title}
+              </Typography>
             </Box>
             {cards.map((card) => (
               <ActionAreaCard

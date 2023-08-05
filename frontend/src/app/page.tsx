@@ -1,10 +1,7 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import { ArrowForward } from '@mui/icons-material';
-import { Container, Box, Typography, Button, Link } from '@mui/material';
+import { Box, Button, Container, Link, Typography } from '@mui/material';
 import { redirect } from 'next/navigation';
-
-import * as React from 'react';
-
 
 const Home = async () => {
   const session = await getSession();
@@ -12,7 +9,13 @@ const Home = async () => {
   return (
     <Container>
       {!session ? (
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="80vh">
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          height="80vh"
+        >
           <Typography variant="h2" gutterBottom>
             内定Journeyへようこそ!
           </Typography>
@@ -26,10 +29,11 @@ const Home = async () => {
               </Button>
             </Link>
           </Box>
-        </Box>) :
+        </Box>
+      ) : (
         // TODO: Add user statistics instead of redirecting to intern page
         redirect('/intern')
-      }
+      )}
     </Container>
   );
 };
