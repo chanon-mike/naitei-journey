@@ -12,9 +12,10 @@ from app.schemas.selection_flow import (
 
 class JobBase(BaseModel):
     category_id: int
+    card_position: int
     company_name: str
     company_industry: str
-    position: str
+    occupation: str
     ranking: str
     is_internship: bool
     internship_duration: str
