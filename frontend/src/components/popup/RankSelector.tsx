@@ -10,11 +10,8 @@ interface SelectRankProps {
 }
 
 const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
-  const [rank, setRank] = React.useState('');
-
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
-    setRank(value);
     onRankChange(value);
   };
 
@@ -25,7 +22,6 @@ const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
-          value={rank}
           size="medium"
           label="ranking"
           onChange={handleChange}

@@ -8,8 +8,7 @@ export type ColumnType = {
   jobs: CardDetailType[];
 };
 
-export type CardDetailType = {
-  id: string;
+export interface CardDetailBase {
   category_id: string;
   card_position: number;
   company_name: string;
@@ -22,21 +21,31 @@ export type CardDetailType = {
   internship_end_date: string;
   url: string;
   description: string;
-  application_status: ApplicationStatusType;
-  selection_flows: SelectionFlowType[];
-};
+  application_status: ApplicationStatusBase;
+  selection_flows: SelectionFlowBase[];
+}
 
-export type ApplicationStatusType = {
-  id: string;
-  job_id: string;
+export interface ApplicationStatusBase {
   status: string;
   process: string;
   date: string;
-};
+}
 
-export type SelectionFlowType = {
-  id: string;
-  job_id: string;
+export interface SelectionFlowBase {
   step: number;
   process: string;
-};
+}
+
+export interface CardDetailType extends CardDetailBase {
+  id: string;
+}
+
+export interface ApplicationStatusType extends ApplicationStatusBase {
+  id: string;
+  job_id: string;
+}
+
+export interface SelectionFlowType extends SelectionFlowBase {
+  id: string;
+  job_id: string;
+}

@@ -1,27 +1,26 @@
+import type { FlowForm } from '@/types/form';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import * as React from 'react';
-import SelectFlow from './FlowSelector';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import type { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+import FlowSelector from './FlowSelector';
 
-const FlowSetting = () => {
-  const [open, setOpen] = React.useState(false);
+type FlowSettingProps = {
+  flowProcesses: FlowForm[];
+  setFlowProcesses: Dispatch<SetStateAction<FlowForm[]>>;
+};
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+const FlowSetting = ({ flowProcesses, setFlowProcesses }: FlowSettingProps) => {
+  const [open, setOpen] = useState(false);
+  const maxStep = 6;
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const getFlowProcess = (index: number) =>
+    flowProcesses.find((fp) => fp.step === index + 1) || { step: index + 1, process: '' };
+  const isPreviousStepSelected = (step: number) =>
+    step === 1 || flowProcesses.some((fp) => fp.step === step - 1);
 
   return (
     <div>
@@ -31,23 +30,30 @@ const FlowSetting = () => {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle fontWeight={'bold'}>選考フロー</DialogTitle>
-        <form onSubmit={handleFormSubmit}>
-          <DialogContent>
-            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-              <SelectFlow />
-              <ArrowDownwardIcon />
-              <SelectFlow />
-              <ArrowDownwardIcon />
-              <SelectFlow />
-              <ArrowDownwardIcon />
-              <SelectFlow />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>キャンセル</Button>
-            <Button type="submit">保存</Button>
-          </DialogActions>
-        </form>
+        <DialogContent>
+          {[...Array(maxStep)].map(
+            (_, index) =>
+              isPreviousStepSelected(index + 1) && (
+                <Box
+                  key={index}
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <FlowSelector
+                    flowProcess={getFlowProcess(index)}
+                    flowStep={index + 1}
+                    setFlowProcesses={setFlowProcesses}
+                  />
+                  {index !== maxStep - 1 && <ArrowDownwardIcon />}
+                </Box>
+              )
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>保存</Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

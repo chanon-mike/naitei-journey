@@ -1,95 +1,106 @@
-import { Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
+import type { CardDetailBase } from '@/types/board';
+import type { FlowForm } from '@/types/form';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers-pro/';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ja from 'date-fns/locale/ja';
-import * as React from 'react';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 import AddButton from '../board/AddButton';
 import FlowSetting from './FlowSetting';
 import SelectPeriod from './PeriodSelector';
 import SelectRank from './RankSelector';
 import StateSetting from './StateSetting';
-import type { CardDetailType, ColumnType } from '@/types/board';
 
-const CardForm = () => {
-  const [open, setOpen] = React.useState(false);
-  const [companyName, setCompanyName] = React.useState('');
-  const [rank, setRank] = React.useState('');
-  const [industry, setIndustry] = React.useState('');
-  const [role, setRole] = React.useState('');
-  const [date, setDate] = React.useState('');
-  const [period, setPeriod] = React.useState('');
-  const [start, setStart] = React.useState('');
-  const [end, setEnd] = React.useState('');
-  const [URL, setURL] = React.useState('');
-  const [memo, setMemo] = React.useState('');
+type CardFormProps = {
+  categoryId: string;
+  categoryType: string;
+};
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+// TODO: Reduce state variables and refactor code
+const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
+  const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleRankChange = (newRank: string) => {
-    setRank(newRank);
-  };
-
-  const handlePeriodChange = (newPeriod: string) => {
-    setPeriod(newPeriod);
-  };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleSaveCard();
-  };
+  // Job information
+  const [companyName, setCompanyName] = useState('');
+  const [companyIndustry, setCompanyIndustry] = useState('');
+  const [occupation, setOccupation] = useState('');
+  const [ranking, setRanking] = useState('');
+  const [internshipDate, setInternshipDate] = useState('');
+  const [internshipPeriod, setInternshipPeriod] = useState('');
+  const [internshipStartDate, setInternshipStartDate] = useState('');
+  const [internshipEndDate, setInternshipEndDate] = useState('');
+  const [url, setUrl] = useState('');
+  const [description, setDescription] = useState('');
+  // Application status information
+  const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
+  const [applicationProcess, setApplicationProcess] = useState<string | null>(null);
+  const [applicationDate, setApplicationDate] = useState<Date>(new Date());
+  // Selection flow information
+  const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
 
   const handleSaveCard = () => {
-    const detail: CardDetailType = {
-      id: 'cardTest',
-      categoryId: '1',
-      cardPosition: 1,
-      companyName: 'Test00',
-      companyIndustry: 'IT',
+    const cardDetail: CardDetailBase = {
+      category_id: categoryId,
+      card_position: 1,
+      company_name: companyName,
+      company_industry: companyIndustry,
       occupation: 'SE',
       ranking: 'S',
-      isInternship: true,
-      internshipDuration: 3,
-      internshipPeriod: '日',
-      internshipStartDate: '2023-09-05',
-      internshipEndDate: '2023-09-08',
+      is_internship: categoryType === 'インターンシップ',
+      internship_duration: '3日',
+      internship_start_date: '2023-09-05',
+      internship_end_date: '2023-09-08',
       url: 'https://test.com',
       description: 'lorem ipsum',
-      applicationStatus: {
-        id: 'testStatus',
-        job_id: 'cardTest',
+      application_status: {
+        status: '結果待ち',
         process: 'ES',
         date: '2023-08-01',
       },
-      selectionFlows: [
+      selection_flows: [
         {
-          id: 'testFlow',
-          job_id: 'cardTest',
           step: 1,
           process: 'ES',
+        },
+        {
+          step: 2,
+          process: '1次面接',
         },
       ],
     };
     handleClose();
   };
 
+  const handleClose = () => {
+    setApplicationStatus(null);
+    setApplicationProcess(null);
+    setApplicationDate(new Date());
+    setFlowProcesses([]);
+    setOpen(false);
+  };
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSaveCard();
+  };
+
+  const handleRankingChange = (newRanking: string) => setRanking(newRanking);
+  const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
+
   return (
     <div>
       <Box display="flex" justifyContent="center" alignItems="flex-start">
-        <div onClick={handleClickOpen}>
+        <div onClick={() => setOpen(true)}>
           <AddButton />
         </div>
       </Box>
@@ -105,11 +116,10 @@ const CardForm = () => {
                 sx={{ width: '70%' }}
                 inputProps={{ style: { textAlign: 'left', fontSize: '16px' } }}
                 size="medium"
-                value={companyName}
                 autoComplete="off"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
-              <SelectRank onRankChange={handleRankChange} />
+              <SelectRank onRankChange={handleRankingChange} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField
@@ -119,9 +129,8 @@ const CardForm = () => {
                 style={{ width: '45%', marginRight: '10%' }}
                 inputProps={{ style: { fontSize: '16px' } }}
                 size="medium"
-                value={industry}
                 autoComplete="off"
-                onChange={(e) => setIndustry(e.target.value)}
+                onChange={(e) => setCompanyIndustry(e.target.value)}
               />
               <TextField
                 id="outlined-basic"
@@ -130,9 +139,8 @@ const CardForm = () => {
                 style={{ width: '45%' }}
                 inputProps={{ style: { fontSize: '16px' } }}
                 size="medium"
-                value={role}
                 autoComplete="off"
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setOccupation(e.target.value)}
               />
             </Box>
 
@@ -144,13 +152,12 @@ const CardForm = () => {
                 style={{ width: '10%', marginRight: '20px' }}
                 inputProps={{ style: { fontSize: '16px' } }}
                 size="medium"
-                value={date}
                 autoComplete="off"
                 // Only numeric number
                 onChange={(e) => {
                   const newValue = e.target.value;
                   if (newValue === '' || /^[0-9]+$/.test(newValue)) {
-                    setDate(newValue);
+                    setInternshipDate(newValue);
                   }
                 }}
               />
@@ -158,11 +165,19 @@ const CardForm = () => {
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
-                <DatePicker label="開始日" slotProps={{ textField: { size: 'small' } }} />
+                <DatePicker
+                  label="開始日"
+                  slotProps={{ textField: { size: 'small' } }}
+                  onChange={(date: Date | null) => setInternshipStartDate(String(date))}
+                />
                 <Typography variant="h5" fontWeight={'bold'} marginLeft={2} marginRight={2}>
                   ~
                 </Typography>
-                <DatePicker label="終了日" slotProps={{ textField: { size: 'small' } }} />
+                <DatePicker
+                  label="終了日"
+                  slotProps={{ textField: { size: 'small' } }}
+                  onChange={(date: Date | null) => setInternshipEndDate(String(date))}
+                />
               </LocalizationProvider>
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
@@ -173,9 +188,8 @@ const CardForm = () => {
                 style={{ width: '100%' }}
                 inputProps={{ style: { fontSize: '16px' } }}
                 size="small"
-                value={URL}
                 autoComplete="off"
-                onChange={(e) => setURL(e.target.value)}
+                onChange={(e) => setUrl(e.target.value)}
               />
             </Box>
             <Box marginBottom={'20px'}>
@@ -185,13 +199,19 @@ const CardForm = () => {
                 style={{ width: '100%' }}
                 multiline
                 rows={4}
-                value={memo}
-                onChange={(e) => setMemo(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <StateSetting />
-              <FlowSetting />
+              <StateSetting
+                selectedStatus={applicationStatus}
+                setSelectedStatus={setApplicationStatus}
+                selectedProcess={applicationProcess}
+                setSelectedProcess={setApplicationProcess}
+                applicationDate={applicationDate}
+                setApplicationDate={setApplicationDate}
+              />
+              <FlowSetting flowProcesses={flowProcesses} setFlowProcesses={setFlowProcesses} />
             </Box>
           </DialogContent>
           <DialogActions>

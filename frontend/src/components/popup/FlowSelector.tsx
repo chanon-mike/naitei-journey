@@ -1,28 +1,41 @@
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+import type { FlowForm } from '@/types/form';
+import { FormControl, InputLabel, MenuItem } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
-import * as React from 'react';
 
-const SelectFlow = () => {
-  const [age, setAge] = React.useState('');
+import type { Dispatch, SetStateAction } from 'react';
 
+type FlowSelectorProps = {
+  flowProcess: FlowForm;
+  flowStep: number;
+  setFlowProcesses: Dispatch<SetStateAction<FlowForm[]>>;
+};
+
+const FlowSelector = ({ flowProcess, flowStep, setFlowProcesses }: FlowSelectorProps) => {
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+    setFlowProcesses((prev) => {
+      const existingProcessIndex = prev.findIndex((fp) => fp.step === flowStep);
+
+      // If the process already exists, update it
+      if (existingProcessIndex !== -1) {
+        const updatedProcesses = [...prev];
+        updatedProcesses[existingProcessIndex] = {
+          step: flowStep,
+          process: event.target.value as string,
+        };
+        return updatedProcesses;
+      }
+
+      // Otherwise, add the new process
+      return [...prev, { step: flowStep, process: event.target.value as string }];
+    });
   };
 
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: '300px' }}>
-        <InputLabel id="demo-simple-select-helper-label">フロー</InputLabel>
-        <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          value={age}
-          label="Age"
-          onChange={handleChange}
-        >
+        <InputLabel>フロー</InputLabel>
+        <Select value={flowProcess.process} onChange={handleChange}>
           <MenuItem value="ES">ES</MenuItem>
           <MenuItem value="Web">Web</MenuItem>
           <MenuItem value="1次面接">1次面接</MenuItem>
@@ -35,4 +48,4 @@ const SelectFlow = () => {
   );
 };
 
-export default SelectFlow;
+export default FlowSelector;

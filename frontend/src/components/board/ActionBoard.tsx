@@ -167,7 +167,7 @@ const ActionBoard = ({ type, userId, data }: ActionBoardProps) => {
           ))}
         </Box>
       </Container>
-    </DndContext >
+    </DndContext>
   );
 };
 

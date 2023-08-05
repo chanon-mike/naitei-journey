@@ -11,7 +11,6 @@ const getData = async (token: string, userId: string, type: string) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-
   });
 
   if (!res.ok) {
@@ -19,14 +18,17 @@ const getData = async (token: string, userId: string, type: string) => {
   }
 
   return res.json();
-}
+};
 
 export default withPageAuthRequired(
   async function Home() {
     const boardType = 'インターンシップ';
     const session = await getSession();
-    const data: ColumnType[] = await getData(session?.accessToken ?? '', session?.user.sub, boardType);
-
+    const data: ColumnType[] = await getData(
+      session?.accessToken ?? '',
+      session?.user.sub,
+      boardType
+    );
 
     return (
       <main>

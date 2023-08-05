@@ -5,10 +5,10 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
-import ActionAreaCard from './ActionArea';
 import CardForm from '../popup/CardForm';
+import ActionAreaCard from './ActionArea';
 
-const Board: FC<ColumnType> = ({ id, name, jobs }: ColumnType) => {
+const Board: FC<ColumnType> = ({ id, type, name, jobs }: ColumnType) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (
@@ -50,7 +50,7 @@ const Board: FC<ColumnType> = ({ id, name, jobs }: ColumnType) => {
                 ranking={card.ranking}
               />
             ))}
-            <CardForm />
+            <CardForm categoryId={id} categoryType={type} />
           </Paper>
         </Box>
       </div>

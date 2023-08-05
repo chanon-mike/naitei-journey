@@ -1,13 +1,13 @@
 import { Button, useTheme } from '@mui/material';
 import React from 'react';
 
-interface StateButtonProps {
+interface StatusButtonProps {
   selectedStatus: string | null;
   status: string;
   handleStatusChange: (flow: string) => void;
 }
 
-const StateButton: React.FC<StateButtonProps> = ({
+const StatusButton: React.FC<StatusButtonProps> = ({
   selectedStatus,
   status,
   handleStatusChange,
@@ -18,9 +18,13 @@ const StateButton: React.FC<StateButtonProps> = ({
     <Button
       variant={selectedStatus === status ? 'contained' : 'outlined'}
       style={{
-        width: '30%',
+        width: '150px',
         backgroundColor: selectedStatus === status ? theme.palette.secondary.main : 'transparent',
-        color: selectedStatus === status ? theme.palette.secondary.contrastText : theme.palette.primary.dark,
+        marginRight: '20px',
+        color:
+          selectedStatus === status
+            ? theme.palette.secondary.contrastText
+            : theme.palette.primary.dark,
       }}
       onClick={() => handleStatusChange(status)}
     >
@@ -29,4 +33,4 @@ const StateButton: React.FC<StateButtonProps> = ({
   );
 };
 
-export default StateButton;
+export default StatusButton;
