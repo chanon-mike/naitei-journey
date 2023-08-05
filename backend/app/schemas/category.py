@@ -1,3 +1,4 @@
+from app.schemas.job import FullJob
 from pydantic import BaseModel, UUID4
 
 
@@ -13,6 +14,14 @@ class CategoryCreate(CategoryBase):
 
 class Category(CategoryBase):
     id: UUID4
+
+    class Config:
+        orm_mode = True
+
+
+class FullCategory(CategoryBase):
+    id: UUID4
+    jobs: list[FullJob]
 
     class Config:
         orm_mode = True

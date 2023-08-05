@@ -1,7 +1,8 @@
-from sqlalchemy.orm import Session
+from app.models.job import Job
+from sqlalchemy.orm import Session, joinedload
 
 from app.models.category import Category
-from app.schemas.category import CategoryCreate
+from app.schemas.category import CategoryCreate, FullCategory
 
 
 def get_categories(db: Session, auth0_id: str, type: str) -> list[Category]:
@@ -15,6 +16,21 @@ def get_categories(db: Session, auth0_id: str, type: str) -> list[Category]:
 
 def get_category(db: Session, category_id: str) -> Category:
     return db.query(Category).filter(Category.id == category_id).first()
+
+
+def get_full_categories(db: Session, auth0_id: str, type: str) -> list[FullCategory]:
+    return (
+        db.query(Category)
+        .filter(Category.user_id == auth0_id)
+        .filter(Category.type == type)
+        .options(
+            joinedload(Category.jobs).options(
+                joinedload(Job.application_status),
+                joinedload(Job.selection_flows),
+            )
+        )
+        .all()
+    )
 
 
 def create_category(db: Session, category: CategoryCreate) -> Category:
