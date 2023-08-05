@@ -1,3 +1,4 @@
+import type { CardDetailType } from '@/types/board';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -5,22 +6,15 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import * as React from 'react';
-import FlowSetting from './FlowSetting';
-import SelectPeriod from './PeriodSelector';
-import SelectRank from './RankSelector';
-import StateSetting from './StateSetting';
-import { CardDetailType } from '@/types/board';
-import type { FC } from 'react';
-import { data } from '@/app/intern/data';
 import Link from '@mui/material/Link';
+import type { FC } from 'react';
+import * as React from 'react';
 
 type CompanyDetailProps = {
-  id: string;
-  columnId: string;
-}
+  cardDetail: CardDetailType;
+};
 
-const DetailButton: FC<CompanyDetailProps> = ({ id, columnId }) => {
+const DetailButton: FC<CompanyDetailProps> = ({ cardDetail }) => {
   const [open, setOpen] = React.useState(false);
   /*const [companyName, setCompanyName] = React.useState('');
   const [rank, setRank] = React.useState('');
@@ -32,16 +26,6 @@ const DetailButton: FC<CompanyDetailProps> = ({ id, columnId }) => {
   const [end, setEnd] = React.useState('');
   const [URL, setURL] = React.useState('');
   const [memo, setMemo] = React.useState('');*/
-
-  const column = data.find(column => column.id === columnId);
-  if (!column) {
-    return null;
-  }
-  const card = column.cards.find(card => card.id === id);
-  if (!card) {
-    return null;
-  }
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -89,55 +73,89 @@ const DetailButton: FC<CompanyDetailProps> = ({ id, columnId }) => {
     <div>
       <Box display="flex" justifyContent="center">
         <div onClick={handleClickOpen}>
-          <Button size='large'>
-            詳細
-          </Button>
+          <Button size="large">詳細</Button>
         </div>
       </Box>
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          marginTop={'20px'}
-        >
-          <DialogTitle variant="h3" fontWeight={'bold'}>{card.companyName}</DialogTitle>
-          <DialogTitle variant="h3" fontWeight={'bold'} sx={{ color: 'primary.main' }} marginRight={2}>{card.ranking}</DialogTitle>
+        <Box display="flex" justifyContent="space-between" marginTop={'20px'}>
+          <DialogTitle variant="h3" fontWeight={'bold'}>
+            {cardDetail.companyName}
+          </DialogTitle>
+          <DialogTitle
+            variant="h3"
+            fontWeight={'bold'}
+            sx={{ color: 'primary.main' }}
+            marginRight={2}
+          >
+            {cardDetail.ranking}
+          </DialogTitle>
         </Box>
         <DialogContent>
           <Box display="flex" alignItems="center">
-            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'} marginRight={'20px'}>
-              <Typography variant="h4" fontWeight={'bold'}>業種:</Typography>
-              <Typography variant="h4" marginLeft='10px'>IT</Typography>
+            <Box
+              display="flex"
+              justifyContent="flex-start"
+              marginBottom={'20px'}
+              marginRight={'20px'}
+            >
+              <Typography variant="h4" fontWeight={'bold'}>
+                業種:
+              </Typography>
+              <Typography variant="h4" marginLeft="10px">
+                IT
+              </Typography>
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-              <Typography variant="h4" fontWeight={'bold'}>職種:</Typography>
-              <Typography variant="h4" marginLeft='10px'>{card.occupation}</Typography>
+              <Typography variant="h4" fontWeight={'bold'}>
+                職種:
+              </Typography>
+              <Typography variant="h4" marginLeft="10px">
+                {cardDetail.occupation}
+              </Typography>
             </Box>
           </Box>
 
           <hr />
           <Box justifyContent="flex-start" marginBottom={'20px'} marginTop={'20px'}>
-            <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>期間</Typography>
-            <Typography variant="h4">{card.internshipDuration}{card.internshipPeriod}</Typography>
+            <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
+              期間
+            </Typography>
+            <Typography variant="h4">
+              {cardDetail.internshipDuration}
+              {cardDetail.internshipPeriod}
+            </Typography>
           </Box>
-          <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>日程</Typography>
-          <Box display="flex" justifyContent="flex-start" alignItems='center' marginBottom={'20px'}>
-            <Typography variant="h4">{card.internshipStartDate}</Typography>
+          <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
+            日程
+          </Typography>
+          <Box display="flex" justifyContent="flex-start" alignItems="center" marginBottom={'20px'}>
+            <Typography variant="h4">{cardDetail.internshipStartDate}</Typography>
             <Typography variant="h4" marginLeft={2} marginRight={2}>
               ~
             </Typography>
-            <Typography variant="h4">{card.internshipEndDate}</Typography>
+            <Typography variant="h4">{cardDetail.internshipEndDate}</Typography>
           </Box>
-          <Box display="flex" flexDirection="column" justifyContent="flex-start" marginBottom={'20px'}>
-            <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>URL</Typography>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="flex-start"
+            marginBottom={'20px'}
+          >
+            <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
+              URL
+            </Typography>
             <Box border={1} borderRadius={2} p={1}>
-              <Link href='#' variant="h4">{card.url}</Link>
+              <Link href="#" variant="h4">
+                {cardDetail.url}
+              </Link>
             </Box>
           </Box>
           <Box display="flex" flexDirection="column">
-            <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>メモ</Typography>
+            <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
+              メモ
+            </Typography>
             <Box border={1} borderRadius={2} p={1}>
-              <Typography variant="h4">{card.description}</Typography>
+              <Typography variant="h4">{cardDetail.description}</Typography>
             </Box>
           </Box>
         </DialogContent>

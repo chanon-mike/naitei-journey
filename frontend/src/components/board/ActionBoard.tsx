@@ -26,7 +26,7 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
 
   // Function to handle empty string
   const handleEmptyString = (): ColumnType | null => {
-    console.log('empty')
+    console.log('empty');
     return null; // or another appropriate action
   };
 
@@ -65,7 +65,7 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
     console.log('activeId:', activeId);
     console.log('Over:', overId);
     console.log('activeItems:');
-    console.log('overitems: ')
+    console.log('overitems: ');
 
     if (!activeColumn || !overColumn || activeColumn === overColumn) {
       return null;
@@ -74,12 +74,15 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
     setColumns((prevState) => {
       const activeItems = activeColumn.cards;
       const overItems = overColumn.cards;
-      const activeIndex = activeItems.findIndex((i) => i.id === activeId);
-      const overIndex = overItems.findIndex((i) => i.id === overId);
+
+      const foundItem = activeItems.find((i) => i.id === activeId);
+      const updatedOverItems = foundItem ? [...overItems, foundItem] : [...overItems];
 
       console.log('activeItems:', activeItems);
-      console.log('overitems: ', overItems)
+      console.log('overitems: ', overItems);
 
+      const activeIndex = activeItems.findIndex((i) => i.id === activeId);
+      const overIndex = overItems.findIndex((i) => i.id === overId);
       const newIndex = () => {
         const putOnBelowLastItem = overIndex === overItems.length - 1 && delta.y > 0;
         const modifier = putOnBelowLastItem ? 1 : 0;
@@ -87,6 +90,8 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
       };
       return prevState.map((c) => {
         if (c.id === activeColumn.id) {
+          console.log('activeId: ', activeId);
+          console.log('overItemCheck: ', overItems);
           return {
             ...c,
             cards: activeItems.filter((i) => i.id !== activeId),
@@ -97,7 +102,7 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
             cards: [
               ...overItems.slice(0, newIndex()),
               activeItems[activeIndex],
-              ...overItems.slice(newIndex(), overItems.length),
+              ...overItems.slice(newIndex(), updatedOverItems.length),
             ],
           };
         } else {

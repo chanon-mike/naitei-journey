@@ -29,8 +29,7 @@ export type CardDetailType = {
 
 export type CompanyDetailType = {
   id: string;
-  
-}
+};
 
 export type ApplicationStatusType = {
   id: number;
