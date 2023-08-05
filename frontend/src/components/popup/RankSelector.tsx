@@ -5,11 +5,17 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
 import * as React from 'react';
 
-const SelectRank = () => {
-  const [age, setAge] = React.useState('');
+interface SelectRankProps {
+  onRankChange: (rank: string) => void;
+}
+
+const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
+  const [rank, setRank] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+    const value = event.target.value as string;
+    setRank(value);
+    onRankChange(value);
   };
 
   return (
@@ -19,7 +25,7 @@ const SelectRank = () => {
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
-          value={age}
+          value={rank}
           label="Age"
           onChange={handleChange}
         >

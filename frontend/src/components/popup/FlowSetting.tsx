@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as React from 'react';
-import SelectFlow from './SelectFlow';
+import SelectFlow from './FlowSelector';
 
 const FlowSetting = () => {
   const [open, setOpen] = React.useState(false);
@@ -19,6 +19,10 @@ const FlowSetting = () => {
     setOpen(false);
   };
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <div>
       <Button variant="outlined" style={{ width: '100%' }} onClick={handleClickOpen}>
@@ -27,21 +31,23 @@ const FlowSetting = () => {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle fontWeight={'bold'}>選考フロー</DialogTitle>
-        <DialogContent>
-          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-            <SelectFlow />
-            <ArrowDownwardIcon />
-            <SelectFlow />
-            <ArrowDownwardIcon />
-            <SelectFlow />
-            <ArrowDownwardIcon />
-            <SelectFlow />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
-        </DialogActions>
+        <form onSubmit={handleFormSubmit}>
+          <DialogContent>
+            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+              <SelectFlow />
+              <ArrowDownwardIcon />
+              <SelectFlow />
+              <ArrowDownwardIcon />
+              <SelectFlow />
+              <ArrowDownwardIcon />
+              <SelectFlow />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type="submit">Subscribe</Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

@@ -1,3 +1,4 @@
+import type { CardDetailType } from '@/app/intern/data';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { TextField } from '@mui/material';
@@ -5,13 +6,12 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
 import CardDetail from '../popup/CardDetail';
-import type { CardType } from './ActionArea';
 import ActionAreaCard from './ActionArea';
 
 export type ColumnType = {
   id: string;
   title: string;
-  cards: CardType[];
+  cards: CardDetailType[];
 };
 
 const Board: FC<ColumnType> = ({ id, title, cards }: ColumnType) => {
@@ -41,9 +41,8 @@ const Board: FC<ColumnType> = ({ id, title, cards }: ColumnType) => {
               <ActionAreaCard
                 key={card.id}
                 id={card.id}
-                title={card.title}
+                companyName={card.companyName}
                 rank={card.rank}
-                state={card.state}
               />
             ))}
             <CardDetail />

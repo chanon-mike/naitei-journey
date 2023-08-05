@@ -8,12 +8,23 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import AddButton from '../board/AddButton';
-import FlowSetting from './Flow';
-import SelectRank from './SelectRank';
-import StateSelect from './State';
+import FlowSetting from './FlowSetting';
+import SelectPeriod from './PeriodSelector';
+import SelectRank from './RankSelector';
+import StateSetting from './StateSetting';
 
 const CardDetail = () => {
   const [open, setOpen] = React.useState(false);
+  const [companyName, setCompanyName] = React.useState('');
+  const [rank, setRank] = React.useState('');
+  const [industry, setIndustry] = React.useState('');
+  const [role, setRole] = React.useState('');
+  const [date, setDate] = React.useState('');
+  const [period, setPeriod] = React.useState('');
+  const [start, setStart] = React.useState('');
+  const [end, setEnd] = React.useState('');
+  const [URL, setURL] = React.useState('');
+  const [memo, setMemo] = React.useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,6 +33,39 @@ const CardDetail = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleRankChange = (newRank: string) => {
+    setRank(newRank);
+  };
+
+  const handlePeriodChange = (newPeriod: string) => {
+    setPeriod(newPeriod);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    //handleSubscribe();
+  };
+
+  /*
+  const handleSubscribe = () => {
+    const detail = {
+      category_id: 'card1',
+      company_name,
+      company_industry,
+      position
+      ranking,
+      is_internship,
+      internship_duration,
+      period,
+      internship_start_date,
+      internship_end_date,
+      url,
+      description,
+    };
+    addCardDetail(detail);
+    handleClose();
+  };*/
 
   return (
     <div>
@@ -32,106 +76,122 @@ const CardDetail = () => {
       </Box>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle fontWeight={'bold'}>カード作成</DialogTitle>
-        <DialogContent>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            marginBottom={'20px'}
-            marginTop={'20px'}
-          >
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="企業名"
-              style={{ width: '40%' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="medium"
-            />
-            <SelectRank />
-          </Box>
-          <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="業種"
-              style={{ width: '30%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="職種"
-              style={{ width: '30%' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-          </Box>
-          <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="0"
-              style={{ width: '10%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="週"
-              style={{ width: '10%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="4/1"
-              style={{ width: '10%', marginRight: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-            <Typography variant="h5" fontWeight={'bold'}>
-              ~
-            </Typography>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="4/2"
-              style={{ width: '10%', marginLeft: '20px' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-          </Box>
-          <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              label="URL"
-              style={{ width: '60%' }}
-              inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
-              size="small"
-            />
-          </Box>
-          <Box marginBottom={'20px'}>
-            <TextField
-              id="outlined-multiline-static"
-              label="メモ"
-              style={{ width: '80%' }}
-              multiline
-              rows={4}
-            />
-          </Box>
-          <Box display="flex" justifyContent="space-between">
-            <StateSelect />
-            <FlowSetting />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
-        </DialogActions>
+        <form onSubmit={handleFormSubmit}>
+          <DialogContent>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="企業名"
+                style={{ width: '40%' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="medium"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
+              <SelectRank onRankChange={handleRankChange} />
+            </Box>
+            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="業種"
+                style={{ width: '30%', marginRight: '20px' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+              />
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="職種"
+                style={{ width: '30%' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              />
+            </Box>
+            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="長さ"
+                style={{ width: '10%', marginRight: '20px' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+                value={date}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  if (newValue === '' || /^[0-9]+$/.test(newValue)) {
+                    setDate(newValue);
+                  }
+                }}
+              />
+              <SelectPeriod onPeriodChange={handlePeriodChange} />
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="開始日"
+                style={{ width: '20%', marginRight: '20px' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+                value={start}
+                onChange={(e) => setStart(e.target.value)}
+              />
+              <Typography variant="h5" fontWeight={'bold'}>
+                ~
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="終了日"
+                style={{ width: '20%', marginLeft: '20px' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+                value={end}
+                onChange={(e) => setEnd(e.target.value)}
+              />
+            </Box>
+            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="URL"
+                style={{ width: '60%' }}
+                inputProps={{ style: { textAlign: 'center', fontSize: '20px' } }}
+                size="small"
+                value={URL}
+                onChange={(e) => setURL(e.target.value)}
+              />
+            </Box>
+            <Box marginBottom={'20px'}>
+              <TextField
+                id="outlined-multiline-static"
+                label="メモ"
+                style={{ width: '80%' }}
+                multiline
+                rows={4}
+                value={memo}
+                onChange={(e) => setMemo(e.target.value)}
+              />
+            </Box>
+            <Box display="flex" justifyContent="space-between">
+              <StateSetting />
+              <FlowSetting />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type="submit">Subscribe</Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );
