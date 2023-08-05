@@ -1,6 +1,5 @@
 'use client';
 
-import { data } from '@/services/data';
 import type { ColumnType } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
@@ -19,9 +18,10 @@ import Board from './Board';
 type ActionBoardProps = {
   type: string;
   userId: string;
+  data: ColumnType[];
 };
 
-const ActionBoard = ({ type, userId }: ActionBoardProps) => {
+const ActionBoard = ({ type, userId, data }: ActionBoardProps) => {
   const [columns, setColumns] = useState<ColumnType[]>(data);
 
   // Function to handle empty string
@@ -37,7 +37,7 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
     const id = String(unique);
     const itemWithColumnId = columns.flatMap((c) => {
       const columnId = c.id;
-      return c.cards.map((i) => ({ itemId: i.id, columnId }));
+      return c.jobs.map((i) => ({ itemId: i.id, columnId }));
     });
     const columnId = itemWithColumnId.find((i) => i.itemId === id)?.columnId;
     return columns.find((c) => c.id === columnId) ?? null;
@@ -66,8 +66,8 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
     }
 
     setColumns((prevState) => {
-      const activeItems = activeColumn.cards;
-      const overItems = overColumn.cards;
+      const activeItems = activeColumn.jobs;
+      const overItems = overColumn.jobs;
       const activeIndex = activeItems.findIndex((i) => i.id === activeId);
       const overIndex = overItems.findIndex((i) => i.id === overId);
       const newIndex = () => {
@@ -101,14 +101,14 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
     column: ColumnType,
     activeIndex: number | undefined,
     overIndex: number | undefined,
-    cards = column.cards
+    cards = column.jobs
   ): ColumnType => {
     if (activeIndex === undefined || overIndex === undefined || cards.length === 0) {
       return column; // Or some other appropriate default handling
     }
 
     const newCards = arrayMove(cards, activeIndex, overIndex);
-    return { ...column, cards: newCards };
+    return { ...column, jobs: newCards };
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -117,15 +117,15 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
     const overId = over ? String(over.id) : null;
     const activeColumn = findColumn(activeId, columns);
     const overColumn = findColumn(overId, columns);
-    const activeIndex = activeColumn?.cards.findIndex((i) => i.id === activeId);
-    const overIndex = overColumn?.cards.findIndex((i) => i.id === overId);
+    const activeIndex = activeColumn?.jobs.findIndex((i) => i.id === activeId);
+    const overIndex = overColumn?.jobs.findIndex((i) => i.id === overId);
 
     setColumns((prevState) => {
       return prevState.map((column) => {
         if (activeColumn?.id === column.id && overColumn?.id === column.id) {
           return updateColumnCards(column, activeIndex, overIndex);
         } else if (column.id === activeColumn?.id) {
-          return updateColumnCards(column, activeIndex, overIndex, overColumn?.cards);
+          return updateColumnCards(column, activeIndex, overIndex, overColumn?.jobs);
         } else {
           return column;
         }
@@ -150,7 +150,7 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
       <Container>
         <Box>
           <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">
-            インターンシップ
+            {type}
           </Typography>
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="row">
@@ -158,10 +158,10 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
             <Box key={column.id} minWidth="300px">
               <Board
                 id={column.id}
-                userId={userId}
+                user_id={userId}
                 type={type}
                 name={column.name}
-                cards={column.cards}
+                jobs={column.jobs}
               />
             </Box>
           ))}

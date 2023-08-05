@@ -8,11 +8,11 @@ import type { FC } from 'react';
 import ActionAreaCard from './ActionArea';
 import CardForm from '../popup/CardForm';
 
-const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
+const Board: FC<ColumnType> = ({ id, name, jobs }: ColumnType) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (
-    <SortableContext id={id} items={cards} strategy={rectSortingStrategy}>
+    <SortableContext id={id} items={jobs} strategy={rectSortingStrategy}>
       <div ref={setNodeRef}>
         <Box
           sx={{
@@ -42,11 +42,11 @@ const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
                 {name}
               </Typography>
             </Box>
-            {cards.map((card) => (
+            {jobs.map((card) => (
               <ActionAreaCard
                 key={card.id}
                 id={card.id}
-                companyName={card.companyName}
+                company_name={card.company_name}
                 ranking={card.ranking}
               />
             ))}

@@ -2,34 +2,34 @@
 
 export type ColumnType = {
   id: string;
-  userId: string;
+  user_id: string;
   type: string;
   name: string;
-  cards: CardDetailType[];
+  jobs: CardDetailType[];
 };
 
 export type CardDetailType = {
   id: string;
-  categoryId: string;
-  cardPosition: number;
-  companyName: string;
-  companyIndustry: string;
+  category_id: string;
+  card_position: number;
+  company_name: string;
+  company_industry: string;
   occupation: string;
   ranking: string;
-  isInternship: boolean;
-  internshipDuration: number;
-  internshipPeriod: string;
-  internshipStartDate: string;
-  internshipEndDate: string;
+  is_internship: boolean;
+  internship_duration: string;
+  internship_start_date: string;
+  internship_end_date: string;
   url: string;
   description: string;
-  applicationStatus: ApplicationStatusType;
-  selectionFlows: SelectionFlowType[];
+  application_status: ApplicationStatusType;
+  selection_flows: SelectionFlowType[];
 };
 
 export type ApplicationStatusType = {
   id: string;
   job_id: string;
+  status: string;
   process: string;
   date: string;
 };
