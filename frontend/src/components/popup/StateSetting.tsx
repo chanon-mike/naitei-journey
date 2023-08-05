@@ -42,8 +42,8 @@ type StateSettingProps = {
   setSelectedStatus: Dispatch<SetStateAction<string | null>>;
   selectedProcess: string | null;
   setSelectedProcess: Dispatch<SetStateAction<string | null>>;
-  applicationDate: Date;
-  setApplicationDate: Dispatch<SetStateAction<Date>>;
+  applicationDate: Date | null;
+  setApplicationDate: Dispatch<SetStateAction<Date | null>>;
 };
 
 const StateSetting = ({

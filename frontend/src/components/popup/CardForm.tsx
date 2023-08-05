@@ -38,14 +38,14 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   const [ranking, setRanking] = useState('');
   const [internshipDate, setInternshipDate] = useState('');
   const [internshipPeriod, setInternshipPeriod] = useState('');
-  const [internshipStartDate, setInternshipStartDate] = useState('');
-  const [internshipEndDate, setInternshipEndDate] = useState('');
+  const [internshipStartDate, setInternshipStartDate] = useState<Date | null>(null);
+  const [internshipEndDate, setInternshipEndDate] = useState<Date | null>(null);
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   // Application status information
   const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
   const [applicationProcess, setApplicationProcess] = useState<string | null>(null);
-  const [applicationDate, setApplicationDate] = useState<Date>(new Date());
+  const [applicationDate, setApplicationDate] = useState<Date | null>(null);
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
 
@@ -55,37 +55,39 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
       card_position: 1,
       company_name: companyName,
       company_industry: companyIndustry,
-      occupation: 'SE',
-      ranking: 'S',
+      occupation,
+      ranking,
       is_internship: categoryType === 'インターンシップ',
-      internship_duration: '3日',
-      internship_start_date: '2023-09-05',
-      internship_end_date: '2023-09-08',
-      url: 'https://test.com',
-      description: 'lorem ipsum',
+      internship_duration: internshipDate + internshipPeriod,
+      internship_start_date: dateToString(internshipStartDate),
+      internship_end_date: dateToString(internshipEndDate),
+      url,
+      description,
       application_status: {
-        status: '結果待ち',
-        process: 'ES',
-        date: '2023-08-01',
+        status: applicationStatus ?? '',
+        process: applicationProcess ?? '',
+        date: dateToString(applicationDate),
       },
-      selection_flows: [
-        {
-          step: 1,
-          process: 'ES',
-        },
-        {
-          step: 2,
-          process: '1次面接',
-        },
-      ],
+      selection_flows: flowProcesses,
     };
+    console.log(cardDetail)
     handleClose();
   };
 
   const handleClose = () => {
+    setCompanyName('');
+    setCompanyIndustry('');
+    setOccupation('');
+    setRanking('');
+    setInternshipDate('');
+    setInternshipPeriod('');
+    setInternshipStartDate(null);
+    setInternshipEndDate(null);
+    setUrl('');
+    setDescription('');
     setApplicationStatus(null);
     setApplicationProcess(null);
-    setApplicationDate(new Date());
+    setApplicationDate(null);
     setFlowProcesses([]);
     setOpen(false);
   };
@@ -96,6 +98,17 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
 
   const handleRankingChange = (newRanking: string) => setRanking(newRanking);
   const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
+
+  const dateToString = (dateObject: Date | null) => {
+    // get the year, month, date, hours, and minutes seprately and append to the string.
+    if (!dateObject) return ''
+
+    const dateString = `${dateObject.getFullYear()
+      }-${dateObject.getMonth() + 1
+      }-${+dateObject.getDate()
+      }`;
+    return dateString;
+  }
 
   return (
     <div>
@@ -168,7 +181,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 <DatePicker
                   label="開始日"
                   slotProps={{ textField: { size: 'small' } }}
-                  onChange={(date: Date | null) => setInternshipStartDate(String(date))}
+                  onChange={(date: Date | null) => setInternshipStartDate(date || new Date())}
                 />
                 <Typography variant="h5" fontWeight={'bold'} marginLeft={2} marginRight={2}>
                   ~
@@ -176,7 +189,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 <DatePicker
                   label="終了日"
                   slotProps={{ textField: { size: 'small' } }}
-                  onChange={(date: Date | null) => setInternshipEndDate(String(date))}
+                  onChange={(date: Date | null) => setInternshipEndDate(date || new Date())}
                 />
               </LocalizationProvider>
             </Box>
