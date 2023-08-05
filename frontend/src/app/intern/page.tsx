@@ -145,20 +145,18 @@ const Home = () => {
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
       >
-        <div className="App">
-          <Container>
-            <Box>
-              <Typography variant="h5">intern</Typography>
-            </Box>
-            <Box display="flex">
-              {columns.map((column) => (
-                <Box key={column.id} width="300px">
-                  <Board id={column.id} title={column.title} cards={column.cards} />
-                </Box>
-              ))}
-            </Box>
-          </Container>
-        </div>
+        <Container>
+          <Box>
+            <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">インターンシップ</Typography>
+          </Box>
+          <Box display="flex" justifyContent="center" flexDirection="row">
+            {columns.map((column) => (
+              <Box key={column.id} minWidth="300px">
+                <Board id={column.id} title={column.title} cards={column.cards} />
+              </Box>
+            ))}
+          </Box>
+        </Container>
       </DndContext>
     </main>
   );

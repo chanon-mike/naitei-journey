@@ -2,12 +2,12 @@
 
 import { useRef, useState } from 'react';
 
-import { Box, Button, Link, Popover, Typography } from '@mui/material';
+import { Box, Button, Link, Popover, Typography, useTheme } from '@mui/material';
 
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 const UserBoxButton = styled(Button)(
@@ -19,7 +19,7 @@ const UserBoxButton = styled(Button)(
 
 const MenuUserBox = styled(Box)(
   ({ theme }) => `
-        background: ${alpha(theme.palette.secondary.contrastText, 0.1)};
+        background: ${theme.palette.secondary.contrastText};
         padding: ${theme.spacing(2)};
 `
 );
@@ -39,6 +39,8 @@ const UserBoxLabel = styled(Typography)(
 `
 );
 
+
+
 // const UserBoxDescription = styled(Typography)(
 //   ({ theme }) => `
 //         color: ${lighten(theme.palette.secondary.main, 0.5)}
@@ -46,6 +48,7 @@ const UserBoxLabel = styled(Typography)(
 // );
 
 function HeaderUserbox() {
+  const theme = useTheme();
   const { user } = useUser();
   const ref = useRef(null);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -61,7 +64,7 @@ function HeaderUserbox() {
   return (
     <>
       <UserBoxButton color="inherit" ref={ref} onClick={handleOpen}>
-        <SettingsIcon fontSize="large" />
+        <SettingsIcon sx={{ fill: theme.palette.primary.main }} fontSize='large' />
       </UserBoxButton>
       <Popover
         anchorEl={ref.current}

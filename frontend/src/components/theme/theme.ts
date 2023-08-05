@@ -7,20 +7,29 @@ const roboto = Roboto({
   display: 'swap',
 });
 
-// text: '#000000',
-// background: '#ffffff',
-// primary: '#8fb3ff',
-// secondary: '#ebf1ff',
-// accent: '#d41d6d',
+const themeColors = {
+  primary: '#8fb3ff',
+  secondary: '#d41d6d',
+  background: '#ebf1ff',
+  success: '#57CA22',
+  warning: '#FFA319',
+  error: '#FF1943',
+  info: '#33C2FF',
+  black: '#000000',
+  white: '#ffffff',
+};
 
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#d41d6d',
+      main: themeColors.primary,
     },
     secondary: {
-      main: '#8fb3ff',
+      main: themeColors.secondary,
+    },
+    background: {
+      default: themeColors.white,
     },
   },
   typography: {

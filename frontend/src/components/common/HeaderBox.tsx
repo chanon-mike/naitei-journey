@@ -76,12 +76,12 @@ function HeaderMenu() {
       >
         <List disablePadding component={Box} display="flex">
           <ListItem classes={{ root: 'MuiListItem-indicators' }}>
-            <Link href="/intern" underline="none" sx={{ color: 'black' }}>
+            <Link href="/intern" underline="none" color="black">
               <ListItemText primaryTypographyProps={{ noWrap: true }} primary="インターン" />
             </Link>
           </ListItem>
           <ListItem classes={{ root: 'MuiListItem-indicators' }}>
-            <Link href="/fulltime" underline="none" sx={{ color: 'black' }}>
+            <Link href="/fulltime" underline="none" color="black">
               <ListItemText primaryTypographyProps={{ noWrap: true }} primary="本選考" />
             </Link>
           </ListItem>
