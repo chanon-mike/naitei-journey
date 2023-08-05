@@ -1,10 +1,9 @@
 from datetime import date
 
-from pydantic import BaseModel
+from pydantic import UUID4, BaseModel
 
 
 class ApplicationStatusBase(BaseModel):
-    job_id: int
     status: str
     process: str
     date: date
@@ -15,7 +14,8 @@ class ApplicationStatusCreate(ApplicationStatusBase):
 
 
 class ApplicationStatus(ApplicationStatusBase):
-    id: int
+    job_id: UUID4
+    id: UUID4
 
     class Config:
         orm_mode = True

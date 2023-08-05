@@ -4,17 +4,17 @@ from app.models.selection_flow import SelectionFlow
 from app.schemas.selection_flow import SelectionFlowCreate, SelectionFlowUpdate
 
 
-def get_selection_flow(db: Session, job_id: int) -> SelectionFlow:
+def get_selection_flow(db: Session, job_id: str) -> SelectionFlow:
     return db.query(SelectionFlow).filter(SelectionFlow.job_id == job_id).first()
 
 
 def create_selection_flows(
-    db: Session, flows: list[SelectionFlowCreate]
+    db: Session, flows: list[SelectionFlowCreate], job_id: str
 ) -> list[SelectionFlow]:
     db_flows = [
         SelectionFlow(
             **{
-                "job_id": flow.job_id,
+                "job_id": job_id,
                 "step": flow.step,
                 "process": flow.process,
             }
@@ -34,7 +34,7 @@ def update_selection_flows(db: Session, flows: list[SelectionFlowUpdate]):
     return mappings
 
 
-def delete_selection_flows(db: Session, ids: list[int]):
+def delete_selection_flows(db: Session, ids: list[str]):
     db.query(SelectionFlow).filter(SelectionFlow.id.in_(ids)).delete(
         synchronize_session=False
     )

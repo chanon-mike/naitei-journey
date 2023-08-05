@@ -13,38 +13,34 @@ POST /job
 ```
 {
   "job": {
-    "category_id": 1,
+    "category_id": "65b75720-2dc6-41bf-8a95-672704d70033",
     "card_position": 1,
     "company_name": "A社",
     "company_industry": "IT",
     "occupation": "エンジニア",
     "ranking": "A",
     "is_internship": true,
-    "internship_duration": "1 月",
+    "internship_duration": "1ヶ月",
     "internship_start_date": "2023-09-01",
     "internship_end_date": "2023-10-01",
     "url": "https://companyA.com",
-    "description": "Lorem ipsum dolor sit amet.",
+    "description": "TLorem ipsum dolor sit amet."
   },
   "application_status": {
-    "job_id": 1,
     "status": "Webテスト",
     "process": "結果待ち",
     "date": "2023-08-15"
   },
   "selection_flows": [
     {
-      "job_id": 1,
       "step": 1,
       "process": "ES"
     },
     {
-      "job_id": 1,
       "step": 2,
       "process": "Webテスト"
     },
     {
-      "job_id": 1,
       "step": 3,
       "process": "1次面接"
     }

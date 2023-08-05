@@ -1,8 +1,7 @@
-from pydantic import BaseModel
+from pydantic import UUID4, BaseModel
 
 
 class SelectionFlowBase(BaseModel):
-    job_id: int
     step: int
     process: str
 
@@ -12,11 +11,13 @@ class SelectionFlowCreate(SelectionFlowBase):
 
 
 class SelectionFlowUpdate(SelectionFlowBase):
-    id: int
+    id: UUID4
+    job_id: UUID4
 
 
 class SelectionFlow(SelectionFlowBase):
-    id: int
+    id: UUID4
+    job_id: UUID4
 
     class Config:
         orm_mode = True

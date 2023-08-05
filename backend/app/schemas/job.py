@@ -1,6 +1,6 @@
 from datetime import date
 
-from pydantic import BaseModel
+from pydantic import UUID4, BaseModel
 
 from app.schemas.application_status import ApplicationStatus, ApplicationStatusCreate
 from app.schemas.selection_flow import (
@@ -11,7 +11,7 @@ from app.schemas.selection_flow import (
 
 
 class JobBase(BaseModel):
-    category_id: int
+    category_id: UUID4
     card_position: int
     company_name: str
     company_industry: str
@@ -30,7 +30,7 @@ class JobCreate(JobBase):
 
 
 class Job(JobBase):
-    id: int
+    id: UUID4
 
     class Config:
         orm_mode = True
@@ -49,7 +49,7 @@ class FullJobUpdate(BaseModel):
 
 
 class FullJob(JobBase):
-    id: int
+    id: UUID4
     application_status: ApplicationStatus
     selection_flows: list[SelectionFlow]
 

@@ -1,4 +1,5 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+import uuid
+from sqlalchemy import UUID, Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base
@@ -7,7 +8,7 @@ from app.db.base import Base
 class Category(Base):
     __tablename__ = "categories"
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = Column(String, ForeignKey("users.id"))
     type = Column(String)
     name = Column(String)

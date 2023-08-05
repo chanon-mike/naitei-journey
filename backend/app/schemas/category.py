@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
 
 class CategoryBase(BaseModel):
@@ -12,7 +12,7 @@ class CategoryCreate(CategoryBase):
 
 
 class Category(CategoryBase):
-    id: int
+    id: UUID4
 
     class Config:
         orm_mode = True
