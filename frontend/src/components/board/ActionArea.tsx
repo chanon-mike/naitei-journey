@@ -6,15 +6,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
+import type { CardDetailType } from '../../app/intern/data';
 
-export type CardType = {
-  id: string;
-  title: string;
-  rank: string;
-  state: string;
-};
+type ActionAreaCardProps = Pick<CardDetailType, 'id' | 'companyName' | 'rank'>;
 
-const ActionAreaCard: FC<CardType> = ({ id, title, rank, state }) => {
+const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, companyName, rank }) => {
   const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
 
   const style = {
@@ -30,14 +26,14 @@ const ActionAreaCard: FC<CardType> = ({ id, title, rank, state }) => {
               <CardContent>
                 <Box display="flex" justifyContent="space-between" marginBottom={'20px'}>
                   <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'}>
-                    {title}
+                    {companyName}
                   </Typography>
                   <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
                     {rank}
                   </Typography>
                 </Box>
                 <Typography variant="body1" color="text.primary">
-                  {state}
+                  test
                 </Typography>
               </CardContent>
             </CardActionArea>
