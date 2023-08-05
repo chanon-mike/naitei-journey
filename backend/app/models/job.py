@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
+import uuid
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String, UUID
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base
@@ -7,8 +8,8 @@ from app.db.base import Base
 class Job(Base):
     __tablename__ = "jobs"
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    category_id = Column(Integer, ForeignKey("categories.id"))
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    category_id = Column(UUID(as_uuid=True), ForeignKey("categories.id"))
     card_position = Column(Integer)
     company_name = Column(String, nullable=False)
     company_industry = Column(String)

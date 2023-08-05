@@ -5,7 +5,7 @@ from app.models.user import User
 from app.schemas.job import FullJob, JobCreate
 
 
-def get_job(db: Session, job_id: int) -> FullJob:
+def get_job(db: Session, job_id: str) -> FullJob:
     return (
         db.query(Job)
         .options(joinedload(Job.application_status), joinedload(Job.selection_flows))
@@ -58,7 +58,7 @@ def create_job(db: Session, job: JobCreate) -> Job:
     return db_job
 
 
-def update_job(db: Session, job: JobCreate, job_id: int) -> Job:
+def update_job(db: Session, job: JobCreate, job_id: str) -> Job:
     db_job: Job = db.query(Job).filter(Job.id == job_id).first()
     if db_job is None:
         return None

@@ -13,7 +13,7 @@ def get_categories(db: Session, auth0_id: str, type: str) -> list[Category]:
     )
 
 
-def get_category(db: Session, category_id: int) -> Category:
+def get_category(db: Session, category_id: str) -> Category:
     return db.query(Category).filter(Category.id == category_id).first()
 
 

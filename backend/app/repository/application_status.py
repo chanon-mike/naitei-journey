@@ -4,17 +4,17 @@ from app.models.application_status import ApplicationStatus
 from app.schemas.application_status import ApplicationStatusCreate
 
 
-def get_application_status(db: Session, job_id: int) -> ApplicationStatus:
+def get_application_status(db: Session, job_id: str) -> ApplicationStatus:
     return (
         db.query(ApplicationStatus).filter(ApplicationStatus.job_id == job_id).first()
     )
 
 
 def create_application_status(
-    db: Session, status: ApplicationStatusCreate
+    db: Session, status: ApplicationStatusCreate, job_id: str
 ) -> ApplicationStatus:
     db_status = ApplicationStatus(
-        job_id=status.job_id,
+        job_id=job_id,
         status=status.status,
         process=status.process,
         date=status.date,
@@ -26,7 +26,7 @@ def create_application_status(
 
 
 def update_application_status(
-    db: Session, status: ApplicationStatusCreate, job_id: int
+    db: Session, status: ApplicationStatusCreate, job_id: str
 ) -> ApplicationStatus:
     db_status: ApplicationStatus = (
         db.query(ApplicationStatus).filter(ApplicationStatus.job_id == job_id).first()

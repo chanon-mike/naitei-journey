@@ -48,16 +48,18 @@ def create_job(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
         )
 
-    job_repo.create_job(db, full_job.job)
-    status_repo.create_application_status(db, full_job.application_status)
-    flow_repo.create_selection_flows(db, full_job.selection_flows)
+    new_job = job_repo.create_job(db, full_job.job)
+    job_id = new_job.id
+
+    status_repo.create_application_status(db, full_job.application_status, job_id)
+    flow_repo.create_selection_flows(db, full_job.selection_flows, job_id)
 
     return {"message": "Successfully created job data"}
 
 
 @router.get("/{job_id}")
 def get_job(
-    job_id: int,
+    job_id: str,
     db: Session = Depends(get_db),
     token: Payload = Depends(verify_token),
 ):
@@ -78,7 +80,7 @@ def get_job(
 @router.put("/{job_id}")
 def update_job(
     full_job: FullJobUpdate,
-    job_id: int,
+    job_id: str,
     db: Session = Depends(get_db),
     token: Payload = Depends(verify_token),
 ):
@@ -101,7 +103,7 @@ def update_job(
 
 @router.delete("/{job_id}")
 def delete_job(
-    job_id: int,
+    job_id: str,
     db: Session = Depends(get_db),
     token: Payload = Depends(verify_token),
 ):
