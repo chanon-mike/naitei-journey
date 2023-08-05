@@ -4,15 +4,15 @@ import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 async function getData(token: string) {
   const res = await fetch(`${API_ENDPOINT}/job`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   return res.json();
@@ -33,4 +33,3 @@ export default withPageAuthRequired(
   },
   { returnTo: '/intern' }
 );
-

@@ -1,3 +1,4 @@
+import type { ColumnType } from '@/types/board';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { Typography } from '@mui/material';
@@ -6,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
 import CardDetail from '../popup/CardDetail';
 import ActionAreaCard from './ActionArea';
-import type { ColumnType } from '@/types/board';
 
 const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
   const { setNodeRef } = useDroppable({ id });

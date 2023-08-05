@@ -1,6 +1,7 @@
 'use client';
 
 import { data } from '@/app/intern/data';
+import type { ColumnType } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
   DndContext,
@@ -14,12 +15,11 @@ import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
 import { useState } from 'react';
 import Board from './Board';
-import type { ColumnType } from '@/types/board';
 
 type ActionBoardProps = {
   type: string;
   userId: string;
-}
+};
 
 const ActionBoard = ({ type, userId }: ActionBoardProps) => {
   const [columns, setColumns] = useState<ColumnType[]>(data);
@@ -109,7 +109,7 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
 
     const newCards = arrayMove(cards, activeIndex, overIndex);
     return { ...column, cards: newCards };
-  }
+  };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -156,7 +156,13 @@ const ActionBoard = ({ type, userId }: ActionBoardProps) => {
         <Box display="flex" justifyContent="center" flexDirection="row">
           {columns.map((column) => (
             <Box key={column.id} minWidth="300px">
-              <Board id={column.id} userId={userId} type={type} name={column.name} cards={column.cards} />
+              <Board
+                id={column.id}
+                userId={userId}
+                type={type}
+                name={column.name}
+                cards={column.cards}
+              />
             </Box>
           ))}
         </Box>

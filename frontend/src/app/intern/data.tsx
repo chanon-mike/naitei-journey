@@ -1,6 +1,4 @@
-
 import type { CardDetailType, ColumnType } from '@/types/board';
-
 
 // 新しいカード詳細を追加する関数
 export const addCardDetail = (detail: CardDetailType) => {
