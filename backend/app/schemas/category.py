@@ -1,5 +1,6 @@
+from pydantic import UUID4, BaseModel
+
 from app.schemas.job import FullJob
-from pydantic import BaseModel, UUID4
 
 
 class CategoryBase(BaseModel):

@@ -13,5 +13,3 @@ export const useAccessToken = (): AccessTokenContextType => {
   }
   return context;
 };
-
-

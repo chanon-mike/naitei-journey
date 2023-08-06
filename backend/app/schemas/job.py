@@ -4,11 +4,8 @@ from typing import Optional
 from pydantic import UUID4, BaseModel, validator
 
 from app.schemas.application_status import ApplicationStatus, ApplicationStatusCreate
-from app.schemas.selection_flow import (
-    SelectionFlow,
-    SelectionFlowCreate,
-    SelectionFlowUpdate,
-)
+from app.schemas.selection_flow import (SelectionFlow, SelectionFlowCreate,
+                                        SelectionFlowUpdate)
 
 
 class JobBase(BaseModel):

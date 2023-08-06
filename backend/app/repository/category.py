@@ -1,8 +1,8 @@
-from app.models.job import Job
 from sqlalchemy import case
 from sqlalchemy.orm import Session, joinedload
 
 from app.models.category import Category
+from app.models.job import Job
 from app.schemas.category import CategoryCreate, FullCategory
 
 ORDER = ["気になる", "選考中", "内定", "不通過"]

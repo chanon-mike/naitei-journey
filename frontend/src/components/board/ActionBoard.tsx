@@ -1,5 +1,6 @@
 'use client';
 
+import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
 import type { ColumnType } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
@@ -14,7 +15,6 @@ import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
 import { useState } from 'react';
 import Board from './Board';
-import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
 
 type ActionBoardProps = {
   type: string;
@@ -67,6 +67,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       return null;
     }
 
+    // BUG: Drag over to another column causes the card to be the same as the card in that column
     setColumns((prevState) => {
       const activeItems = activeColumn.jobs;
       const overItems = overColumn.jobs;

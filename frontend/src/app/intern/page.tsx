@@ -19,7 +19,6 @@ const getData = async (token: string, userId: string, type: string) => {
       throw new Error(`Server responded with status ${response.status}: ${text}`);
     }
     return response.json();
-
   } catch (error) {
     console.error('Error fetching todos:', error);
     throw error;
@@ -38,7 +37,12 @@ export default withPageAuthRequired(
 
     return (
       <main>
-        <ActionBoard type={boardType} userId={session?.user.sub} data={data} accessToken={session?.accessToken ?? ''} />
+        <ActionBoard
+          type={boardType}
+          userId={session?.user.sub}
+          data={data}
+          accessToken={session?.accessToken ?? ''}
+        />
       </main>
     );
   },

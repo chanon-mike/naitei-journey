@@ -1,3 +1,5 @@
+import { useAccessToken } from '@/contexts/AccessTokenContext';
+import { jobApi } from '@/services/job';
 import type { FullJobBase } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import {
@@ -21,8 +23,6 @@ import FlowSetting from './FlowSetting';
 import SelectPeriod from './PeriodSelector';
 import SelectRank from './RankSelector';
 import StateSetting from './StateSetting';
-import { jobApi } from '@/services/job';
-import { useAccessToken } from '@/contexts/AccessTokenContext';
 
 type CardFormProps = {
   categoryId: string;
@@ -75,7 +75,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
       },
       selection_flows: flowProcesses,
     };
-    console.log(cardDetail)
+    console.log(cardDetail);
     jobApi.createJob(accessToken, cardDetail);
 
     handleClose();
@@ -108,14 +108,13 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
 
   const dateToString = (dateObject: Date | null) => {
     // get the year, month, date, hours, and minutes seprately and append to the string.
-    if (!dateObject) return ''
+    if (!dateObject) return '';
 
-    const dateString = `${dateObject.getFullYear()
-      }-${dateObject.getMonth() + 1
-      }-${+dateObject.getDate()
-      }`;
+    const dateString = `${dateObject.getFullYear()}-${
+      dateObject.getMonth() + 1
+    }-${+dateObject.getDate()}`;
     return dateString;
-  }
+  };
 
   return (
     <div>
