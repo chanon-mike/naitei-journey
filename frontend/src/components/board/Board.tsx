@@ -18,9 +18,12 @@ const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
+            justifyContent: 'flex-start',
           }}
         >
-          <Paper style={{ margin: '20px', minHeight: '100vh', width: '300px' }}>
+          <Paper
+            style={{ margin: '20px', marginLeft: '100px', minHeight: '100vh', minWidth: '250px' }}
+          >
             <Box
               display="flex"
               justifyContent="center"
@@ -43,12 +46,7 @@ const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
               </Typography>
             </Box>
             {cards.map((card) => (
-              <ActionAreaCard
-                key={card.id}
-                id={card.id}
-                companyName={card.companyName}
-                ranking={card.ranking}
-              />
+              <ActionAreaCard key={card.id} id={card.id} cardDetail={card} />
             ))}
             <CardDetail />
           </Paper>

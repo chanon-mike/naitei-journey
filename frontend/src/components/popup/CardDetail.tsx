@@ -25,8 +25,6 @@ const CardDetail = () => {
   const [role, setRole] = React.useState('');
   const [date, setDate] = React.useState('');
   const [period, setPeriod] = React.useState('');
-  const [start, setStart] = React.useState('');
-  const [end, setEnd] = React.useState('');
   const [URL, setURL] = React.useState('');
   const [memo, setMemo] = React.useState('');
 

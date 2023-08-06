@@ -15,8 +15,6 @@ import StateButton from './StateButton';
 
 const StateSetting = () => {
   const [open, setOpen] = React.useState(false);
-  const [month, setMonth] = React.useState('');
-  const [date, setDate] = React.useState('');
   const [selectedFlow, setSelectedFlow] = React.useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] = React.useState<string | null>(null);
 
