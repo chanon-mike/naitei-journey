@@ -22,31 +22,29 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
   };
 
   return (
-    <div ref={setNodeRef} {...attributes} style={style}>
-      <div id={id}>
-        <Box display="flex" alignItems="flex-start" justifyContent="center" margin={'20px'}>
-          <Card sx={{ maxWidth: 250, maxHeight: 150, minWidth: 200 }}>
-            <CardActionArea>
-              <CardContent {...listeners}>
-                <Box display="flex" justifyContent="space-between">
-                  <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'}>
-                    {cardDetail.companyName}
-                  </Typography>
-                  <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
-                    {cardDetail.ranking}
-                  </Typography>
-                </Box>
-                <Typography variant="body1" color="text.primary">
-                  test
+    <div id={id} ref={setNodeRef} {...attributes} style={style}>
+      <Box display="flex" alignItems="flex-start" justifyContent="center" margin={'20px'}>
+        <Card sx={{ maxWidth: 250, maxHeight: 150, minWidth: 200 }}>
+          <CardActionArea>
+            <CardContent {...listeners}>
+              <Box display="flex" justifyContent="space-between">
+                <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'}>
+                  {cardDetail.company_name}
                 </Typography>
-              </CardContent>
-              <Box display="flex" justifyContent="center" style={{ backgroundColor: '#000000' }}>
-                <DetailButton key={id} cardDetail={cardDetail} />
+                <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
+                  {cardDetail.ranking}
+                </Typography>
               </Box>
-            </CardActionArea>
-          </Card>
-        </Box>
-      </div>
+              <Typography variant="body1" color="text.primary">
+                test
+              </Typography>
+            </CardContent>
+            <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'primary.dark' }}>
+              <DetailButton key={id} cardDetail={cardDetail} />
+            </Box>
+          </CardActionArea>
+        </Card>
+      </Box>
     </div>
   );
 };

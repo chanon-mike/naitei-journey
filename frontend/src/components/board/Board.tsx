@@ -5,14 +5,14 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
-import CardDetail from '../popup/CardDetail';
+import CardForm from '../popup/CardForm';
 import ActionAreaCard from './ActionArea';
 
-const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
+const Board: FC<ColumnType> = ({ id, type, name, jobs }: ColumnType) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (
-    <SortableContext id={id} items={cards} strategy={rectSortingStrategy}>
+    <SortableContext id={id} items={jobs} strategy={rectSortingStrategy}>
       <div ref={setNodeRef}>
         <Box
           sx={{
@@ -45,10 +45,10 @@ const Board: FC<ColumnType> = ({ id, name, cards }: ColumnType) => {
                 {name}
               </Typography>
             </Box>
-            {cards.map((card) => (
+            {jobs.map((card) => (
               <ActionAreaCard key={card.id} id={card.id} cardDetail={card} />
             ))}
-            <CardDetail />
+            <CardForm categoryId={id} categoryType={type} />
           </Paper>
         </Box>
       </div>

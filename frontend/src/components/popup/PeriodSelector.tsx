@@ -20,12 +20,13 @@ const SelectPeriod: React.FC<SelectPeriodProps> = ({ onPeriodChange }) => {
 
   return (
     <div>
-      <FormControl sx={{ marginRight: '20px', minWidth: 120, maxHeight: 50 }}>
+      <FormControl sx={{ marginRight: '20px', minWidth: '80px' }}>
         <InputLabel id="demo-simple-select-helper-label">期間</InputLabel>
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
           value={period}
+          size="medium"
           label="Period"
           onChange={handleChange}
         >

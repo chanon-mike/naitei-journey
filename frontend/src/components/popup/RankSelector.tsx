@@ -10,23 +10,21 @@ interface SelectRankProps {
 }
 
 const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
-  const [rank, setRank] = React.useState('');
-
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
-    setRank(value);
     onRankChange(value);
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <>
+      <FormControl sx={{ minWidth: 120, m: 0 }}>
         <InputLabel id="demo-simple-select-helper-label">志望度</InputLabel>
         <Select
+          required
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
-          value={rank}
-          label="Age"
+          size="medium"
+          label="ranking"
           onChange={handleChange}
         >
           <MenuItem value="S">S</MenuItem>
@@ -36,8 +34,13 @@ const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
           <MenuItem value="D">D</MenuItem>
         </Select>
       </FormControl>
-    </div>
+    </>
   );
 };
 
 export default SelectRank;
+
+// Warning: A component is changing an uncontrolled input to be controlled.
+// This is likely caused by the value changing from undefined to a defined value, which should not happen.
+// Decide between using a controlled or uncontrolled input element for the lifetime of the component.
+// More info: https://reactjs.org/link/controlled-components

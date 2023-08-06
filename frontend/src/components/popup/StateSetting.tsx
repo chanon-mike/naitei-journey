@@ -1,62 +1,66 @@
-import { Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
+
 import { DatePicker } from '@mui/x-date-pickers-pro/';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ja from 'date-fns/locale/ja';
-import * as React from 'react';
-import FlowButton from './FlowButton';
-import StateButton from './StateButton';
+import type { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+import ProcessButton from './ProcessButton';
+import FlowButton from './StatusButton';
 
-const StateSetting = () => {
-  const [open, setOpen] = React.useState(false);
-  const [selectedFlow, setSelectedFlow] = React.useState<string | null>(null);
-  const [selectedStatus, setSelectedStatus] = React.useState<string | null>(null);
+const statuses1 = [
+  { id: 'es', name: 'ES' },
+  { id: 'web', name: 'Webテスト' },
+  { id: 'first', name: '1次面接' },
+];
 
-  const flows0 = [
-    { id: 'es', name: 'ES' },
-    { id: 'web', name: 'Webテスト' },
-    { id: 'first', name: '1次面接' },
-  ];
+const statuses2 = [
+  { id: 'second', name: '2次面接' },
+  { id: 'third', name: '3次面接' },
+  { id: 'final', name: '最終面接' },
+];
 
-  const flows1 = [
-    { id: 'second', name: '2次面接' },
-    { id: 'third', name: '3次面接' },
-    { id: 'final', name: '最終面接' },
-  ];
+const statuses3 = [{ id: 'other', name: 'その他' }];
 
-  const flows2 = [{ id: 'other', name: 'その他' }];
+const processes = [
+  { id: 'incomplete', name: '未完了' },
+  { id: 'adjustment', name: '調整中' },
+  { id: 'waitng', name: '結果待ち' },
+];
 
-  const state = [
-    { id: 'incomplete', name: '未完了' },
-    { id: 'adjustment', name: '調整中' },
-    { id: 'waitng', name: '結果待ち' },
-  ];
+type StateSettingProps = {
+  selectedStatus: string | null;
+  setSelectedStatus: Dispatch<SetStateAction<string | null>>;
+  selectedProcess: string | null;
+  setSelectedProcess: Dispatch<SetStateAction<string | null>>;
+  applicationDate: Date | null;
+  setApplicationDate: Dispatch<SetStateAction<Date | null>>;
+};
 
-  const handleStatusChange = (status: string) => {
-    setSelectedStatus(status);
-  };
+const StateSetting = ({
+  selectedStatus,
+  setSelectedStatus,
+  selectedProcess,
+  setSelectedProcess,
+  applicationDate,
+  setApplicationDate,
+}: StateSettingProps) => {
+  const [open, setOpen] = useState(false);
 
-  const handleFlowChange = (flow: string) => {
-    setSelectedFlow(flow);
-  };
+  const handleStatusChange = (status: string) => setSelectedStatus(status);
+  const handleProcessChange = (process: string) => setSelectedProcess(process);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <div>
@@ -66,98 +70,99 @@ const StateSetting = () => {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle fontWeight={'bold'}>選考状況選択</DialogTitle>
-        <form onSubmit={handleFormSubmit}>
-          <DialogContent>
-            <Box>
-              <Typography variant="h6">フロー</Typography>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                marginBottom={'20px'}
-                marginTop={'20px'}
-              >
-                {flows0.map((flow) => (
-                  <FlowButton
-                    key={flow.id}
-                    selectedFlow={selectedFlow}
-                    flow={flow.name}
-                    handleFlowChange={handleFlowChange}
-                  />
-                ))}
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                marginBottom={'20px'}
-                marginTop={'20px'}
-              >
-                {flows1.map((flow) => (
-                  <FlowButton
-                    key={flow.id}
-                    selectedFlow={selectedFlow}
-                    flow={flow.name}
-                    handleFlowChange={handleFlowChange}
-                  />
-                ))}
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                marginBottom={'20px'}
-                marginTop={'20px'}
-              >
-                {flows2.map((flow) => (
-                  <FlowButton
-                    key={flow.id}
-                    selectedFlow={selectedFlow}
-                    flow={flow.name}
-                    handleFlowChange={handleFlowChange}
-                  />
-                ))}
-              </Box>
+        <DialogContent>
+          <Box>
+            <Typography variant="h6">ステータス</Typography>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              {statuses1.map((status) => (
+                <FlowButton
+                  key={status.id}
+                  selectedStatus={selectedStatus}
+                  status={status.name}
+                  handleStatusChange={handleStatusChange}
+                />
+              ))}
             </Box>
-
-            <hr />
-
-            <Box>
-              <Typography variant="h6" marginTop={'20px'}>
-                選考状況
-              </Typography>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                marginBottom={'20px'}
-                marginTop={'20px'}
-              >
-                {state.map((status) => (
-                  <StateButton
-                    key={status.id}
-                    selectedStatus={selectedStatus}
-                    status={status.name}
-                    handleStatusChange={handleStatusChange}
-                  />
-                ))}
-              </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              {statuses2.map((status) => (
+                <FlowButton
+                  key={status.id}
+                  selectedStatus={selectedStatus}
+                  status={status.name}
+                  handleStatusChange={handleStatusChange}
+                />
+              ))}
             </Box>
-
-            <hr />
-
-            <Box>
-              <Typography variant="h6" marginTop={'20px'}>
-                日程
-              </Typography>
-              <Box display="flex" justifyContent="flex-start" marginTop={'20px'}>
-                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
-                  <DatePicker label="日程" />
-                </LocalizationProvider>
-              </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              {statuses3.map((status) => (
+                <FlowButton
+                  key={status.id}
+                  selectedStatus={selectedStatus}
+                  status={status.name}
+                  handleStatusChange={handleStatusChange}
+                />
+              ))}
             </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Subscribe</Button>
-          </DialogActions>
-        </form>
+          </Box>
+
+          <hr />
+
+          <Box>
+            <Typography variant="h6" marginTop={'20px'}>
+              選考状況
+            </Typography>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              marginBottom={'20px'}
+              marginTop={'20px'}
+            >
+              {processes.map((process) => (
+                <ProcessButton
+                  key={process.id}
+                  selectedProcess={selectedProcess}
+                  process={process.name}
+                  handleProcessChange={handleProcessChange}
+                />
+              ))}
+            </Box>
+          </Box>
+
+          <hr />
+
+          <Box>
+            <Typography variant="h6" marginTop={'20px'}>
+              日程
+            </Typography>
+            <Box display="flex" justifyContent="flex-start" marginTop={'20px'}>
+              <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
+                <DatePicker
+                  label="日程"
+                  value={applicationDate}
+                  onChange={(date: Date | null) => setApplicationDate(date || new Date())}
+                />
+              </LocalizationProvider>
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>保存</Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

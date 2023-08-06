@@ -12,9 +12,9 @@ router = APIRouter(prefix="/category", tags=["category"])
 
 
 @router.get("/{auth0_id}")
-def get_categories(
+def get_full_categories(
     auth0_id: str,
-    type: Optional[str] = None,
+    type: Optional[str],
     db: Session = Depends(get_db),
     token: Payload = Depends(verify_token),
 ):
@@ -24,4 +24,4 @@ def get_categories(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
         )
 
-    return category_repo.get_categories(db, auth0_id, type)
+    return category_repo.get_full_categories(db, auth0_id, type)

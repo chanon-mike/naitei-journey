@@ -71,15 +71,16 @@ const DetailButton: FC<CompanyDetailProps> = ({ cardDetail }) => {
 
   return (
     <div>
-      <Box display="flex" justifyContent="center">
-        <div onClick={handleClickOpen}>
-          <Button size="large">詳細</Button>
-        </div>
+      <Box display="flex" justifyContent="center" onClick={handleClickOpen}>
+        <Typography color="white" sx={{ p: 1 }}>
+          詳細
+        </Typography>
       </Box>
+
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <Box display="flex" justifyContent="space-between" marginTop={'20px'}>
           <DialogTitle variant="h3" fontWeight={'bold'}>
-            {cardDetail.companyName}
+            {cardDetail.company_name}
           </DialogTitle>
           <DialogTitle
             variant="h3"
@@ -120,20 +121,17 @@ const DetailButton: FC<CompanyDetailProps> = ({ cardDetail }) => {
             <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
               期間
             </Typography>
-            <Typography variant="h4">
-              {cardDetail.internshipDuration}
-              {cardDetail.internshipPeriod}
-            </Typography>
+            <Typography variant="h4">{cardDetail.internship_duration}</Typography>
           </Box>
           <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
             日程
           </Typography>
           <Box display="flex" justifyContent="flex-start" alignItems="center" marginBottom={'20px'}>
-            <Typography variant="h4">{cardDetail.internshipStartDate}</Typography>
+            <Typography variant="h4">{cardDetail.internship_start_date}</Typography>
             <Typography variant="h4" marginLeft={2} marginRight={2}>
               ~
             </Typography>
-            <Typography variant="h4">{cardDetail.internshipEndDate}</Typography>
+            <Typography variant="h4">{cardDetail.internship_end_date}</Typography>
           </Box>
           <Box
             display="flex"
