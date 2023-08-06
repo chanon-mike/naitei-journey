@@ -30,22 +30,22 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
               <Box display="flex" justifyContent="space-between">
                 <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'}>
                   {cardDetail.company_name}
-                </Typography >
+                </Typography>
                 <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
                   {cardDetail.ranking}
                 </Typography>
-              </Box >
+              </Box>
               <Typography variant="body1" color="text.primary">
                 test
               </Typography>
-            </CardContent >
+            </CardContent>
             <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'primary.dark' }}>
               <DetailButton key={id} cardDetail={cardDetail} />
             </Box>
-          </CardActionArea >
-        </Card >
-      </Box >
-    </div >
+          </CardActionArea>
+        </Card>
+      </Box>
+    </div>
   );
 };
 

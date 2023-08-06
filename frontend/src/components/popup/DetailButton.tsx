@@ -72,7 +72,9 @@ const DetailButton: FC<CompanyDetailProps> = ({ cardDetail }) => {
   return (
     <div>
       <Box display="flex" justifyContent="center" onClick={handleClickOpen}>
-        <Typography color="white" sx={{ p: 1 }}>詳細</Typography>
+        <Typography color="white" sx={{ p: 1 }}>
+          詳細
+        </Typography>
       </Box>
 
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
@@ -119,9 +121,7 @@ const DetailButton: FC<CompanyDetailProps> = ({ cardDetail }) => {
             <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
               期間
             </Typography>
-            <Typography variant="h4">
-              {cardDetail.internship_duration}
-            </Typography>
+            <Typography variant="h4">{cardDetail.internship_duration}</Typography>
           </Box>
           <Typography variant="h4" fontWeight={'bold'} marginBottom={'10px'}>
             日程
