@@ -2,7 +2,12 @@
 
 就活管理アプリ
 
+URL: https://naitei-journey.vercel.app/
+
 この作品は技育 CAMP のマンスリーハッカソンで作成し、技育展に登壇します
+
+![image](https://github.com/chanon-mike/naitei-journey/assets/27944646/00266221-3943-4bcb-8c5a-7f79823a6a00)
+
 
 ## ローカル環境構築
 
