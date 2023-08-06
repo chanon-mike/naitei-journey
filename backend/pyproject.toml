@@ -15,6 +15,7 @@ secure = "^0.3.0"
 sqlalchemy = "^2.0.19"
 psycopg2-binary = "^2.9.6"
 alembic = "^1.11.1"
+gunicorn = "^21.2.0"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
