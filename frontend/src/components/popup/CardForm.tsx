@@ -1,4 +1,4 @@
-import type { CardDetailBase } from '@/types/board';
+import type { FullJobBase } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import {
   Box,
@@ -21,6 +21,8 @@ import FlowSetting from './FlowSetting';
 import SelectPeriod from './PeriodSelector';
 import SelectRank from './RankSelector';
 import StateSetting from './StateSetting';
+import { jobApi } from '@/services/job';
+import { useAccessToken } from '@/contexts/AccessTokenContext';
 
 type CardFormProps = {
   categoryId: string;
@@ -29,6 +31,7 @@ type CardFormProps = {
 
 // TODO: Reduce state variables and refactor code
 const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
+  const { accessToken } = useAccessToken();
   const [open, setOpen] = useState(false);
 
   // Job information
@@ -49,20 +52,22 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
 
-  const handleSaveCard = () => {
-    const cardDetail: CardDetailBase = {
-      category_id: categoryId,
-      card_position: 1,
-      company_name: companyName,
-      company_industry: companyIndustry,
-      occupation,
-      ranking,
-      is_internship: categoryType === 'インターンシップ',
-      internship_duration: internshipDate + internshipPeriod,
-      internship_start_date: dateToString(internshipStartDate),
-      internship_end_date: dateToString(internshipEndDate),
-      url,
-      description,
+  const handleSaveCard = async () => {
+    const cardDetail: FullJobBase = {
+      job: {
+        category_id: categoryId,
+        card_position: 1,
+        company_name: companyName,
+        company_industry: companyIndustry,
+        occupation,
+        ranking,
+        is_internship: categoryType === 'インターンシップ',
+        internship_duration: internshipDate + internshipPeriod,
+        internship_start_date: dateToString(internshipStartDate),
+        internship_end_date: dateToString(internshipEndDate),
+        url,
+        description,
+      },
       application_status: {
         status: applicationStatus ?? '',
         process: applicationProcess ?? '',
@@ -71,6 +76,8 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
       selection_flows: flowProcesses,
     };
     console.log(cardDetail)
+    jobApi.createJob(accessToken, cardDetail);
+
     handleClose();
   };
 
@@ -123,6 +130,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
           <DialogContent>
             <Box display="flex" justifyContent="space-between" sx={{ marginBottom: '20px' }}>
               <TextField
+                required
                 id="outlined-basic"
                 variant="outlined"
                 label="企業名"
@@ -136,6 +144,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField
+                required
                 id="outlined-basic"
                 variant="outlined"
                 label="業種"
@@ -146,6 +155,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 onChange={(e) => setCompanyIndustry(e.target.value)}
               />
               <TextField
+                required
                 id="outlined-basic"
                 variant="outlined"
                 label="職種"
@@ -162,16 +172,16 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 id="outlined-basic"
                 variant="outlined"
                 label="日"
-                style={{ width: '10%', marginRight: '20px' }}
-                inputProps={{ style: { fontSize: '16px' } }}
+                style={{ width: '20%', marginRight: '20px' }}
                 size="medium"
                 autoComplete="off"
-                // Only numeric number
+                type="number"
+                inputProps={{ min: 0, max: 31, style: { fontSize: '16px' } }}
                 onChange={(e) => {
-                  const newValue = e.target.value;
-                  if (newValue === '' || /^[0-9]+$/.test(newValue)) {
-                    setInternshipDate(newValue);
-                  }
+                  // const newValue = e.target.value;
+                  // if (newValue === '' || /^[0-9]+$/.test(newValue)) {
+                  setInternshipDate(e.target.value);
+                  // }
                 }}
               />
               <SelectPeriod onPeriodChange={handlePeriodChange} />

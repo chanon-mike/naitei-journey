@@ -14,14 +14,16 @@ import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
 import { useState } from 'react';
 import Board from './Board';
+import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
 
 type ActionBoardProps = {
   type: string;
   userId: string;
   data: ColumnType[];
+  accessToken: string;
 };
 
-const ActionBoard = ({ type, userId, data }: ActionBoardProps) => {
+const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   const [columns, setColumns] = useState<ColumnType[]>(data);
 
   // Function to handle empty string
@@ -141,33 +143,35 @@ const ActionBoard = ({ type, userId, data }: ActionBoardProps) => {
   );
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCorners}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragOver}
-    >
-      <Container>
-        <Box>
-          <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">
-            {type}
-          </Typography>
-        </Box>
-        <Box display="flex" justifyContent="center" flexDirection="row">
-          {columns.map((column) => (
-            <Box key={column.id} minWidth="300px">
-              <Board
-                id={column.id}
-                user_id={userId}
-                type={type}
-                name={column.name}
-                jobs={column.jobs}
-              />
-            </Box>
-          ))}
-        </Box>
-      </Container>
-    </DndContext>
+    <AccessTokenProvider accessToken={accessToken}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+        onDragOver={handleDragOver}
+      >
+        <Container>
+          <Box>
+            <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">
+              {type}
+            </Typography>
+          </Box>
+          <Box display="flex" justifyContent="center" flexDirection="row">
+            {columns.map((column) => (
+              <Box key={column.id} minWidth="300px">
+                <Board
+                  id={column.id}
+                  user_id={userId}
+                  type={type}
+                  name={column.name}
+                  jobs={column.jobs}
+                />
+              </Box>
+            ))}
+          </Box>
+        </Container>
+      </DndContext>
+    </AccessTokenProvider>
   );
 };
 

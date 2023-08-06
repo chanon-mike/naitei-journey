@@ -131,7 +131,7 @@ erDiagram
 
 ## Error
 
-フロントエンドとバックエンドを Docker で起動した際に、フロントエンドからバックエンドにリクエストを送ると、以下のエラーが発生する
+#### フロントエンドとバックエンドを Docker で起動した際に、フロントエンドからバックエンドにリクエストを送ると、以下のエラーが発生する
 
 ```
 Error: fetch failed localhost
@@ -145,3 +145,7 @@ docker inspect コンテナID | grep IPAddress
 ```
 
 参考：https://qiita.com/ryuichi1208/items/2a2e0e2b2f1d3e2b2a2e
+
+#### フロントエンドからバックエンドにリクエストを送る際に、Request Timed Out が発生する
+
+この場合はフロントエンドの Docker をストップして、ローカルから`npm run dev`を行うと解決する

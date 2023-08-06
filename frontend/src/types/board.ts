@@ -21,8 +21,6 @@ export interface CardDetailBase {
   internship_end_date: string;
   url: string;
   description: string;
-  application_status: ApplicationStatusBase;
-  selection_flows: SelectionFlowBase[];
 }
 
 export interface ApplicationStatusBase {
@@ -34,6 +32,12 @@ export interface ApplicationStatusBase {
 export interface SelectionFlowBase {
   step: number;
   process: string;
+}
+
+export interface FullJobBase {
+  job: CardDetailBase;
+  application_status: ApplicationStatusBase;
+  selection_flows: SelectionFlowBase[];
 }
 
 export interface CardDetailType extends CardDetailBase {

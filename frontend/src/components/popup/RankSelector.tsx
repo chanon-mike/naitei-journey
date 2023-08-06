@@ -20,6 +20,7 @@ const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
       <FormControl sx={{ minWidth: 120, m: 0 }}>
         <InputLabel id="demo-simple-select-helper-label">志望度</InputLabel>
         <Select
+          required
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
           size="medium"

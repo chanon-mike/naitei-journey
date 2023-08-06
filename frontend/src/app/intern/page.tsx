@@ -4,7 +4,6 @@ import { API_ENDPOINT } from '@/utils/envValues';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 const getData = async (token: string, userId: string, type: string) => {
-  console.log('token', token, 'userId', userId);
   const res = await fetch(`${API_ENDPOINT}/category/${userId}?type=${type}`, {
     method: 'GET',
     headers: {
@@ -32,7 +31,7 @@ export default withPageAuthRequired(
 
     return (
       <main>
-        <ActionBoard type={boardType} userId={session?.user.sub} data={data} />
+        <ActionBoard type={boardType} userId={session?.user.sub} data={data} accessToken={session?.accessToken ?? ''} />
       </main>
     );
   },
