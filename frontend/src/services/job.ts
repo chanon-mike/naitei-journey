@@ -19,7 +19,6 @@ export const jobApi = {
         throw new Error(`Server responded with status ${response.status}: ${text}`);
       }
       const result = await response.json();
-      console.log(result);
       return result;
     } catch (error) {
       console.error('Error fetching todos:', error);

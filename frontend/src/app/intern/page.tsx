@@ -4,19 +4,26 @@ import { API_ENDPOINT } from '@/utils/envValues';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 const getData = async (token: string, userId: string, type: string) => {
-  const res = await fetch(`${API_ENDPOINT}/category/${userId}?type=${type}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const response = await fetch(`${API_ENDPOINT}/category/${userId}?type=${type}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
+    if (!response.ok) {
+      const text = await response.text();
+      console.error('Server responded with a non-ok status:', response.status, text);
+      throw new Error(`Server responded with status ${response.status}: ${text}`);
+    }
+    return response.json();
+
+  } catch (error) {
+    console.error('Error fetching todos:', error);
+    throw error;
   }
-
-  return res.json();
 };
 
 export default withPageAuthRequired(
