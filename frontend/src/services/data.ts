@@ -1,0 +1,187 @@
+// import type { CardDetailType, FullJob } from '@/types/board';
+
+// // 新しいカード詳細を追加する関数
+// export const addCardDetail = (detail: CardDetailType) => {
+//   data[0].jobs.push(detail);
+// };
+
+// // すべてのカード詳細を取得する関数
+// /*export const getCardDetails = (): CardDetailType[] => {
+//   return data2
+// };*/
+
+// export const data: FullJob[] = [
+//   {
+//     id: '1',
+//     user_id: 'google-oauth2|216163639553786874428',
+//     type: 'インターンシップ',
+//     name: '気になる',
+//     jobs: [
+//       {
+//         id: 'card00',
+//         category_id: '1',
+//         card_position: 1,
+//         company_name: 'Test00',
+//         company_industry: 'IT',
+//         occupation: 'SE',
+//         ranking: 'S',
+//         is_internship: true,
+//         internship_duration: '3',
+//         internship_period: 'months',
+//         internship_start_date: '2023-04-01',
+//         internship_end_date: '2023-06-30',
+//         url: 'https://test.com',
+//         description: 'test',
+//         application_status: {
+//           status: '1',
+//           job_id: 'card00',
+//           process: 'ES',
+//           date: '2023-04-01',
+//         },
+//         selection_flows: [
+//           {
+//             step: 1,
+//             process: 'ES',
+//           },
+//         ],
+//       },
+//       {
+//         id: 'card01',
+//         category_id: '1',
+//         card_position: 2,
+//         company_name: 'Test01',
+//         company_industry: 'IT',
+//         occupation: 'SE',
+//         ranking: 'S',
+//         is_internship: true,
+//         internship_duration: '3 months',
+//         internship_start_date: '2023-04-01',
+//         internship_end_date: '2023-06-30',
+//         url: 'https://test.com',
+//         description: 'memo01',
+//         application_status: {
+//           status: '2',
+//           job_id: 'card01',
+//           process: 'ES',
+//           date: '2023-04-01',
+//         },
+//         selection_flows: [],
+//       },
+//     ],
+//   },
+//   {
+//     id: '2',
+//     user_id: 'google-oauth2|216163639553786874428',
+//     type: 'インターンシップ',
+//     name: '選考中',
+//     jobs: [
+//       {
+//         id: 'card02',
+//         category_id: '2',
+//         card_position: 1,
+//         company_name: 'Test02',
+//         company_industry: 'IT',
+//         occupation: 'SE',
+//         ranking: 'S',
+//         is_internship: true,
+//         internship_duration: '3',
+//         internship_period: 'months',
+//         internship_start_date: '2023-04-01',
+//         internship_end_date: '2023-06-30',
+//         url: 'https://test.com',
+//         description: 'memo02',
+//         application_status: {
+//           status: '3',
+//           job_id: 'card02',
+//           process: 'ES',
+//           date: '2023-04-01',
+//         },
+//         selection_flows: [],
+//       },
+//     ],
+//   },
+//   {
+//     id: '3',
+//     user_id: 'google-oauth2|216163639553786874428',
+//     type: 'インターンシップ',
+//     name: '内定',
+//     jobs: [
+//       {
+//         id: 'card03',
+//         category_id: '3',
+//         card_position: 1,
+//         company_name: 'Test03',
+//         company_industry: 'IT',
+//         occupation: 'SE',
+//         ranking: 'S',
+//         is_internship: true,
+//         internship_duration: '3',
+//         internship_period: 'months',
+//         internship_start_date: '2023-04-01',
+//         internship_end_date: '2023-06-30',
+//         url: 'https://test.com',
+//         description: 'memo04',
+//         application_status: {
+//           status: '4',
+//           job_id: 'card03',
+//           process: 'ES',
+//           date: '2023-04-01',
+//         },
+//         selection_flows: [],
+//       },
+//       {
+//         id: 'card04',
+//         category_id: '3',
+//         card_position: 2,
+//         company_name: 'Test04',
+//         company_industry: 'IT',
+//         occupation: 'SE',
+//         ranking: 'A',
+//         is_internship: true,
+//         internship_duration: '1',
+//         internship_period: '月',
+//         internship_start_date: '2023-04-01',
+//         internship_end_date: '2023-06-30',
+//         url: 'https://test04.com',
+//         description: 'memo04',
+//         application_status: {
+//           status: '5',
+//           job_id: 'card04',
+//           process: 'ES',
+//           date: '2023-04-01',
+//         },
+//         selection_flows: [],
+//       },
+//     ],
+//   },
+//   {
+//     id: '4',
+//     user_id: 'google-oauth2|216163639553786874428',
+//     type: 'インターンシップ',
+//     name: '不通過',
+//     jobs: [
+//       {
+//         id: 'card05',
+//         category_id: '4',
+//         card_position: 1,
+//         company_name: 'Test05',
+//         company_industry: 'IT',
+//         occupation: 'SE',
+//         ranking: 'S',
+//         is_internship: true,
+//         internship_duration: '3 months',
+//         internship_start_date: '2023-04-01',
+//         internship_end_date: '2023-06-30',
+//         url: 'https://test05.com',
+//         description: 'memo05',
+//         application_status: {
+//           status: '6',
+//           job_id: 'card05',
+//           process: 'ES',
+//           date: '2023-04-01',
+//         },
+//         selection_flows: [],
+//       },
+//     ],
+//   },
+// ];

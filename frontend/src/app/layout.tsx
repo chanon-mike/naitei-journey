@@ -1,8 +1,9 @@
+import Header from '@/components/common/Header';
+import ThemeRegistry from '@/components/theme/ThemeRegistry';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { Box } from '@mui/material';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: '内定Journey',
@@ -13,7 +14,14 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <UserProvider>
+        <body>
+          <ThemeRegistry options={{ key: 'mui' }}>
+            <Header />
+            <Box sx={{ mt: '100px' }}>{children}</Box>
+          </ThemeRegistry>
+        </body>
+      </UserProvider>
     </html>
   );
 };

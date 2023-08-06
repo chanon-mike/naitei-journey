@@ -10,9 +10,15 @@
   "files.eol": "\n",
   "editor.tabSize": 2,
   "prettier.prettierPath": "frontend/node_modules/prettier",
+  "flake8.args": ["--config=backend/.flake8"],
   "stylelint.validate": ["css", "less", "postcss"],
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "[python]": {
-    "editor.tabSize": 4
-  }
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "python.formatting.provider": "none"
 }
