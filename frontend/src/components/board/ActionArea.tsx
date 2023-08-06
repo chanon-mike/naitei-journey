@@ -7,10 +7,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
+import DetailButton from '../popup/DetailButton';
 
-type ActionAreaCardProps = Pick<CardDetailType, 'id' | 'company_name' | 'ranking'>;
+type ActionAreaCardProps = {
+  id: string;
+  cardDetail: CardDetailType;
+};
 
-const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, company_name, ranking }) => {
+const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
   const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
 
   const style = {
@@ -18,29 +22,30 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, company_name, ranking }) 
   };
 
   return (
-    <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
-      <div id={id}>
-        <Box display="flex" alignItems="flex-start" justifyContent="center" margin={'20px'}>
-          <Card sx={{ maxWidth: 250, maxHeight: 150, minWidth: 200 }}>
-            <CardActionArea>
-              <CardContent>
-                <Box display="flex" justifyContent="space-between" marginBottom={'20px'}>
-                  <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'}>
-                    {company_name}
-                  </Typography>
-                  <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
-                    {ranking}
-                  </Typography>
-                </Box>
-                <Typography variant="body1" color="text.primary">
-                  test
+    <div id={id} ref={setNodeRef} {...attributes} style={style}>
+      <Box display="flex" alignItems="flex-start" justifyContent="center" margin={'20px'}>
+        <Card sx={{ maxWidth: 250, maxHeight: 150, minWidth: 200 }}>
+          <CardActionArea>
+            <CardContent {...listeners}>
+              <Box display="flex" justifyContent="space-between">
+                <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'}>
+                  {cardDetail.company_name}
+                </Typography >
+                <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
+                  {cardDetail.ranking}
                 </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Box>
-      </div>
-    </div>
+              </Box >
+              <Typography variant="body1" color="text.primary">
+                test
+              </Typography>
+            </CardContent >
+            <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'primary.dark' }}>
+              <DetailButton key={id} cardDetail={cardDetail} />
+            </Box>
+          </CardActionArea >
+        </Card >
+      </Box >
+    </div >
   );
 };
 

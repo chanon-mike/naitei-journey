@@ -23,6 +23,10 @@ export interface CardDetailBase {
   description: string;
 }
 
+export type CompanyDetailType = {
+  id: string;
+};
+
 export interface ApplicationStatusBase {
   status: string;
   process: string;
