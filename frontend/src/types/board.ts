@@ -1,12 +1,12 @@
 // TODO: Update Backend API to use random string instead of number for id
 
-export type ColumnType = {
+export interface ColumnType {
   id: string;
   user_id: string;
   type: string;
   name: string;
   jobs: CardDetailType[];
-};
+}
 
 export interface CardDetailBase {
   category_id: string;
