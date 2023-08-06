@@ -1,31 +1,32 @@
-#
-# Makefile
-#
+.PHONY: clean
+clean:
+	rm -rf .pytest_cache htmlcov .coverage requirements.txt
 
-#set default STAGE based on your username and hostname
-APP_DIR=app
-TEST_DIR=tests
-API_BASE_URL ?= http://localhost:8000
+.PHONY: run
+run:
+	poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-#==========================================================================
-deps:
-	@poetry --version &> /dev/null || (echo -e "ERROR: please install poetry" && false)
-	poetry config virtualenvs.in-project true
-	poetry env list
-	poetry env info
-	poetry install
-	touch $@
+.PHONY: test
+test:
+ifndef COVERAGE
+	poetry run python -m pytest
+else
+	poetry run coverage run -m pytest
+	poetry run coverage html
+	@echo "=============================================================================="
+	@echo "||                                                                          ||"
+	@echo "||                View HTML report http://localhost:8000                    ||"
+	@echo "||                                                                          ||"
+	@echo "=============================================================================="
+	poetry run python -m http.server --directory htmlcov
+endif
 
-format: deps
-	poetry run isort $(APP_DIR)/**.py $(TEST_DIR)/**.py
-	poetry run black $(APP_DIR) $(TEST_DIR)
+.PHONY: requirements
+requirements:
+	poetry export --without-hashes --format=requirements.txt > requirements.txt
 
-lint: deps
-	poetry run flake8 --version
-	poetry run flake8 ${APP_DIR} ${TEST_DIR}
-
-isort: deps
-	poetry run isort --check-only $(APP_DIR)/**.py $(TEST_DIR)/**.py
-
-black: deps
-	poetry run black --check $(APP_DIR) $(TEST_DIR)
+.PHONY: fmt
+fmt:
+	poetry run autoflake --ignore-init-module-imports --remove-all-unused-imports --verbose --remove-unused-variables -r -i app/* tests/*
+	poetry run isort .
+	poetry run black .

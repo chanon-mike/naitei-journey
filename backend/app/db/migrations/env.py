@@ -30,15 +30,8 @@ target_metadata = Base.metadata
 # connect to database
 load_dotenv()
 
-POSTGRES_USER = os.environ.get("POSTGRES_USER")
-POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
-POSTGRES_DB = os.environ.get("POSTGRES_DB")
-POSTGRES_SERVER = os.environ.get("POSTGRES_SERVER")
-
-DATABASE = (
-    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}/{POSTGRES_DB}"
-)
-config.set_main_option("sqlalchemy.url", DATABASE)
+DATABASE_URL = os.environ.get("DATABASE_URL")
+config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 
 def run_migrations_offline() -> None:
