@@ -30,7 +30,7 @@ target_metadata = Base.metadata
 # connect to database
 load_dotenv()
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = os.environ.get("DATABASE_URL").replace("postgres://", "postgresql://", 1)
 config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 

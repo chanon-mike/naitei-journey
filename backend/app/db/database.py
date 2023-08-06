@@ -5,7 +5,9 @@ from app.config import Settings, get_settings
 
 settings: Settings = get_settings()
 
-SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
+SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL.replace(
+    "postgres://", "postgresql://", 1
+)
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
