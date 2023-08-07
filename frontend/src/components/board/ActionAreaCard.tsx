@@ -1,4 +1,4 @@
-import type { Job } from '@/types/board';
+import type { FullJob } from '@/types/board';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CardActionArea } from '@mui/material';
@@ -11,7 +11,7 @@ import CardDetail from '../popup/CardDetail';
 
 type ActionAreaCardProps = {
   id: string;
-  cardDetail: Job;
+  cardDetail: FullJob;
 };
 
 const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {

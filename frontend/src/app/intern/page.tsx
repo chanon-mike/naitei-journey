@@ -3,7 +3,6 @@ import { jobApi } from '@/services/job';
 import type { Category } from '@/types/board';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
-
 export default withPageAuthRequired(
   async function Home() {
     const boardType = 'インターンシップ';

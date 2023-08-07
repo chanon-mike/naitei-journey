@@ -8,7 +8,7 @@ export interface Category {
   user_id: string;
   type: string;
   name: string;
-  jobs: Job[];
+  jobs: FullJob[];
 }
 
 export interface JobBase {
@@ -62,5 +62,10 @@ export interface FullJobCreate {
 export interface FullJobUpdate {
   job: JobBase;
   application_status: ApplicationStatusBase;
+  selection_flows: SelectionFlow[];
+}
+
+export interface FullJob extends Job {
+  application_status: ApplicationStatus;
   selection_flows: SelectionFlow[];
 }

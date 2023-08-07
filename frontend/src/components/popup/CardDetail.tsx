@@ -1,83 +1,54 @@
-import type { Job } from '@/types/board';
-import { Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Link from '@mui/material/Link';
-import type { FC } from 'react';
-import * as React from 'react';
+'use client';
+
+import { useAccessToken } from '@/contexts/AccessTokenContext';
+import { jobApi } from '@/services/job';
+import type { FullJob } from '@/types/board';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Link,
+  Typography,
+} from '@mui/material';
+import { useState, type FC } from 'react';
 
 type CardDetailProps = {
-  cardDetail: Job;
+  cardDetail: FullJob;
 };
 
 const CardDetail: FC<CardDetailProps> = ({ cardDetail }) => {
-  const [open, setOpen] = React.useState(false);
-  /*const [companyName, setCompanyName] = React.useState('');
-  const [rank, setRank] = React.useState('');
-  const [industry, setIndustry] = React.useState('');
-  const [role, setRole] = React.useState('');
-  const [date, setDate] = React.useState('');
-  const [period, setPeriod] = React.useState('');
-  const [start, setStart] = React.useState('');
-  const [end, setEnd] = React.useState('');
-  const [URL, setURL] = React.useState('');
-  const [memo, setMemo] = React.useState('');*/
+  const { accessToken } = useAccessToken();
+  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
+  const deleteCard = async () => {
+    await jobApi.deleteJob(accessToken, cardDetail.id);
     setOpen(false);
   };
 
-  /*
-  const handleRankChange = (newRank: string) => {
-    setRank(newRank);
-  };
-
-  const handlePeriodChange = (newPeriod: string) => {
-    setPeriod(newPeriod);
-  };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    //handleSubscribe();
-  };*/
-
-  /*
-  const handleSubscribe = () => {
-    const detail = {
-      category_id: 'card1',
-      company_name,
-      company_industry,
-      position
-      ranking,
-      is_internship,
-      internship_duration,
-      period,
-      internship_start_date,
-      internship_end_date,
-      url,
-      description,
-    };
-    addCardDetail(detail);
-    handleClose();
-  };*/
-
   return (
     <div>
-      <Box display="flex" justifyContent="center" onClick={handleClickOpen}>
+      <Box display="flex" justifyContent="center" onClick={() => setOpen(true)}>
         <Typography color="white" sx={{ p: 1 }}>
           詳細
         </Typography>
       </Box>
 
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
+        <Box display="flex" justifyContent="flex-end">
+          <DeleteIcon
+            onClick={deleteCard}
+            sx={{ cursor: 'pointer', mr: 5, mt: 4, '&:hover': { color: 'secondary.main' } }}
+            fontSize="large"
+          >
+            Delete
+          </DeleteIcon>
+        </Box>
         <Box display="flex" justifyContent="space-between" marginTop={'20px'}>
           <DialogTitle variant="h3" fontWeight={'bold'}>
             {cardDetail.company_name}

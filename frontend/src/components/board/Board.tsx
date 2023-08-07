@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
 import CardForm from '../popup/CardForm';
-import ActionAreaCard from './ActionArea';
+import ActionAreaCard from './ActionAreaCard';
 
 const Board: FC<Category> = ({ id, type, name, jobs }: Category) => {
   const { setNodeRef } = useDroppable({ id });
