@@ -30,10 +30,10 @@ const SelectPeriod: React.FC<SelectPeriodProps> = ({ onPeriodChange }) => {
           label="Period"
           onChange={handleChange}
         >
-          <MenuItem value="day">日</MenuItem>
-          <MenuItem value="week">週間</MenuItem>
-          <MenuItem value="month">ヶ月</MenuItem>
-          <MenuItem value="year">年</MenuItem>
+          <MenuItem value="日">日</MenuItem>
+          <MenuItem value="週間">週間</MenuItem>
+          <MenuItem value="ヶ月">ヶ月</MenuItem>
+          <MenuItem value="年">年</MenuItem>
         </Select>
       </FormControl>
     </div>

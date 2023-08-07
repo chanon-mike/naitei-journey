@@ -35,9 +35,6 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
                   {cardDetail.ranking}
                 </Typography>
               </Box>
-              <Typography variant="body1" color="text.primary">
-                test
-              </Typography>
             </CardContent>
             <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'primary.dark' }}>
               <DetailButton key={id} cardDetail={cardDetail} />

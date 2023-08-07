@@ -21,18 +21,16 @@ const Board: FC<ColumnType> = ({ id, type, name, jobs }: ColumnType) => {
             justifyContent: 'flex-start',
           }}
         >
-          <Paper
-            style={{ margin: '20px', marginLeft: '100px', minHeight: '100vh', minWidth: '250px' }}
-          >
+          <Paper style={{ minWidth: '250px' }}>
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
-              style={{ margin: '20px' }}
               sx={{
                 textAlign: 'center',
                 border: 1,
                 borderColor: 'primary.dark',
+                m: 1,
               }}
             >
               <Typography

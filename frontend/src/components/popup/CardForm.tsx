@@ -16,6 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers-pro/';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ja from 'date-fns/locale/ja';
+import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import AddButton from '../board/AddButton';
@@ -109,11 +110,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   const dateToString = (dateObject: Date | null) => {
     // get the year, month, date, hours, and minutes seprately and append to the string.
     if (!dateObject) return '';
-
-    const dateString = `${dateObject.getFullYear()}-${
-      dateObject.getMonth() + 1
-    }-${+dateObject.getDate()}`;
-    return dateString;
+    return moment(dateObject).format('YYYY-MM-DD');
   };
 
   return (
