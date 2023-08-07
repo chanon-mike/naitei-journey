@@ -23,6 +23,7 @@ import FlowSetting from './FlowSetting';
 import SelectPeriod from './PeriodSelector';
 import SelectRank from './RankSelector';
 import StateSetting from './StateSetting';
+import moment from 'moment';
 
 type CardFormProps = {
   categoryId: string;
@@ -109,11 +110,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   const dateToString = (dateObject: Date | null) => {
     // get the year, month, date, hours, and minutes seprately and append to the string.
     if (!dateObject) return '';
-
-    const dateString = `${dateObject.getFullYear()}-${
-      dateObject.getMonth() + 1
-    }-${+dateObject.getDate()}`;
-    return dateString;
+    return moment(dateObject).format('YYYY-MM-DD');
   };
 
   return (

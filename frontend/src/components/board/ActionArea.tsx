@@ -42,7 +42,7 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
           </CardActionArea>
         </Card>
       </Box>
-    </div>
+    </div >
   );
 };
 
