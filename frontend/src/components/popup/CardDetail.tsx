@@ -1,4 +1,4 @@
-import type { CardDetailType } from '@/types/board';
+import type { Job } from '@/types/board';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,11 +10,11 @@ import Link from '@mui/material/Link';
 import type { FC } from 'react';
 import * as React from 'react';
 
-type CompanyDetailProps = {
-  cardDetail: CardDetailType;
+type CardDetailProps = {
+  cardDetail: Job;
 };
 
-const DetailButton: FC<CompanyDetailProps> = ({ cardDetail }) => {
+const CardDetail: FC<CardDetailProps> = ({ cardDetail }) => {
   const [open, setOpen] = React.useState(false);
   /*const [companyName, setCompanyName] = React.useState('');
   const [rank, setRank] = React.useState('');
@@ -166,4 +166,5 @@ const DetailButton: FC<CompanyDetailProps> = ({ cardDetail }) => {
     </div>
   );
 };
-export default DetailButton;
+
+export default CardDetail;
