@@ -16,6 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers-pro/';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ja from 'date-fns/locale/ja';
+import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import AddButton from '../board/AddButton';
@@ -23,7 +24,6 @@ import FlowSetting from './FlowSetting';
 import SelectPeriod from './PeriodSelector';
 import SelectRank from './RankSelector';
 import StateSetting from './StateSetting';
-import moment from 'moment';
 
 type CardFormProps = {
   categoryId: string;

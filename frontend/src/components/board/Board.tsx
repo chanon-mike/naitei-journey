@@ -21,9 +21,7 @@ const Board: FC<ColumnType> = ({ id, type, name, jobs }: ColumnType) => {
             justifyContent: 'flex-start',
           }}
         >
-          <Paper
-            style={{ minWidth: '250px' }}
-          >
+          <Paper style={{ minWidth: '250px' }}>
             <Box
               display="flex"
               justifyContent="center"
