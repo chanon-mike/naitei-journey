@@ -65,7 +65,7 @@ const StateSetting = ({
   return (
     <div>
       <Button variant="outlined" style={{ width: '100%' }} onClick={handleClickOpen}>
-        志望状況
+        選考状況
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
