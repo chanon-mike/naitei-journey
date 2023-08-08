@@ -26,9 +26,11 @@ type ActionBoardProps = {
 const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   const [columns, setColumns] = useState<Category[]>(data);
 
+  //console.log(columns);
+
   // Function to handle empty string
   const handleEmptyString = (): Category | null => {
-    console.log('empty');
+    //console.log('empty');
     return null; // or another appropriate action
   };
 
@@ -64,10 +66,8 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     const activeColumn = findColumn(activeId, columns);
     const overColumn = findColumn(overId, columns);
 
-    console.log('activeId:', activeId);
-    console.log('Over:', overId);
-    console.log('activeItems:');
-    console.log('overitems: ');
+    //console.log('activeId:', activeId);
+    //console.log('OverId:', overId);
 
     if (!activeColumn || !overColumn || activeColumn === overColumn) {
       return null;
@@ -97,12 +97,12 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
           console.log('overItemCheck: ', overItems);
           return {
             ...c,
-            cards: activeItems.filter((i) => i.id !== activeId),
+            jobs: activeItems.filter((i) => i.id !== activeId),
           };
         } else if (c.id === overColumn.id) {
           return {
             ...c,
-            cards: [
+            jobs: [
               ...overItems.slice(0, newIndex()),
               activeItems[activeIndex],
               ...overItems.slice(newIndex(), updatedOverItems.length),
