@@ -106,6 +106,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
     setFlowProcesses([]);
     setOpen(false);
   };
+
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSaveCard();
@@ -143,7 +144,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 autoComplete="off"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
-              <RankingSelector onRankChange={handleRankingChange} />
+              <RankingSelector rank="" onRankChange={handleRankingChange} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField
@@ -184,7 +185,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                   setInternshipDate(e.target.value);
                 }}
               />
-              <PeriodSelector onPeriodChange={handlePeriodChange} />
+              <PeriodSelector period_val="" onPeriodChange={handlePeriodChange} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>

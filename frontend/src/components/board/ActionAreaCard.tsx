@@ -7,7 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
-import CardDetail from '../popup/CardDetail';
+import CardDetailForm from '../popup/CardDetailForm';
 
 type ActionAreaCardProps = {
   id: string;
@@ -37,7 +37,7 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
               </Box>
             </CardContent>
             <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'primary.dark' }}>
-              <CardDetail key={id} cardDetail={cardDetail} />
+              <CardDetailForm key={id} cardDetail={cardDetail} />
             </Box>
           </CardActionArea>
         </Card>

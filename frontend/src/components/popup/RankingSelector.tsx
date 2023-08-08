@@ -6,12 +6,17 @@ import Select from '@mui/material/Select';
 import * as React from 'react';
 
 interface RankingSelectorProps {
+  rank: string | null;
   onRankChange: (rank: string) => void;
 }
 
-const RankingSelector: React.FC<RankingSelectorProps> = ({ onRankChange }) => {
+const RankingSelector: React.FC<RankingSelectorProps> = ({ rank, onRankChange }) => {
+  const rank_val = rank !== null ? rank : '';
+  const [ranking, setranking] = React.useState(rank_val);
+
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
+    setranking(value);
     onRankChange(value);
   };
 
@@ -25,6 +30,7 @@ const RankingSelector: React.FC<RankingSelectorProps> = ({ onRankChange }) => {
           id="demo-simple-select-helper"
           size="medium"
           label="ranking"
+          value={ranking}
           onChange={handleChange}
         >
           <MenuItem value="S">S</MenuItem>
