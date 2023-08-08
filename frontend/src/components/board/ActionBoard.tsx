@@ -170,7 +170,13 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       >
         <Container>
           <Box>
-            <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">
+            <Typography
+              variant="h3"
+              textAlign="center"
+              color="text"
+              fontWeight="bold"
+              sx={{ mb: 3 }}
+            >
               {type}
             </Typography>
           </Box>

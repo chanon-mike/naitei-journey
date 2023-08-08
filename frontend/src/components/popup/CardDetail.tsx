@@ -4,6 +4,7 @@ import { useAccessToken } from '@/contexts/AccessTokenContext';
 import { jobApi } from '@/services/job';
 import type { FullJob } from '@/types/board';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState, type FC } from 'react';
+import ConfirmDialog from '../common/ConfirmDialog';
 
 type CardDetailProps = {
   cardDetail: FullJob;
@@ -23,6 +25,7 @@ type CardDetailProps = {
 const CardDetail: FC<CardDetailProps> = ({ cardDetail }) => {
   const { accessToken } = useAccessToken();
   const [open, setOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
 
@@ -41,13 +44,25 @@ const CardDetail: FC<CardDetailProps> = ({ cardDetail }) => {
 
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <Box display="flex" justifyContent="flex-end">
+          <EditIcon
+            sx={{
+              cursor: 'pointer',
+              mr: 2,
+              mt: 4,
+              '&:hover': { color: 'secondary.main' },
+            }}
+          />
+
           <DeleteIcon
-            onClick={deleteCard}
+            onClick={() => setConfirmOpen(true)}
             sx={{ cursor: 'pointer', mr: 5, mt: 4, '&:hover': { color: 'secondary.main' } }}
-            fontSize="large"
-          >
-            Delete
-          </DeleteIcon>
+          />
+          <ConfirmDialog
+            title="カードを削除しますか?"
+            open={confirmOpen}
+            setOpen={setConfirmOpen}
+            onConfirm={deleteCard}
+          />
         </Box>
         <Box display="flex" justifyContent="space-between" marginTop={'20px'}>
           <DialogTitle variant="h3" fontWeight={'bold'}>
