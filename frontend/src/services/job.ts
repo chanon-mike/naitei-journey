@@ -18,7 +18,7 @@ export const jobApi = {
       }
       return response.json();
     } catch (error) {
-      console.error('Error fetching todos:', error);
+      console.error('Error fetching categories:', error);
       throw error;
     }
   },
@@ -60,7 +60,7 @@ export const jobApi = {
       const result = await response.json();
       return result;
     } catch (error) {
-      console.error('Error create new job:', error);
+      console.error('Error edit a job:', error);
       throw error;
     }
   },
@@ -80,7 +80,7 @@ export const jobApi = {
       const result = await response.json();
       return result;
     } catch (error) {
-      console.error('Error create new job:', error);
+      console.error('Error delete a job:', error);
       throw error;
     }
   },
