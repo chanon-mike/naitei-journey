@@ -83,6 +83,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
 
       console.log('activeItems:', activeItems);
       console.log('overitems: ', overItems);
+      console.log('overColumn: ', overColumn);
 
       const activeIndex = activeItems.findIndex((i) => i.id === activeId);
       const overIndex = overItems.findIndex((i) => i.id === overId);
@@ -93,8 +94,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       };
       return prevState.map((c) => {
         if (c.id === activeColumn.id) {
-          console.log('activeId: ', activeId);
-          console.log('overItemCheck: ', overItems);
           return {
             ...c,
             jobs: activeItems.filter((i) => i.id !== activeId),
@@ -138,7 +137,9 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     const activeIndex = activeColumn?.jobs.findIndex((i) => i.id === activeId);
     const overIndex = overColumn?.jobs.findIndex((i) => i.id === overId);
 
-    console.log('End:', overColumn);
+    const activeCard = overColumn?.jobs.find((i) => i.id === activeId);
+
+    console.log('activeCard', activeCard);
 
     setColumns((prevState) => {
       return prevState.map((column) => {
