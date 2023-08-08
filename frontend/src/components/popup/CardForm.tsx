@@ -1,6 +1,6 @@
 import { useAccessToken } from '@/contexts/AccessTokenContext';
 import { jobApi } from '@/services/job';
-import type { FullJobBase } from '@/types/board';
+import type { FullJobCreate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import {
   Box,
@@ -16,13 +16,14 @@ import { DatePicker } from '@mui/x-date-pickers-pro/';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ja from 'date-fns/locale/ja';
+import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import AddButton from '../board/AddButton';
 import FlowSetting from './FlowSetting';
-import SelectPeriod from './PeriodSelector';
-import SelectRank from './RankSelector';
-import StateSetting from './StateSetting';
+import PeriodSelector from './PeriodSelector';
+import RankingSelector from './RankingSelector';
+import StatusSetting from './StatusSetting';
 
 type CardFormProps = {
   categoryId: string;
@@ -53,7 +54,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
 
   const handleSaveCard = async () => {
-    const cardDetail: FullJobBase = {
+    const cardDetail: FullJobCreate = {
       job: {
         category_id: categoryId,
         card_position: 1,
@@ -109,11 +110,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   const dateToString = (dateObject: Date | null) => {
     // get the year, month, date, hours, and minutes seprately and append to the string.
     if (!dateObject) return '';
-
-    const dateString = `${dateObject.getFullYear()}-${
-      dateObject.getMonth() + 1
-    }-${+dateObject.getDate()}`;
-    return dateString;
+    return moment(dateObject).format('YYYY-MM-DD');
   };
 
   return (
@@ -139,7 +136,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 autoComplete="off"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
-              <SelectRank onRankChange={handleRankingChange} />
+              <RankingSelector onRankChange={handleRankingChange} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField
@@ -183,7 +180,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                   // }
                 }}
               />
-              <SelectPeriod onPeriodChange={handlePeriodChange} />
+              <PeriodSelector onPeriodChange={handlePeriodChange} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
@@ -225,7 +222,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
               />
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <StateSetting
+              <StatusSetting
                 selectedStatus={applicationStatus}
                 setSelectedStatus={setApplicationStatus}
                 selectedProcess={applicationProcess}

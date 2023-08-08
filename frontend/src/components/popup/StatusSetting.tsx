@@ -37,7 +37,7 @@ const processes = [
   { id: 'waitng', name: '結果待ち' },
 ];
 
-type StateSettingProps = {
+type StatusSettingProps = {
   selectedStatus: string | null;
   setSelectedStatus: Dispatch<SetStateAction<string | null>>;
   selectedProcess: string | null;
@@ -46,14 +46,14 @@ type StateSettingProps = {
   setApplicationDate: Dispatch<SetStateAction<Date | null>>;
 };
 
-const StateSetting = ({
+const StatusSetting = ({
   selectedStatus,
   setSelectedStatus,
   selectedProcess,
   setSelectedProcess,
   applicationDate,
   setApplicationDate,
-}: StateSettingProps) => {
+}: StatusSettingProps) => {
   const [open, setOpen] = useState(false);
 
   const handleStatusChange = (status: string) => setSelectedStatus(status);
@@ -65,7 +65,7 @@ const StateSetting = ({
   return (
     <div>
       <Button variant="outlined" style={{ width: '100%' }} onClick={handleClickOpen}>
-        志望状況
+        選考状況
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
@@ -167,4 +167,5 @@ const StateSetting = ({
     </div>
   );
 };
-export default StateSetting;
+
+export default StatusSetting;

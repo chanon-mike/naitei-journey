@@ -1,7 +1,7 @@
 'use client';
 
 import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
-import type { ColumnType } from '@/types/board';
+import type { Category } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
   DndContext,
@@ -19,21 +19,23 @@ import Board from './Board';
 type ActionBoardProps = {
   type: string;
   userId: string;
-  data: ColumnType[];
+  data: Category[];
   accessToken: string;
 };
 
 const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
-  const [columns, setColumns] = useState<ColumnType[]>(data);
+  const [columns, setColumns] = useState<Category[]>(data);
+
+  //console.log(columns);
 
   // Function to handle empty string
-  const handleEmptyString = (): ColumnType | null => {
-    console.log('empty');
+  const handleEmptyString = (): Category | null => {
+    //console.log('empty');
     return null; // or another appropriate action
   };
 
   // Function to handle when 'unique' is a valid string
-  const handleValidString = (unique: string, columns: ColumnType[]): ColumnType | null => {
+  const handleValidString = (unique: string, columns: Category[]): Category | null => {
     if (columns.some((c) => c.id === unique)) {
       return columns.find((c) => c.id === unique) ?? null;
     }
@@ -46,7 +48,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     return columns.find((c) => c.id === columnId) ?? null;
   };
 
-  const findColumn = (unique: string | null, columns: ColumnType[]): ColumnType | null => {
+  const findColumn = (unique: string | null, columns: Category[]): Category | null => {
     if (unique === null) {
       return null;
     }
@@ -64,10 +66,8 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     const activeColumn = findColumn(activeId, columns);
     const overColumn = findColumn(overId, columns);
 
-    console.log('activeId:', activeId);
-    console.log('Over:', overId);
-    console.log('activeItems:');
-    console.log('overitems: ');
+    //console.log('activeId:', activeId);
+    //console.log('OverId:', overId);
 
     if (!activeColumn || !overColumn || activeColumn === overColumn) {
       return null;
@@ -97,12 +97,12 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
           console.log('overItemCheck: ', overItems);
           return {
             ...c,
-            cards: activeItems.filter((i) => i.id !== activeId),
+            jobs: activeItems.filter((i) => i.id !== activeId),
           };
         } else if (c.id === overColumn.id) {
           return {
             ...c,
-            cards: [
+            jobs: [
               ...overItems.slice(0, newIndex()),
               activeItems[activeIndex],
               ...overItems.slice(newIndex(), updatedOverItems.length),
@@ -116,11 +116,11 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   };
 
   const updateColumnCards = (
-    column: ColumnType,
+    column: Category,
     activeIndex: number | undefined,
     overIndex: number | undefined,
     cards = column.jobs
-  ): ColumnType => {
+  ): Category => {
     if (activeIndex === undefined || overIndex === undefined || cards.length === 0) {
       return column; // Or some other appropriate default handling
     }
@@ -170,7 +170,13 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       >
         <Container>
           <Box>
-            <Typography variant="h3" textAlign="center" color="text" fontWeight="bold">
+            <Typography
+              variant="h3"
+              textAlign="center"
+              color="text"
+              fontWeight="bold"
+              sx={{ mb: 3 }}
+            >
               {type}
             </Typography>
           </Box>

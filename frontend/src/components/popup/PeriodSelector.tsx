@@ -5,11 +5,11 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
 import * as React from 'react';
 
-interface SelectPeriodProps {
+interface PeriodSelectorProps {
   onPeriodChange: (period: string) => void;
 }
 
-const SelectPeriod: React.FC<SelectPeriodProps> = ({ onPeriodChange }) => {
+const PeriodSelector: React.FC<PeriodSelectorProps> = ({ onPeriodChange }) => {
   const [period, setperiod] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -30,14 +30,14 @@ const SelectPeriod: React.FC<SelectPeriodProps> = ({ onPeriodChange }) => {
           label="Period"
           onChange={handleChange}
         >
-          <MenuItem value="day">日</MenuItem>
-          <MenuItem value="week">週間</MenuItem>
-          <MenuItem value="month">ヶ月</MenuItem>
-          <MenuItem value="year">年</MenuItem>
+          <MenuItem value="日">日</MenuItem>
+          <MenuItem value="週間">週間</MenuItem>
+          <MenuItem value="ヶ月">ヶ月</MenuItem>
+          <MenuItem value="年">年</MenuItem>
         </Select>
       </FormControl>
     </div>
   );
 };
 
-export default SelectPeriod;
+export default PeriodSelector;

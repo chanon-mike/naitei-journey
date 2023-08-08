@@ -1,4 +1,4 @@
-import type { CardDetailType } from '@/types/board';
+import type { FullJob } from '@/types/board';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CardActionArea } from '@mui/material';
@@ -7,11 +7,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
-import DetailButton from '../popup/DetailButton';
+import CardDetail from '../popup/CardDetail';
 
 type ActionAreaCardProps = {
   id: string;
-  cardDetail: CardDetailType;
+  cardDetail: FullJob;
 };
 
 const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
@@ -35,12 +35,9 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
                   {cardDetail.ranking}
                 </Typography>
               </Box>
-              <Typography variant="body1" color="text.primary">
-                test
-              </Typography>
             </CardContent>
             <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'primary.dark' }}>
-              <DetailButton key={id} cardDetail={cardDetail} />
+              <CardDetail key={id} cardDetail={cardDetail} />
             </Box>
           </CardActionArea>
         </Card>
