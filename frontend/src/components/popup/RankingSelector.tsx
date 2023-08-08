@@ -5,11 +5,11 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
 import * as React from 'react';
 
-interface SelectRankProps {
+interface RankingSelectorProps {
   onRankChange: (rank: string) => void;
 }
 
-const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
+const RankingSelector: React.FC<RankingSelectorProps> = ({ onRankChange }) => {
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
     onRankChange(value);
@@ -38,8 +38,9 @@ const SelectRank: React.FC<SelectRankProps> = ({ onRankChange }) => {
   );
 };
 
-export default SelectRank;
+export default RankingSelector;
 
+// BUG:
 // Warning: A component is changing an uncontrolled input to be controlled.
 // This is likely caused by the value changing from undefined to a defined value, which should not happen.
 // Decide between using a controlled or uncontrolled input element for the lifetime of the component.

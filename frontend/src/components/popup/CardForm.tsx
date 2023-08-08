@@ -1,6 +1,6 @@
 import { useAccessToken } from '@/contexts/AccessTokenContext';
 import { jobApi } from '@/services/job';
-import type { FullJobBase } from '@/types/board';
+import type { FullJobCreate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import {
   Box,
@@ -21,9 +21,9 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import AddButton from '../board/AddButton';
 import FlowSetting from './FlowSetting';
-import SelectPeriod from './PeriodSelector';
-import SelectRank from './RankSelector';
-import StateSetting from './StateSetting';
+import PeriodSelector from './PeriodSelector';
+import RankingSelector from './RankingSelector';
+import StatusSetting from './StatusSetting';
 
 type CardFormProps = {
   categoryId: string;
@@ -54,7 +54,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
 
   const handleSaveCard = async () => {
-    const cardDetail: FullJobBase = {
+    const cardDetail: FullJobCreate = {
       job: {
         category_id: categoryId,
         card_position: 1,
@@ -136,7 +136,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 autoComplete="off"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
-              <SelectRank onRankChange={handleRankingChange} />
+              <RankingSelector onRankChange={handleRankingChange} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField
@@ -180,7 +180,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                   // }
                 }}
               />
-              <SelectPeriod onPeriodChange={handlePeriodChange} />
+              <PeriodSelector onPeriodChange={handlePeriodChange} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
@@ -222,7 +222,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
               />
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <StateSetting
+              <StatusSetting
                 selectedStatus={applicationStatus}
                 setSelectedStatus={setApplicationStatus}
                 selectedProcess={applicationProcess}

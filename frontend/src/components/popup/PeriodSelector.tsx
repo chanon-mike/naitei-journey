@@ -5,11 +5,11 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
 import * as React from 'react';
 
-interface SelectPeriodProps {
+interface PeriodSelectorProps {
   onPeriodChange: (period: string) => void;
 }
 
-const SelectPeriod: React.FC<SelectPeriodProps> = ({ onPeriodChange }) => {
+const PeriodSelector: React.FC<PeriodSelectorProps> = ({ onPeriodChange }) => {
   const [period, setperiod] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -40,4 +40,4 @@ const SelectPeriod: React.FC<SelectPeriodProps> = ({ onPeriodChange }) => {
   );
 };
 
-export default SelectPeriod;
+export default PeriodSelector;

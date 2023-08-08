@@ -37,7 +37,7 @@ const processes = [
   { id: 'waitng', name: '結果待ち' },
 ];
 
-type StateSettingProps = {
+type StatusSettingProps = {
   selectedStatus: string | null;
   setSelectedStatus: Dispatch<SetStateAction<string | null>>;
   selectedProcess: string | null;
@@ -46,14 +46,14 @@ type StateSettingProps = {
   setApplicationDate: Dispatch<SetStateAction<Date | null>>;
 };
 
-const StateSetting = ({
+const StatusSetting = ({
   selectedStatus,
   setSelectedStatus,
   selectedProcess,
   setSelectedProcess,
   applicationDate,
   setApplicationDate,
-}: StateSettingProps) => {
+}: StatusSettingProps) => {
   const [open, setOpen] = useState(false);
 
   const handleStatusChange = (status: string) => setSelectedStatus(status);
@@ -167,4 +167,5 @@ const StateSetting = ({
     </div>
   );
 };
-export default StateSetting;
+
+export default StatusSetting;

@@ -1,4 +1,4 @@
-import type { ColumnType } from '@/types/board';
+import type { Category } from '@/types/board';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { Typography } from '@mui/material';
@@ -6,9 +6,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
 import CardForm from '../popup/CardForm';
-import ActionAreaCard from './ActionArea';
+import ActionAreaCard from './ActionAreaCard';
 
-const Board: FC<ColumnType> = ({ id, type, name, jobs }: ColumnType) => {
+const Board: FC<Category> = ({ id, type, name, jobs }: Category) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (

@@ -1,14 +1,17 @@
-// TODO: Update Backend API to use random string instead of number for id
+// Type end with Base is the type that is not included id
+// Type end with Create is the type that is used for create new data
+// Type end with Update is the type that is used for update data
+// Type that is not end with Base, Create or Update is the type that is used for get data
 
-export interface ColumnType {
+export interface Category {
   id: string;
   user_id: string;
   type: string;
   name: string;
-  jobs: CardDetailType[];
+  jobs: FullJob[];
 }
 
-export interface CardDetailBase {
+export interface JobBase {
   category_id: string;
   card_position: number;
   company_name: string;
@@ -23,10 +26,6 @@ export interface CardDetailBase {
   description: string;
 }
 
-export type CompanyDetailType = {
-  id: string;
-};
-
 export interface ApplicationStatusBase {
   status: string;
   process: string;
@@ -38,22 +37,35 @@ export interface SelectionFlowBase {
   process: string;
 }
 
-export interface FullJobBase {
-  job: CardDetailBase;
+export interface Job extends JobBase {
+  id: string;
+}
+
+export interface ApplicationStatus extends ApplicationStatusBase {
+  id: string;
+  job_id: string;
+}
+
+export interface SelectionFlow extends SelectionFlowBase {
+  id: string;
+  job_id: string;
+}
+
+// FullJob is the type of the data included job, application_status and selection_flows
+
+export interface FullJobCreate {
+  job: JobBase;
   application_status: ApplicationStatusBase;
   selection_flows: SelectionFlowBase[];
 }
 
-export interface CardDetailType extends CardDetailBase {
-  id: string;
+export interface FullJobUpdate {
+  job: JobBase;
+  application_status: ApplicationStatusBase;
+  selection_flows: SelectionFlow[];
 }
 
-export interface ApplicationStatusType extends ApplicationStatusBase {
-  id: string;
-  job_id: string;
-}
-
-export interface SelectionFlowType extends SelectionFlowBase {
-  id: string;
-  job_id: string;
+export interface FullJob extends Job {
+  application_status: ApplicationStatus;
+  selection_flows: SelectionFlow[];
 }
