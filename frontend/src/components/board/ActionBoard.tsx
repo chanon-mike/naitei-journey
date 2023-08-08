@@ -1,7 +1,8 @@
 'use client';
 
 import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
-import type { Category } from '@/types/board';
+import { jobApi } from '@/services/job';
+import type { Category, FullJob, FullJobUpdate } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
   DndContext,
@@ -26,9 +27,6 @@ type ActionBoardProps = {
 const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   const [columns, setColumns] = useState<Category[]>(data);
 
-  //console.log(columns);
-
-  // Function to handle empty string
   const handleEmptyString = (): Category | null => {
     //console.log('empty');
     return null; // or another appropriate action
@@ -73,7 +71,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       return null;
     }
 
-    // BUG: Drag over to another column causes the card to be the same as the card in that column
     setColumns((prevState) => {
       const activeItems = activeColumn.jobs;
       const overItems = overColumn.jobs;
@@ -81,9 +78,9 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       const foundItem = activeItems.find((i) => i.id === activeId);
       const updatedOverItems = foundItem ? [...overItems, foundItem] : [...overItems];
 
-      console.log('activeItems:', activeItems);
-      console.log('overitems: ', overItems);
-      console.log('overColumn: ', overColumn);
+      // console.log('activeItems:', activeItems);
+      // console.log('overitems: ', overItems);
+      // console.log('overColumn: ', overColumn);
 
       const activeIndex = activeItems.findIndex((i) => i.id === activeId);
       const overIndex = overItems.findIndex((i) => i.id === overId);
@@ -128,28 +125,71 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     return { ...column, jobs: newCards };
   };
 
+  const updateCategoryDropColumn = async (
+    column: Category,
+    overIndex: number,
+    activeCard: FullJob | undefined | null
+  ) => {
+    if (!activeCard) return;
+
+    if (activeCard.category_id !== column.id) {
+      const editedJob: FullJobUpdate = {
+        job: {
+          category_id: column.id,
+          card_position: overIndex,
+          company_name: activeCard.company_name,
+          company_industry: activeCard.company_industry,
+          occupation: activeCard.occupation,
+          ranking: activeCard.ranking,
+          is_internship: activeCard.is_internship,
+          internship_duration: activeCard.internship_duration,
+          internship_start_date: activeCard.internship_start_date,
+          internship_end_date: activeCard.internship_end_date,
+          url: activeCard.url,
+          description: activeCard.description,
+        },
+        application_status: {
+          status: activeCard.application_status.status,
+          process: activeCard.application_status.process,
+          date: activeCard.application_status.date,
+        },
+        selection_flows: activeCard.selection_flows.map((flow) => {
+          return {
+            id: flow.id,
+            job_id: flow.job_id,
+            step: flow.step,
+            process: flow.process,
+          };
+        }),
+      };
+      console.log(await jobApi.editJob(accessToken, editedJob, activeCard.id));
+    }
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    const activeId = String(active.id);
-    const overId = over ? String(over.id) : null;
-    const activeColumn = findColumn(activeId, columns);
-    const overColumn = findColumn(overId, columns);
-    const activeIndex = activeColumn?.jobs.findIndex((i) => i.id === activeId);
-    const overIndex = overColumn?.jobs.findIndex((i) => i.id === overId);
+    const activeColumn = findColumn(String(active.id), columns);
+    const overColumn = over && findColumn(String(over.id), columns);
 
-    const activeCard = overColumn?.jobs.find((i) => i.id === activeId);
+    if (!activeColumn) return;
 
-    console.log('activeCard', activeCard);
+    const activeIndex = activeColumn.jobs.findIndex((i) => i.id === String(active.id));
+    const overIndex = overColumn ? overColumn.jobs.findIndex((i) => i.id === String(over.id)) : -1;
+
+    const activeCard = overColumn && overColumn.jobs.find((i) => i.id === String(active.id));
 
     setColumns((prevState) => {
       return prevState.map((column) => {
-        if (activeColumn?.id === column.id && overColumn?.id === column.id) {
-          return updateColumnCards(column, activeIndex, overIndex);
-        } else if (column.id === activeColumn?.id) {
+        if (activeColumn.id === column.id) {
+          if (overColumn && activeColumn.id === overColumn.id) {
+            // console.log('activeCard', activeCard);
+            // Update category in database when drop in another column
+            updateCategoryDropColumn(column, overIndex, activeCard);
+            return updateColumnCards(column, activeIndex, overIndex);
+          }
           return updateColumnCards(column, activeIndex, overIndex, overColumn?.jobs);
-        } else {
-          return column;
         }
+        return column;
       });
     });
   };
