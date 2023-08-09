@@ -139,38 +139,36 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   ) => {
     if (!activeCard) return;
 
-    if (activeCard.category_id !== column.id) {
-      const editedJob: FullJobUpdate = {
-        job: {
-          category_id: column.id,
-          card_position: overIndex,
-          company_name: activeCard.company_name,
-          company_industry: activeCard.company_industry,
-          occupation: activeCard.occupation,
-          ranking: activeCard.ranking,
-          is_internship: activeCard.is_internship,
-          internship_duration: activeCard.internship_duration,
-          internship_start_date: activeCard.internship_start_date,
-          internship_end_date: activeCard.internship_end_date,
-          url: activeCard.url,
-          description: activeCard.description,
-        },
-        application_status: {
-          status: activeCard.application_status.status,
-          process: activeCard.application_status.process,
-          date: activeCard.application_status.date,
-        },
-        selection_flows: activeCard.selection_flows.map((flow) => {
-          return {
-            id: flow.id,
-            job_id: flow.job_id,
-            step: flow.step,
-            process: flow.process,
-          };
-        }),
-      };
-      console.log(await jobApi.editJob(accessToken, editedJob, activeCard.id));
-    }
+    const editedJob: FullJobUpdate = {
+      job: {
+        category_id: column.id,
+        card_position: overIndex,
+        company_name: activeCard.company_name,
+        company_industry: activeCard.company_industry,
+        occupation: activeCard.occupation,
+        ranking: activeCard.ranking,
+        is_internship: activeCard.is_internship,
+        internship_duration: activeCard.internship_duration,
+        internship_start_date: activeCard.internship_start_date,
+        internship_end_date: activeCard.internship_end_date,
+        url: activeCard.url,
+        description: activeCard.description,
+      },
+      application_status: {
+        status: activeCard.application_status.status,
+        process: activeCard.application_status.process,
+        date: activeCard.application_status.date,
+      },
+      selection_flows: activeCard.selection_flows.map((flow) => {
+        return {
+          id: flow.id,
+          job_id: flow.job_id,
+          step: flow.step,
+          process: flow.process,
+        };
+      }),
+    };
+    console.log(await jobApi.editJob(accessToken, editedJob, activeCard.id));
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
