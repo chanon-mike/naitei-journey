@@ -3,8 +3,8 @@
 import { accessTokenAtom } from '@/atoms/authAtom';
 import { columnsAtom } from '@/atoms/boardAtom';
 import { jobApi } from '@/libs/job';
-import type { Category, FullJob, FullJobUpdate } from '@/types/board';
-import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
+import type { Category, FullJob, JobPositionUpdate } from '@/types/board';
+import type { DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
 import {
   DndContext,
   KeyboardSensor,
@@ -16,7 +16,7 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Board from './Board';
 
 type ActionBoardProps = {
@@ -29,16 +29,21 @@ type ActionBoardProps = {
 const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   const [columns, setColumns] = useAtom(columnsAtom);
   const [, setAccessToken] = useAtom(accessTokenAtom);
+  const [fromColumn, setFromColumn] = useState<Category | null>(null);
 
   useEffect(() => {
-    setColumns(data);
+    const sortedData = data.map((column) => {
+      return {
+        ...column,
+        jobs: column.jobs.sort((a, b) => a.card_position - b.card_position),
+      };
+    });
+
+    setColumns(sortedData);
     setAccessToken(accessToken);
   }, [accessToken, data, setAccessToken, setColumns]);
 
-  const handleEmptyString = (): Category | null => {
-    //console.log('empty');
-    return null;
-  };
+  const handleEmptyString = (): Category | null => null;
 
   // Function to handle when 'unique' is a valid string
   const handleValidString = (unique: string, columns: Category[]): Category | null => {
@@ -55,14 +60,15 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   };
 
   const findColumn = (unique: string | null, columns: Category[]): Category | null => {
-    if (unique === null) {
-      return null;
-    }
-    if (unique === '') {
-      return handleEmptyString();
-    }
+    if (unique === null) return null;
+
+    if (unique === '') return handleEmptyString();
 
     return handleValidString(unique, columns);
+  };
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setFromColumn(findColumn(String(event.active.id), columns));
   };
 
   const handleDragOver = (event: DragOverEvent) => {
@@ -125,50 +131,29 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     cards = column.jobs
   ): Category => {
     if (activeIndex === undefined || overIndex === undefined || cards.length === 0) {
-      return column; // Or some other appropriate default handling
+      console.error('updateColumnCards: invalid index');
+      return column;
     }
 
     const newCards = arrayMove(cards, activeIndex, overIndex);
     return { ...column, jobs: newCards };
   };
 
+  // Update category in database when drop ended
   const updateCategoryDropColumn = async (
     column: Category,
-    overIndex: number,
     activeCard: FullJob | undefined | null
-  ) => {
+  ): Promise<void> => {
     if (!activeCard) return;
 
-    const editedJob: FullJobUpdate = {
-      job: {
-        category_id: column.id,
-        card_position: overIndex,
-        company_name: activeCard.company_name,
-        company_industry: activeCard.company_industry,
-        occupation: activeCard.occupation,
-        ranking: activeCard.ranking,
-        is_internship: activeCard.is_internship,
-        internship_duration: activeCard.internship_duration,
-        internship_start_date: activeCard.internship_start_date,
-        internship_end_date: activeCard.internship_end_date,
-        url: activeCard.url,
-        description: activeCard.description,
-      },
-      application_status: {
-        status: activeCard.application_status.status,
-        process: activeCard.application_status.process,
-        date: activeCard.application_status.date,
-      },
-      selection_flows: activeCard.selection_flows.map((flow) => {
-        return {
-          id: flow.id,
-          job_id: flow.job_id,
-          step: flow.step,
-          process: flow.process,
-        };
-      }),
-    };
-    console.log(await jobApi.editJob(accessToken, editedJob, activeCard.id));
+    console.log('category', await jobApi.editJobCategory(accessToken, activeCard.id, column.id));
+  };
+
+  // Update all card positions in the column for the  database when drop ended
+  const updateCardPositions = async (updatedJobs: JobPositionUpdate[]): Promise<void> => {
+    if (updatedJobs.length === 0) return;
+
+    console.log('card positions', await jobApi.editCardPositions(accessToken, updatedJobs));
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -176,27 +161,48 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     const activeColumn = findColumn(String(active.id), columns);
     const overColumn = over && findColumn(String(over.id), columns);
 
-    if (!activeColumn) return;
+    if (!activeColumn || !overColumn || !fromColumn) return;
 
     const activeIndex = activeColumn.jobs.findIndex((i) => i.id === String(active.id));
-    const overIndex = overColumn ? overColumn.jobs.findIndex((i) => i.id === String(over.id)) : -1;
+    const overIndex = overColumn.jobs.findIndex((i) => i.id === String(over.id));
 
-    const activeCard = overColumn && overColumn.jobs.find((i) => i.id === String(active.id));
+    const activeCard = overColumn.jobs.find((i) => i.id === String(active.id));
+    const updatedJobs: JobPositionUpdate[] = [];
 
     setColumns((prevState) => {
       return prevState.map((column) => {
-        if (activeColumn.id === column.id) {
-          if (overColumn && activeColumn.id === overColumn.id) {
-            // console.log('activeCard', activeCard);
-            // Update category in database when drop in another column
-            updateCategoryDropColumn(column, overIndex, activeCard);
-            return updateColumnCards(column, activeIndex, overIndex);
-          }
-          return updateColumnCards(column, activeIndex, overIndex, overColumn?.jobs);
+        // If this is the column we're dragging from and not the same column we're dragging to...
+        if (fromColumn.id === column.id && fromColumn.id !== activeColumn.id) {
+          const updatedFromColumn = {
+            ...column,
+            jobs: column.jobs.filter((job) => job.id !== active.id),
+          };
+          updatedFromColumn.jobs = updatedFromColumn.jobs.map((job, index) => {
+            updatedJobs.push({ id: job.id, card_position: index });
+            return { ...job, card_position: index };
+          });
+          return updatedFromColumn;
+        }
+        // If this is the column we're dragging to...
+        else if (activeColumn.id === column.id) {
+          const updatedColumn = updateColumnCards(column, activeIndex, overIndex);
+          updatedColumn.jobs = updatedColumn.jobs.map((job, index) => {
+            updatedJobs.push({ id: job.id, card_position: index });
+            return { ...job, card_position: index };
+          });
+          return updatedColumn;
         }
         return column;
       });
     });
+
+    setFromColumn(null);
+
+    // Update category in database when drop ended
+    updateCategoryDropColumn(overColumn, activeCard);
+
+    // Update card_position for backend
+    updateCardPositions(updatedJobs);
   };
 
   const sensors = useSensors(
@@ -212,6 +218,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     <DndContext
       sensors={sensors}
       collisionDetection={closestCorners}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
     >
