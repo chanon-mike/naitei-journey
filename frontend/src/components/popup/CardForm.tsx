@@ -130,7 +130,6 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
               occupation={occupation}
               setOccupation={setOccupation}
             />
-
             <InternshipDetail
               internshipDate={internshipDate}
               setInternshipDate={setInternshipDate}
