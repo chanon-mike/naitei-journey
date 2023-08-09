@@ -1,7 +1,9 @@
 'use client';
 
-import { useAccessToken } from '@/contexts/AccessTokenContext';
-import type { FullJob } from '@/types/board';
+import { accessTokenAtom } from '@/atoms/authAtom';
+import { jobApi } from '@/libs/job';
+import type { FullJob, FullJobUpdate } from '@/types/board';
+import type { FlowForm } from '@/types/form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Box,
@@ -12,6 +14,8 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
+import { useAtom } from 'jotai';
+import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState, type FC } from 'react';
 import CompanyDetailForm from '../common/CompanyDetailForm';
@@ -19,14 +23,16 @@ import ConfirmDialog from '../common/ConfirmDialog';
 import InternshipDetail from '../common/InternDetail';
 import UrlMemoForm from '../common/UrlMemoForm';
 import CardDetailLogic from './CardDetailLogic';
+import FlowSetting from './FlowSetting';
 import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
+import StatusSetting from './StatusSetting';
 
 type CardDetailProps = {
   cardDetail: FullJob;
 };
 
 const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
-  const { accessToken } = useAccessToken();
+  const [accessToken] = useAtom(accessTokenAtom);
   const { open, setOpen, confirmOpen, setConfirmOpen, handleClose, deleteCard } = CardDetailLogic(
     cardDetail,
     accessToken
@@ -42,13 +48,24 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
     return dateString ? new Date(dateString) : null;
   }
 
+  function initStatus(value: string): string | null {
+    return value ? value : null;
+  }
+
+  function initFlow(value: FlowForm[] | null | undefined): FlowForm[] {
+    return value || [];
+  }
+
   /*FullJob information*/
+  const [jobId] = useState(() => initBase(cardDetail.id));
+  const [categoryId] = useState(() => initBase(cardDetail.category_id));
   const [companyName, setCompanyName] = useState(() => initBase(cardDetail.company_name));
   const [companyIndustry, setCompanyIndustry] = useState(() =>
     initBase(cardDetail.company_industry)
   );
   const [occupation, setOccupation] = useState(() => initBase(cardDetail.occupation));
   const [ranking, setRanking] = useState(() => initBase(cardDetail.ranking));
+  const [categoryType] = useState(cardDetail.is_internship);
   const internshipDateString = date_val !== null ? date_val.toString() : '';
   const [internshipDate, setInternshipDate] = useState(internshipDateString);
   const internshipPeriodString = period_val !== null ? period_val : '';
@@ -62,21 +79,68 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   const [url, setUrl] = useState(() => initBase(cardDetail.url));
   const [description, setDescription] = useState(() => initBase(cardDetail.description));
 
-  /*
   // Application status information
-  const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
-  const [applicationProcess, setApplicationProcess] = useState<string | null>(null);
-  const [applicationDate, setApplicationDate] = useState<Date | null>(null);
+  const [applicationStatus, setApplicationStatus] = useState(() =>
+    initStatus(cardDetail.application_status.status)
+  );
+  const [applicationProcess, setApplicationProcess] = useState(() =>
+    initStatus(cardDetail.application_status.process)
+  );
+  const [applicationDate, setApplicationDate] = useState(() =>
+    initDateValue(cardDetail.application_status.date)
+  );
   // Selection flow information
-  const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
-  */
+  const [flowProcesses, setFlowProcesses] = useState(() => initFlow(cardDetail.selection_flows));
+
+  console.log(cardDetail);
+
+  const transformedSelectionFlows = flowProcesses.map((flow, index) => {
+    return {
+      ...flow,
+      id: cardDetail.selection_flows[index].id,
+      job_id: jobId,
+    };
+  });
+
+  const handleEditCard = async () => {
+    const cardDetail: FullJobUpdate = {
+      job: {
+        category_id: categoryId,
+        card_position: 1,
+        company_name: companyName,
+        company_industry: companyIndustry,
+        occupation,
+        ranking,
+        is_internship: categoryType,
+        internship_duration: internshipDate + internshipPeriod,
+        internship_start_date: dateToString(internshipStartDate),
+        internship_end_date: dateToString(internshipEndDate),
+        url,
+        description,
+      },
+      application_status: {
+        status: applicationStatus ?? '',
+        process: applicationProcess ?? '',
+        date: dateToString(applicationDate),
+      },
+      selection_flows: transformedSelectionFlows,
+    };
+    await jobApi.editJob(accessToken, cardDetail, jobId);
+    handleClose();
+  };
 
   const handleRankingChange = (newRanking: string) => setRanking(newRanking);
   const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //handleSaveCard();
+    handleEditCard();
+  };
+
+  const dateToString = (dateObject: Date | null) => {
+    // get the year, month, date, hours, and minutes seprately and append to the string.
+    if (!dateObject) return '';
+    return moment(dateObject).format('YYYY-MM-DD');
   };
 
   return (
@@ -88,14 +152,12 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
       </Box>
 
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
-        <Box display="flex" justifyContent="space-between" marginTop={'20px'}>
-          <DialogTitle variant="h4" fontWeight={'bold'}>
-            詳細
-          </DialogTitle>
+        <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={'20px'}>
+          <DialogTitle fontWeight={'bold'}>詳細</DialogTitle>
 
           <DeleteIcon
             onClick={() => setConfirmOpen(true)}
-            sx={{ cursor: 'pointer', mr: 5, mt: 4, '&:hover': { color: 'secondary.main' } }}
+            sx={{ cursor: 'pointer', mr: 5, '&:hover': { color: 'secondary.main' } }}
           />
           <ConfirmDialog
             title="カードを削除しますか?"
@@ -117,7 +179,6 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
               setOccupation={setOccupation}
             />
 
-            <hr />
             <InternshipDetail
               internshipDate={internshipDate}
               setInternshipDate={setInternshipDate}
@@ -134,6 +195,18 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
               description={description}
               setDescription={setDescription}
             />
+
+            <Box display="flex" justifyContent="space-between">
+              <StatusSetting
+                selectedStatus={applicationStatus}
+                setSelectedStatus={setApplicationStatus}
+                selectedProcess={applicationProcess}
+                setSelectedProcess={setApplicationProcess}
+                applicationDate={applicationDate}
+                setApplicationDate={setApplicationDate}
+              />
+              <FlowSetting flowProcesses={flowProcesses} setFlowProcesses={setFlowProcesses} />
+            </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>キャンセル</Button>

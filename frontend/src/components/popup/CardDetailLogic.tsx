@@ -1,5 +1,5 @@
 // useCardDetailLogic.ts
-import { jobApi } from '@/services/job';
+import { jobApi } from '@/libs/job';
 import type { FullJob } from '@/types/board';
 import { useState } from 'react';
 
