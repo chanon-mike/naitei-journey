@@ -1,8 +1,8 @@
 'use client';
 
+import { accessTokenAtom } from '@/atoms/authAtom';
 import { columnsAtom } from '@/atoms/boardAtom';
-import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
-import { jobApi } from '@/services/job';
+import { jobApi } from '@/libs/job';
 import type { Category, FullJob, FullJobUpdate } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
@@ -28,10 +28,12 @@ type ActionBoardProps = {
 
 const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   const [columns, setColumns] = useAtom(columnsAtom);
+  const [, setAccessToken] = useAtom(accessTokenAtom);
 
   useEffect(() => {
     setColumns(data);
-  }, [data, setColumns]);
+    setAccessToken(accessToken);
+  }, [accessToken, data, setAccessToken, setColumns]);
 
   const handleEmptyString = (): Category | null => {
     //console.log('empty');
@@ -207,41 +209,33 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   );
 
   return (
-    <AccessTokenProvider accessToken={accessToken}>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragEnd={handleDragEnd}
-        onDragOver={handleDragOver}
-      >
-        <Container>
-          <Box>
-            <Typography
-              variant="h3"
-              textAlign="center"
-              color="text"
-              fontWeight="bold"
-              sx={{ mb: 3 }}
-            >
-              {type}
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="center" flexDirection="row">
-            {columns.map((column) => (
-              <Box key={column.id} minWidth="300px">
-                <Board
-                  id={column.id}
-                  user_id={userId}
-                  type={type}
-                  name={column.name}
-                  jobs={column.jobs}
-                />
-              </Box>
-            ))}
-          </Box>
-        </Container>
-      </DndContext>
-    </AccessTokenProvider>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+    >
+      <Container>
+        <Box>
+          <Typography variant="h3" textAlign="center" color="text" fontWeight="bold" sx={{ mb: 3 }}>
+            {type}
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="center" flexDirection="row">
+          {columns.map((column) => (
+            <Box key={column.id} minWidth="300px">
+              <Board
+                id={column.id}
+                user_id={userId}
+                type={type}
+                name={column.name}
+                jobs={column.jobs}
+              />
+            </Box>
+          ))}
+        </Box>
+      </Container>
+    </DndContext>
   );
 };
 

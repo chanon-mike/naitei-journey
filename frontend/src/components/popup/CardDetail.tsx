@@ -1,8 +1,8 @@
 'use client';
 
+import { accessTokenAtom } from '@/atoms/authAtom';
 import { columnsAtom } from '@/atoms/boardAtom';
-import { useAccessToken } from '@/contexts/AccessTokenContext';
-import { jobApi } from '@/services/job';
+import { jobApi } from '@/libs/job';
 import type { FullJob } from '@/types/board';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -25,7 +25,7 @@ type CardDetailProps = {
 };
 
 const CardDetail: FC<CardDetailProps> = ({ cardDetail }) => {
-  const { accessToken } = useAccessToken();
+  const [accessToken] = useAtom(accessTokenAtom);
   const [columns, setColumns] = useAtom(columnsAtom);
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);

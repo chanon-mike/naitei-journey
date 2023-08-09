@@ -1,6 +1,6 @@
+import { accessTokenAtom } from '@/atoms/authAtom';
 import { columnsAtom } from '@/atoms/boardAtom';
-import { useAccessToken } from '@/contexts/AccessTokenContext';
-import { jobApi } from '@/services/job';
+import { jobApi } from '@/libs/job';
 import type { FullJobCreate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import {
@@ -34,7 +34,7 @@ type CardFormProps = {
 
 // TODO: Reduce state variables and refactor code
 const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
-  const { accessToken } = useAccessToken();
+  const [accessToken] = useAtom(accessTokenAtom);
   const [open, setOpen] = useState(false);
   const [columns, setColumns] = useAtom(columnsAtom);
 
@@ -246,4 +246,5 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
     </div>
   );
 };
+
 export default CardForm;
