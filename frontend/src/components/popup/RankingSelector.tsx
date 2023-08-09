@@ -8,7 +8,6 @@ import * as React from 'react';
 interface RankingSelectorProps {
   rank: string | null;
   onRankChange: (rank: string) => void;
-  value: string;
 }
 
 const RankingSelector: React.FC<RankingSelectorProps> = ({ rank, onRankChange }) => {
