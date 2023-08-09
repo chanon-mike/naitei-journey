@@ -98,9 +98,6 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
                 >
                   {cardDetail.ranking}
                 </Typography>
-                <Typography variant="h5" color="primary.main" fontWeight={'bold'}>
-                  {cardDetail.card_position}
-                </Typography>
               </Box>
               <Box display="flex">
                 <Typography fontWeight={'bold'} marginRight={1}>
