@@ -143,7 +143,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 autoComplete="off"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
-              <RankingSelector onRankChange={handleRankingChange} />
+              <RankingSelector onRankChange={handleRankingChange} value={ranking} />
             </Box>
             <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
               <TextField
