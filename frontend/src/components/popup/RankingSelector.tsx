@@ -7,34 +7,34 @@ import * as React from 'react';
 
 interface RankingSelectorProps {
   onRankChange: (rank: string) => void;
+  value: string;
 }
 
-const RankingSelector: React.FC<RankingSelectorProps> = ({ onRankChange }) => {
+const RankingSelector: React.FC<RankingSelectorProps> = ({ onRankChange, value }) => {
   const handleChange = (event: SelectChangeEvent) => {
-    const value = event.target.value as string;
+    const value = event.target.value;
     onRankChange(value);
   };
 
   return (
-    <>
-      <FormControl sx={{ minWidth: 120, m: 0 }}>
-        <InputLabel id="demo-simple-select-helper-label">志望度</InputLabel>
-        <Select
-          required
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          size="medium"
-          label="ranking"
-          onChange={handleChange}
-        >
-          <MenuItem value="S">S</MenuItem>
-          <MenuItem value="A">A</MenuItem>
-          <MenuItem value="B">B</MenuItem>
-          <MenuItem value="C">C</MenuItem>
-          <MenuItem value="D">D</MenuItem>
-        </Select>
-      </FormControl>
-    </>
+    <FormControl sx={{ minWidth: 120, m: 0 }}>
+      <InputLabel id="demo-simple-select-helper-label">志望度</InputLabel>
+      <Select
+        required
+        labelId="demo-simple-select-helper-label"
+        id="demo-simple-select-helper"
+        size="medium"
+        label="ranking"
+        value={value}
+        onChange={handleChange}
+      >
+        <MenuItem value="S">S</MenuItem>
+        <MenuItem value="A">A</MenuItem>
+        <MenuItem value="B">B</MenuItem>
+        <MenuItem value="C">C</MenuItem>
+        <MenuItem value="D">D</MenuItem>
+      </Select>
+    </FormControl>
   );
 };
 
