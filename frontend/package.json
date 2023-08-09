@@ -29,6 +29,7 @@
     "@mui/x-date-pickers-pro": "^6.11.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
+    "jotai": "^2.3.1",
     "moment": "^2.29.4",
     "next": "13.4.12",
     "react": "18.2.0",

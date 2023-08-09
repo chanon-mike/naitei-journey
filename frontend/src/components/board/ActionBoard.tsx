@@ -1,5 +1,6 @@
 'use client';
 
+import { columnsAtom } from '@/atoms/boardAtom';
 import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
 import { jobApi } from '@/services/job';
 import type { Category, FullJob, FullJobUpdate } from '@/types/board';
@@ -14,7 +15,8 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { useEffect } from 'react';
 import Board from './Board';
 
 type ActionBoardProps = {
@@ -25,11 +27,15 @@ type ActionBoardProps = {
 };
 
 const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
-  const [columns, setColumns] = useState<Category[]>(data);
+  const [columns, setColumns] = useAtom(columnsAtom);
+
+  useEffect(() => {
+    setColumns(data);
+  }, [data, setColumns]);
 
   const handleEmptyString = (): Category | null => {
     //console.log('empty');
-    return null; // or another appropriate action
+    return null;
   };
 
   // Function to handle when 'unique' is a valid string
@@ -74,7 +80,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     setColumns((prevState) => {
       const activeItems = activeColumn.jobs;
       const overItems = overColumn.jobs;
-
       const foundItem = activeItems.find((i) => i.id === activeId);
       const updatedOverItems = foundItem ? [...overItems, foundItem] : [...overItems];
 

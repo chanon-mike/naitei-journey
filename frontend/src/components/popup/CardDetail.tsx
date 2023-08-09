@@ -1,5 +1,6 @@
 'use client';
 
+import { columnsAtom } from '@/atoms/boardAtom';
 import { useAccessToken } from '@/contexts/AccessTokenContext';
 import { jobApi } from '@/services/job';
 import type { FullJob } from '@/types/board';
@@ -15,6 +16,7 @@ import {
   Link,
   Typography,
 } from '@mui/material';
+import { useAtom } from 'jotai';
 import { useState, type FC } from 'react';
 import ConfirmDialog from '../common/ConfirmDialog';
 
@@ -24,6 +26,7 @@ type CardDetailProps = {
 
 const CardDetail: FC<CardDetailProps> = ({ cardDetail }) => {
   const { accessToken } = useAccessToken();
+  const [columns, setColumns] = useAtom(columnsAtom);
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -31,6 +34,12 @@ const CardDetail: FC<CardDetailProps> = ({ cardDetail }) => {
 
   const deleteCard = async () => {
     await jobApi.deleteJob(accessToken, cardDetail.id);
+    const newColumns = await jobApi.getCategoryJobs(
+      accessToken,
+      columns[0].user_id,
+      columns[0].type
+    );
+    setColumns(newColumns);
     setOpen(false);
   };
 
