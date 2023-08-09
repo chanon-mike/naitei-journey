@@ -41,6 +41,11 @@ class Job(JobBase):
         orm_mode = True
 
 
+class JobPositionUpdate(BaseModel):
+    id: UUID4
+    card_position: int
+
+
 class FullJobCreate(BaseModel):
     job: JobCreate
     application_status: ApplicationStatusCreate
