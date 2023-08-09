@@ -1,5 +1,6 @@
-import { useAccessToken } from '@/contexts/AccessTokenContext';
-import { jobApi } from '@/services/job';
+import { accessTokenAtom } from '@/atoms/authAtom';
+import { columnsAtom } from '@/atoms/boardAtom';
+import { jobApi } from '@/libs/job';
 import type { FullJobCreate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import {
@@ -16,6 +17,7 @@ import { DatePicker } from '@mui/x-date-pickers-pro/';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ja from 'date-fns/locale/ja';
+import { useAtom } from 'jotai';
 import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
@@ -32,8 +34,9 @@ type CardFormProps = {
 
 // TODO: Reduce state variables and refactor code
 const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
-  const { accessToken } = useAccessToken();
+  const [accessToken] = useAtom(accessTokenAtom);
   const [open, setOpen] = useState(false);
+  const [columns, setColumns] = useAtom(columnsAtom);
 
   // Job information
   const [companyName, setCompanyName] = useState('');
@@ -76,9 +79,13 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
       },
       selection_flows: flowProcesses,
     };
-    console.log(cardDetail);
-    jobApi.createJob(accessToken, cardDetail);
-
+    await jobApi.createJob(accessToken, cardDetail);
+    const newColumns = await jobApi.getCategoryJobs(
+      accessToken,
+      columns[0].user_id,
+      columns[0].type
+    );
+    setColumns(newColumns);
     handleClose();
   };
 
@@ -174,10 +181,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
                 type="number"
                 inputProps={{ min: 0, max: 31, style: { fontSize: '16px' } }}
                 onChange={(e) => {
-                  // const newValue = e.target.value;
-                  // if (newValue === '' || /^[0-9]+$/.test(newValue)) {
                   setInternshipDate(e.target.value);
-                  // }
                 }}
               />
               <PeriodSelector onPeriodChange={handlePeriodChange} />
@@ -242,4 +246,5 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
     </div>
   );
 };
+
 export default CardForm;

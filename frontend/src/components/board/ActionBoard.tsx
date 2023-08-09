@@ -1,7 +1,8 @@
 'use client';
 
-import { AccessTokenProvider } from '@/providers/AccessTokenProvider';
-import { jobApi } from '@/services/job';
+import { accessTokenAtom } from '@/atoms/authAtom';
+import { columnsAtom } from '@/atoms/boardAtom';
+import { jobApi } from '@/libs/job';
 import type { Category, FullJob, FullJobUpdate } from '@/types/board';
 import type { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import {
@@ -14,7 +15,8 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { useEffect } from 'react';
 import Board from './Board';
 
 type ActionBoardProps = {
@@ -25,11 +27,17 @@ type ActionBoardProps = {
 };
 
 const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
-  const [columns, setColumns] = useState<Category[]>(data);
+  const [columns, setColumns] = useAtom(columnsAtom);
+  const [, setAccessToken] = useAtom(accessTokenAtom);
+
+  useEffect(() => {
+    setColumns(data);
+    setAccessToken(accessToken);
+  }, [accessToken, data, setAccessToken, setColumns]);
 
   const handleEmptyString = (): Category | null => {
     //console.log('empty');
-    return null; // or another appropriate action
+    return null;
   };
 
   // Function to handle when 'unique' is a valid string
@@ -74,7 +82,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     setColumns((prevState) => {
       const activeItems = activeColumn.jobs;
       const overItems = overColumn.jobs;
-
       const foundItem = activeItems.find((i) => i.id === activeId);
       const updatedOverItems = foundItem ? [...overItems, foundItem] : [...overItems];
 
@@ -132,38 +139,36 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   ) => {
     if (!activeCard) return;
 
-    if (activeCard.category_id !== column.id) {
-      const editedJob: FullJobUpdate = {
-        job: {
-          category_id: column.id,
-          card_position: overIndex,
-          company_name: activeCard.company_name,
-          company_industry: activeCard.company_industry,
-          occupation: activeCard.occupation,
-          ranking: activeCard.ranking,
-          is_internship: activeCard.is_internship,
-          internship_duration: activeCard.internship_duration,
-          internship_start_date: activeCard.internship_start_date,
-          internship_end_date: activeCard.internship_end_date,
-          url: activeCard.url,
-          description: activeCard.description,
-        },
-        application_status: {
-          status: activeCard.application_status.status,
-          process: activeCard.application_status.process,
-          date: activeCard.application_status.date,
-        },
-        selection_flows: activeCard.selection_flows.map((flow) => {
-          return {
-            id: flow.id,
-            job_id: flow.job_id,
-            step: flow.step,
-            process: flow.process,
-          };
-        }),
-      };
-      console.log(await jobApi.editJob(accessToken, editedJob, activeCard.id));
-    }
+    const editedJob: FullJobUpdate = {
+      job: {
+        category_id: column.id,
+        card_position: overIndex,
+        company_name: activeCard.company_name,
+        company_industry: activeCard.company_industry,
+        occupation: activeCard.occupation,
+        ranking: activeCard.ranking,
+        is_internship: activeCard.is_internship,
+        internship_duration: activeCard.internship_duration,
+        internship_start_date: activeCard.internship_start_date,
+        internship_end_date: activeCard.internship_end_date,
+        url: activeCard.url,
+        description: activeCard.description,
+      },
+      application_status: {
+        status: activeCard.application_status.status,
+        process: activeCard.application_status.process,
+        date: activeCard.application_status.date,
+      },
+      selection_flows: activeCard.selection_flows.map((flow) => {
+        return {
+          id: flow.id,
+          job_id: flow.job_id,
+          step: flow.step,
+          process: flow.process,
+        };
+      }),
+    };
+    console.log(await jobApi.editJob(accessToken, editedJob, activeCard.id));
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -202,41 +207,33 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   );
 
   return (
-    <AccessTokenProvider accessToken={accessToken}>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragEnd={handleDragEnd}
-        onDragOver={handleDragOver}
-      >
-        <Container>
-          <Box>
-            <Typography
-              variant="h3"
-              textAlign="center"
-              color="text"
-              fontWeight="bold"
-              sx={{ mb: 3 }}
-            >
-              {type}
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="center" flexDirection="row">
-            {columns.map((column) => (
-              <Box key={column.id} minWidth="300px">
-                <Board
-                  id={column.id}
-                  user_id={userId}
-                  type={type}
-                  name={column.name}
-                  jobs={column.jobs}
-                />
-              </Box>
-            ))}
-          </Box>
-        </Container>
-      </DndContext>
-    </AccessTokenProvider>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+    >
+      <Container>
+        <Box>
+          <Typography variant="h3" textAlign="center" color="text" fontWeight="bold" sx={{ mb: 3 }}>
+            {type}
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="center" flexDirection="row">
+          {columns.map((column) => (
+            <Box key={column.id} minWidth="300px">
+              <Board
+                id={column.id}
+                user_id={userId}
+                type={type}
+                name={column.name}
+                jobs={column.jobs}
+              />
+            </Box>
+          ))}
+        </Box>
+      </Container>
+    </DndContext>
   );
 };
 

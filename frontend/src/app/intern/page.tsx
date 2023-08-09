@@ -1,5 +1,5 @@
 import ActionBoard from '@/components/board/ActionBoard';
-import { jobApi } from '@/services/job';
+import { jobApi } from '@/libs/job';
 import type { Category } from '@/types/board';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 

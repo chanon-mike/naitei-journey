@@ -1,5 +1,5 @@
+import { API_ENDPOINT } from '@/libs/envValues';
 import type { FullJobCreate, FullJobUpdate, Job } from '@/types/board';
-import { API_ENDPOINT } from '@/utils/envValues';
 
 export const jobApi = {
   getCategoryJobs: async (token: string, userId: string, type: string) => {
