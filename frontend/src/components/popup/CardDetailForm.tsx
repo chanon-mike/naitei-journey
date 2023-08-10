@@ -36,7 +36,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
     cardDetail,
     accessToken
   );
-  
+
   function initBase(value: string): string {
     return value ?? '';
   }
@@ -89,7 +89,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   );
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState(() => initFlow(cardDetail.selection_flows));
-  
+
   console.log('flowProcesses', flowProcesses[0]);
 
   const transformedSelectionFlows = flowProcesses.map((flow, index) => {
