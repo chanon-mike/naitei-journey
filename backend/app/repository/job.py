@@ -79,6 +79,26 @@ def update_job(db: Session, job: JobCreate, job_id: str) -> Job:
     return db_job
 
 
+def update_job_category(db: Session, job_id: str, to_category_id: str) -> Job:
+    db_job: Job = db.query(Job).filter(Job.id == job_id).first()
+    if db_job is None:
+        return None
+    db_job.category_id = to_category_id
+    db.commit()
+    db.refresh(db_job)
+    return db_job
+
+
+def update_job_card_position(db: Session, job_id: str, card_position: int) -> Job:
+    db_job: Job = db.query(Job).filter(Job.id == job_id).first()
+    if db_job is None:
+        return None
+    db_job.card_position = card_position
+    db.commit()
+    db.refresh(db_job)
+    return db_job
+
+
 def delete_job(db: Session, job_id: int) -> Job:
     db_job: Job = db.query(Job).filter(Job.id == job_id).first()
     if db_job is None:
