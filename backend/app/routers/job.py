@@ -8,7 +8,7 @@ import app.repository.category as category_repo
 import app.repository.job as job_repo
 import app.repository.selection_flow as flow_repo
 from app.db.database import get_db
-from app.schemas.job import FullJobCreate, FullJobUpdate
+from app.schemas.job import FullJobCreate, FullJobUpdate, JobPositionUpdate
 from app.security.payload import Payload
 from app.security.verify_token import verify_token
 
@@ -55,6 +55,34 @@ def create_job(
     flow_repo.create_selection_flows(db, full_job.selection_flows, job_id)
 
     return {"message": "Successfully created job data"}
+
+
+@router.patch("/card-position")
+def update_job_card_positions(
+    jobs_positions: list[JobPositionUpdate],
+    db: Session = Depends(get_db),
+    token: Payload = Depends(verify_token),
+):
+    """Update positions of multiple jobs"""
+    if len(jobs_positions) == 0:
+        raise HTTPException(status_code=400, detail="No jobs to update")
+
+    for job_position in jobs_positions:
+        job_db = job_repo.get_job(db, job_position.id)
+        if job_db is None:
+            raise HTTPException(status_code=404, detail="Job not found")
+
+        category_db = category_repo.get_category(db, job_db.category_id)
+        if token.get("sub") != category_db.user_id:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
+            )
+
+        job_repo.update_job_card_position(
+            db, job_position.id, job_position.card_position
+        )
+
+    return {"message": f"Updated {len(jobs_positions)} jobs successfully"}
 
 
 @router.get("/{job_id}")
@@ -119,3 +147,27 @@ def delete_job(
         )
 
     return {"message": f"Job {job_db.id} is deleted successfully"}
+
+
+@router.patch("/{job_id}/category")
+def update_job_category(
+    job_id: str,
+    to_category_id: str,
+    db: Session = Depends(get_db),
+    token: Payload = Depends(verify_token),
+):
+    """Update an existing job category"""
+    category_db = category_repo.get_category(db, to_category_id)
+    if category_db is None:
+        raise HTTPException(status_code=404, detail="Category not found")
+
+    if token.get("sub") != category_db.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
+        )
+
+    job_db = job_repo.update_job_category(db, job_id, to_category_id)
+    if job_db is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    return job_db

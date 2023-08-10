@@ -10,7 +10,11 @@ import { type FC } from 'react';
 import CardForm from '../popup/CardForm';
 import ActionAreaCard from './ActionAreaCard';
 
-const Board: FC<Category> = ({ id, type, name, jobs }: Category) => {
+interface BoardProps extends Category {
+  maxIndex: number;
+}
+
+const Board: FC<BoardProps> = ({ id, type, name, jobs, maxIndex }) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (
@@ -48,7 +52,7 @@ const Board: FC<Category> = ({ id, type, name, jobs }: Category) => {
             {jobs.map((card) => (
               <ActionAreaCard key={card.id} id={card.id} cardDetail={card} />
             ))}
-            <CardForm categoryId={id} categoryType={type} />
+            <CardForm categoryId={id} categoryType={type} maxIndex={maxIndex} />
           </Paper>
         </Box>
       </div>
