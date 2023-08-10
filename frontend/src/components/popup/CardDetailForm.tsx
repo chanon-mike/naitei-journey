@@ -32,12 +32,11 @@ type CardDetailProps = {
 
 const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   const [accessToken] = useAtom(accessTokenAtom);
-
   const { open, setOpen, confirmOpen, setConfirmOpen, handleClose, deleteCard } = CardDetailLogic(
     cardDetail,
     accessToken
   );
-
+  
   function initBase(value: string): string {
     return value ?? '';
   }
@@ -55,7 +54,6 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   }
 
   const { date_val, period_val } = getInternshipDateAndPeriod(cardDetail.internship_duration);
-
   /*FullJob information*/
   const [jobId] = useState(() => initBase(cardDetail.id));
   const [categoryId] = useState(() => initBase(cardDetail.category_id));
@@ -91,6 +89,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   );
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState(() => initFlow(cardDetail.selection_flows));
+  
   console.log('flowProcesses', flowProcesses[0]);
 
   const transformedSelectionFlows = flowProcesses.map((flow, index) => {
