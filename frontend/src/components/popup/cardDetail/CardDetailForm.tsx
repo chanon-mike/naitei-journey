@@ -1,8 +1,10 @@
 'use client';
 
 import { accessTokenAtom } from '@/atoms/authAtom';
+import { columnsAtom } from '@/atoms/boardAtom';
+import ConfirmDialog from '@/components/common/ConfirmDialog';
 import { jobApi } from '@/libs/job';
-import type { FullJob, FullJobUpdate, SelectionFlow } from '@/types/board';
+import type { FullJob, FullJobUpdate } from '@/types/board';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
@@ -10,14 +12,29 @@ import moment from 'moment';
 import type { Dispatch, FormEvent, SetStateAction } from 'react';
 import { useState, type FC } from 'react';
 import CompanyDetailForm from '../CompanyDetailForm';
-
 import InternshipDetail from '../InternshipDetail';
-import { getInternshipDateAndPeriod } from '../SplitDateAndPeriod';
-
-import ConfirmDialog from '@/components/common/ConfirmDialog';
 import UrlMemoForm from '../UrlMemoForm';
 import StatusEditor from '../applicationStatus/StatusEditor';
 import FlowEditor from '../selectionFlow/FlowEditor';
+
+const getInternshipDateAndPeriod = (duration: string) => {
+  const date = duration.match(/\d+/);
+  const date_val: string = date ? date[0] : '';
+  const period = duration.match(/[^\d]+/);
+  const period_val: string = period ? period[0] : '';
+
+  return { date_val, period_val };
+};
+
+const dateToString = (dateObject: Date | null) => {
+  if (!dateObject) return '';
+  return moment(dateObject).format('YYYY-MM-DD');
+};
+
+const stringToDate = (dateString: string): Date | null => {
+  if (!dateString) return null;
+  return moment(dateString).toDate();
+};
 
 type CardDetailProps = {
   cardDetail: FullJob;
@@ -28,77 +45,68 @@ type CardDetailProps = {
 const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const [accessToken] = useAtom(accessTokenAtom);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [columns, setColumns] = useAtom(columnsAtom);
   const { date_val, period_val } = getInternshipDateAndPeriod(cardDetail.internship_duration);
 
-  const initBase = (value: string): string => value ?? '';
-  const initDateValue = (dateString: string): Date | null =>
-    dateString ? new Date(dateString) : null;
-  const initStatus = (value: string): string | null => (value ? value : null);
-  const initFlow = (value: SelectionFlow[] | null | undefined): SelectionFlow[] => value || [];
-
   // FullJob information
-  const [jobId] = useState(() => initBase(cardDetail.id));
-  const [categoryId] = useState(() => initBase(cardDetail.category_id));
-  const [companyName, setCompanyName] = useState(() => initBase(cardDetail.company_name));
-  const [companyIndustry, setCompanyIndustry] = useState(() =>
-    initBase(cardDetail.company_industry)
+  const [jobId] = useState(cardDetail.id);
+  const [categoryId] = useState(cardDetail.category_id);
+  const [companyName, setCompanyName] = useState(cardDetail.company_name);
+  const [companyIndustry, setCompanyIndustry] = useState(cardDetail.company_industry);
+  const [occupation, setOccupation] = useState(cardDetail.occupation);
+  const [ranking, setRanking] = useState(cardDetail.ranking);
+  const [isInternship] = useState(cardDetail.is_internship);
+  const [internshipDate, setInternshipDate] = useState(date_val);
+  const [internshipPeriod, setInternshipPeriod] = useState(period_val);
+  const [internshipStartDate, setInternshipStartDate] = useState<Date | null>(
+    stringToDate(cardDetail.internship_start_date ?? '')
   );
-  const [occupation, setOccupation] = useState(() => initBase(cardDetail.occupation));
-  const [ranking, setRanking] = useState(() => initBase(cardDetail.ranking));
-  const [categoryType] = useState(cardDetail.is_internship);
-  const internshipDateString = date_val !== null ? date_val.toString() : '';
-  const [internshipDate, setInternshipDate] = useState(internshipDateString);
-  const internshipPeriodString = period_val !== null ? period_val : '';
-  const [internshipPeriod, setInternshipPeriod] = useState(internshipPeriodString);
-  const [internshipStartDate, setInternshipStartDate] = useState(() =>
-    initDateValue(cardDetail.internship_start_date)
+  const [internshipEndDate, setInternshipEndDate] = useState<Date | null>(
+    stringToDate(cardDetail.internship_end_date ?? '')
   );
-  const [internshipEndDate, setInternshipEndDate] = useState(() =>
-    initDateValue(cardDetail.internship_end_date)
-  );
-  const [url, setUrl] = useState(() => initBase(cardDetail.url));
-  const [description, setDescription] = useState(() => initBase(cardDetail.description));
-
+  const [url, setUrl] = useState(cardDetail.url);
+  const [description, setDescription] = useState(cardDetail.description);
   // Application status information
-  const [applicationStatus, setApplicationStatus] = useState(() =>
-    initStatus(cardDetail.application_status.status)
+  const [applicationStatus, setApplicationStatus] = useState<string | null>(
+    cardDetail.application_status.status
   );
-  const [applicationProcess, setApplicationProcess] = useState(() =>
-    initStatus(cardDetail.application_status.process)
+  const [applicationProcess, setApplicationProcess] = useState<string | null>(
+    cardDetail.application_status.process
   );
-  const [applicationDate, setApplicationDate] = useState(() =>
-    initDateValue(cardDetail.application_status.date)
+  const [applicationDate, setApplicationDate] = useState<Date | null>(
+    stringToDate(cardDetail.application_status.date ?? '')
   );
   // Selection flow information
-  const [flowProcesses, setFlowProcesses] = useState(() => initFlow(cardDetail.selection_flows));
+  const [flowProcesses, setFlowProcesses] = useState(cardDetail.selection_flows);
 
-  console.log('flowProcesses', flowProcesses[0]);
-
-  const transformedSelectionFlows = flowProcesses.map((flow, index) => {
-    return {
-      ...flow,
-      id: cardDetail.selection_flows[index].id,
-      job_id: jobId,
-    };
-  });
-
-  const handleClose = () => setOpen(false);
-
-  const deleteCard = async () => {
-    await jobApi.deleteJob(accessToken, cardDetail.id);
+  const handleClose = () => {
+    setCompanyName(cardDetail.company_name);
+    setCompanyIndustry(cardDetail.company_industry);
+    setOccupation(cardDetail.occupation);
+    setRanking(cardDetail.ranking);
+    setInternshipDate(cardDetail.internship_duration);
+    setInternshipPeriod(cardDetail.internship_duration);
+    setInternshipStartDate(stringToDate(cardDetail.internship_start_date));
+    setInternshipEndDate(stringToDate(cardDetail.internship_end_date));
+    setUrl(cardDetail.url);
+    setDescription(cardDetail.description);
+    setApplicationStatus(cardDetail.application_status.status);
+    setApplicationProcess(cardDetail.application_status.process);
+    setApplicationDate(stringToDate(cardDetail.application_status.date));
+    setFlowProcesses(cardDetail.selection_flows);
     setOpen(false);
   };
 
   const handleEditCard = async () => {
-    const cardDetail: FullJobUpdate = {
+    const editedCard: FullJobUpdate = {
       job: {
         category_id: categoryId,
-        card_position: 1,
+        card_position: cardDetail.card_position,
         company_name: companyName,
         company_industry: companyIndustry,
         occupation,
         ranking,
-        is_internship: categoryType,
+        is_internship: isInternship,
         internship_duration: internshipDate + internshipPeriod,
         internship_start_date: dateToString(internshipStartDate),
         internship_end_date: dateToString(internshipEndDate),
@@ -110,23 +118,40 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
         process: applicationProcess ?? '',
         date: dateToString(applicationDate),
       },
-      selection_flows: transformedSelectionFlows,
+      selection_flows: flowProcesses.map((flow, index) => {
+        return {
+          ...flow,
+          id: cardDetail.selection_flows[index].id,
+          job_id: jobId,
+        };
+      }),
     };
-    await jobApi.editJob(accessToken, cardDetail, jobId);
+    await jobApi.editJob(accessToken, editedCard, jobId);
+    const newColumns = await jobApi.getCategoryJobs(
+      accessToken,
+      columns[0].user_id,
+      columns[0].type
+    );
+    setColumns(newColumns);
+    handleClose();
+  };
+
+  const deleteCard = async () => {
+    await jobApi.deleteJob(accessToken, cardDetail.id);
+    const newColumns = await jobApi.getCategoryJobs(
+      accessToken,
+      columns[0].user_id,
+      columns[0].type
+    );
+    setColumns(newColumns);
     handleClose();
   };
 
   const handleRankingChange = (newRanking: string) => setRanking(newRanking);
   const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
-
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleEditCard();
-  };
-
-  const dateToString = (dateObject: Date | null) => {
-    if (!dateObject) return '';
-    return moment(dateObject).format('YYYY-MM-DD');
   };
 
   return (
