@@ -1,42 +1,42 @@
 import type { FullJob } from '@/types/board';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { CardActionArea } from '@mui/material';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import moment from 'moment';
 import { useEffect, useState, type FC } from 'react';
 import CardDetailForm from '../popup/CardDetailForm';
 
 type ActionAreaCardProps = {
   id: string;
   cardDetail: FullJob;
+  boardColor: string;
 };
 
-const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
+const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail, boardColor }) => {
   const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
-
+  const [openDetail, setOpenDetail] = useState(false);
   const [countDown, setcountDown] = useState('');
 
+  const cardApplicationStatus = cardDetail.application_status.status;
+  const cardApplicationDate = cardDetail.application_status.date;
   const style = {
     transform: CSS.Transform.toString(transform),
   };
 
-  function getRankingColor(ranking: string) {
-    switch (ranking) {
-      case 'S':
-        return 'gold';
-      case 'A':
-        return 'Red';
-      case 'B':
-        return 'bronze';
-      case 'C':
-        return 'green';
-      default:
-        return 'gray';
-    }
-  }
+  // function getRankingColor(ranking: string) {
+  //   switch (ranking) {
+  //     case 'S':
+  //       return 'gold';
+  //     case 'A':
+  //       return 'Red';
+  //     case 'B':
+  //       return 'bronze';
+  //     case 'C':
+  //       return 'green';
+  //     default:
+  //       return 'gray';
+  //   }
+  // }
 
   function isWithin7Days(dateString: string): string {
     const today = new Date();
@@ -49,11 +49,11 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
     const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
     if (differenceInDays >= 0 && differenceInDays <= 7) {
-      return '#FF9999';
+      return 'error.main';
     } else if (differenceInDays >= 0 && differenceInDays <= 10) {
-      return '#FFFF99';
+      return 'error.light';
     }
-    return 'inherit';
+    return 'text.secondary';
   }
 
   function getCountDown(dateString: string): string {
@@ -72,70 +72,58 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail }) => {
     return '';
   }
 
-  // コンポーネント内部で、以下のようにuseStateを更新します
   useEffect(() => {
-    setcountDown(getCountDown(cardDetail.application_status.date));
-  }, [cardDetail.application_status.date]);
+    setcountDown(getCountDown(cardApplicationDate));
+  }, [cardApplicationDate]);
 
   return (
-    <div id={id} ref={setNodeRef} {...attributes} style={style}>
-      <Box display="flex" alignItems="flex-start" justifyContent="center" margin={'20px'}>
-        <Card sx={{ maxWidth: 250, maxHeight: 200, minWidth: 200 }}>
-          <CardActionArea>
-            <CardContent
-              {...listeners}
-              style={{ backgroundColor: isWithin7Days(cardDetail.application_status.date) }}
-            >
-              <Box display="flex" justifyContent="space-between">
-                <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'}>
-                  {cardDetail.company_name}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  style={{ color: getRankingColor(cardDetail.ranking) }}
-                  color="primary.main"
-                  fontWeight={'bold'}
-                >
-                  {cardDetail.ranking}
-                </Typography>
-              </Box>
-              <Box display="flex">
-                <Typography fontWeight={'bold'} marginRight={1}>
-                  {cardDetail.application_status.status}
-                </Typography>
-                <Typography
-                  color={
-                    cardDetail.application_status.process === '未完了' ? 'primary.main' : 'inherit'
-                  }
-                  fontWeight={'bold'}
-                >
-                  {cardDetail.application_status.process}
-                </Typography>
-              </Box>
-
-              <Box display="flex" justifyContent="space-between">
-                <Typography
-                  color={
-                    isWithin7Days(cardDetail.application_status.date) === '#FF9999'
-                      ? '#ffffff'
-                      : 'inherit'
-                  }
-                  fontWeight={'bold'}
-                >
-                  {cardDetail.application_status.date}
-                </Typography>
-                <Typography color="red" fontWeight={'bold'}>
-                  {countDown}
-                </Typography>
-              </Box>
-            </CardContent>
-            <Box display="flex" justifyContent="center" sx={{ backgroundColor: 'primary.dark' }}>
-              <CardDetailForm key={id} cardDetail={cardDetail} />
+    <Box
+      id={id}
+      ref={setNodeRef}
+      {...attributes}
+      style={style}
+      display="flex"
+      alignItems="flex-start"
+      justifyContent="center"
+      margin={'20px'}
+    >
+      <Card sx={{ maxWidth: 250, maxHeight: 200, minWidth: 200, borderRadius: 2 }}>
+        <CardActionArea>
+          <CardContent {...listeners} onClick={() => setOpenDetail(true)}>
+            <Box display="flex" justifyContent="space-between" marginBottom={0}>
+              <Typography variant="h6">{cardDetail.company_name}</Typography>
+              <Typography variant="h6" color={boardColor} fontWeight={'bold'}>
+                {cardDetail.ranking}
+              </Typography>
             </Box>
-          </CardActionArea>
-        </Card>
-      </Box>
-    </div>
+
+            <Typography variant="body2" color="text.secondary">
+              {cardDetail.company_industry}・{cardDetail.occupation}
+            </Typography>
+
+            <Box display="flex" justifyContent="space-between">
+              <Typography
+                variant="body2"
+                color={isWithin7Days(cardApplicationDate)}
+                fontSize="12px"
+              >
+                {cardApplicationStatus}{' '}
+                {cardApplicationDate && moment(cardApplicationDate).format('M月D日')}
+              </Typography>
+              <Typography variant="body2" color="error.main" fontSize="12px">
+                {countDown}
+              </Typography>
+            </Box>
+          </CardContent>
+          <CardDetailForm
+            key={id}
+            cardDetail={cardDetail}
+            open={openDetail}
+            setOpen={setOpenDetail}
+          />
+        </CardActionArea>
+      </Card>
+    </Box>
   );
 };
 

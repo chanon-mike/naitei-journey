@@ -4,57 +4,37 @@ import { accessTokenAtom } from '@/atoms/authAtom';
 import { jobApi } from '@/libs/job';
 import type { FullJob, FullJobUpdate, SelectionFlow } from '@/types/board';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
 import moment from 'moment';
-import type { FormEvent } from 'react';
+import type { Dispatch, FormEvent, SetStateAction } from 'react';
 import { useState, type FC } from 'react';
 import CompanyDetailForm from '../common/CompanyDetailForm';
 import ConfirmDialog from '../common/ConfirmDialog';
-import InternshipDetail from '../common/InternDetail';
+import InternshipDetail from '../common/InternshipDetail';
 import UrlMemoForm from '../common/UrlMemoForm';
-import CardDetailLogic from './CardDetailLogic';
 import FlowEditor from './FlowEditor';
 import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
 import StatusEditor from './StatusEditor';
 
 type CardDetailProps = {
   cardDetail: FullJob;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
+const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const [accessToken] = useAtom(accessTokenAtom);
-  const { open, setOpen, confirmOpen, setConfirmOpen, handleClose, deleteCard } = CardDetailLogic(
-    cardDetail,
-    accessToken
-  );
-
-  function initBase(value: string): string {
-    return value ?? '';
-  }
-
-  function initDateValue(dateString: string): Date | null {
-    return dateString ? new Date(dateString) : null;
-  }
-
-  function initStatus(value: string): string | null {
-    return value ? value : null;
-  }
-
-  function initFlow(value: SelectionFlow[] | null | undefined): SelectionFlow[] {
-    return value || [];
-  }
-
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const { date_val, period_val } = getInternshipDateAndPeriod(cardDetail.internship_duration);
-  /*FullJob information*/
+
+  const initBase = (value: string): string => value ?? '';
+  const initDateValue = (dateString: string): Date | null =>
+    dateString ? new Date(dateString) : null;
+  const initStatus = (value: string): string | null => (value ? value : null);
+  const initFlow = (value: SelectionFlow[] | null | undefined): SelectionFlow[] => value || [];
+
+  // FullJob information
   const [jobId] = useState(() => initBase(cardDetail.id));
   const [categoryId] = useState(() => initBase(cardDetail.category_id));
   const [companyName, setCompanyName] = useState(() => initBase(cardDetail.company_name));
@@ -100,6 +80,13 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
     };
   });
 
+  const handleClose = () => setOpen(false);
+
+  const deleteCard = async () => {
+    await jobApi.deleteJob(accessToken, cardDetail.id);
+    setOpen(false);
+  };
+
   const handleEditCard = async () => {
     const cardDetail: FullJobUpdate = {
       job: {
@@ -136,19 +123,12 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   };
 
   const dateToString = (dateObject: Date | null) => {
-    // get the year, month, date, hours, and minutes seprately and append to the string.
     if (!dateObject) return '';
     return moment(dateObject).format('YYYY-MM-DD');
   };
 
   return (
     <div>
-      <Box display="flex" justifyContent="center" onClick={() => setOpen(true)}>
-        <Typography color="white" sx={{ p: 1 }}>
-          詳細
-        </Typography>
-      </Box>
-
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={'20px'}>
           <DialogTitle fontWeight={'bold'}>詳細</DialogTitle>

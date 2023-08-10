@@ -12,47 +12,47 @@ import ActionAreaCard from './ActionAreaCard';
 
 interface BoardProps extends Category {
   maxIndex: number;
+  boardColor: string;
 }
 
-const Board: FC<BoardProps> = ({ id, type, name, jobs, maxIndex }) => {
+const Board: FC<BoardProps> = ({ id, type, name, jobs, maxIndex, boardColor }) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (
     <SortableContext id={id} items={jobs} strategy={rectSortingStrategy}>
       <div ref={setNodeRef}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <Paper style={{ minWidth: '250px' }}>
+        <Box display="flex" justifyContent="center">
+          <Paper sx={{ minWidth: '250px', borderRadius: '15px' }} elevation={1}>
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
               sx={{
                 textAlign: 'center',
-                border: 1,
-                borderColor: 'primary.dark',
-                m: 1,
+                bgcolor: boardColor,
+                color: 'white',
+                borderTopRightRadius: '15px',
+                borderTopLeftRadius: '15px',
               }}
             >
-              <Typography
-                id="outlined-basic"
-                variant="h6"
-                component="div"
-                fontWeight={'bold'}
-                sx={{ p: 1 }}
-              >
+              <Typography id="outlined-basic" variant="h6" sx={{ p: 1 }}>
                 {name}
               </Typography>
             </Box>
             {jobs.map((card) => (
-              <ActionAreaCard key={card.id} id={card.id} cardDetail={card} />
+              <ActionAreaCard
+                key={card.id}
+                id={card.id}
+                cardDetail={card}
+                boardColor={boardColor}
+              />
             ))}
-            <CardForm categoryId={id} categoryType={type} maxIndex={maxIndex} />
+            <CardForm
+              categoryId={id}
+              categoryType={type}
+              maxIndex={maxIndex}
+              boardColor={boardColor}
+            />
           </Paper>
         </Box>
       </div>

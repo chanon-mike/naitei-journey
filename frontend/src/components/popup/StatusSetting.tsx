@@ -15,7 +15,7 @@ import ja from 'date-fns/locale/ja';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import ProcessButton from './ProcessButton';
-import FlowButton from './StatusButton';
+import StatusButton from './StatusButton';
 
 const statuses1 = [
   { id: 'es', name: 'ES' },
@@ -80,7 +80,7 @@ const StatusSetting = ({
               marginTop={'20px'}
             >
               {statuses1.map((status) => (
-                <FlowButton
+                <StatusButton
                   key={status.id}
                   selectedStatus={selectedStatus}
                   status={status.name}
@@ -95,7 +95,7 @@ const StatusSetting = ({
               marginTop={'20px'}
             >
               {statuses2.map((status) => (
-                <FlowButton
+                <StatusButton
                   key={status.id}
                   selectedStatus={selectedStatus}
                   status={status.name}
@@ -110,7 +110,7 @@ const StatusSetting = ({
               marginTop={'20px'}
             >
               {statuses3.map((status) => (
-                <FlowButton
+                <StatusButton
                   key={status.id}
                   selectedStatus={selectedStatus}
                   status={status.name}

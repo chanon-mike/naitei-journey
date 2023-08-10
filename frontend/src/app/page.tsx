@@ -35,7 +35,7 @@ const Home = async () => {
               内定までの道を管理しましょう！
             </Typography>
             <Link href="/intern" underline="none">
-              <Button variant="outlined" color="secondary" sx={{ width: '200px' }}>
+              <Button variant="outlined" color="primary" sx={{ width: '200px' }}>
                 インターンシップへ
               </Button>
             </Link>

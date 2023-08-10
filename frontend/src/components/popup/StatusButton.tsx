@@ -19,11 +19,11 @@ const StatusButton: React.FC<StatusButtonProps> = ({
       variant={selectedStatus === status ? 'contained' : 'outlined'}
       style={{
         width: '150px',
-        backgroundColor: selectedStatus === status ? theme.palette.secondary.main : 'transparent',
+        backgroundColor: selectedStatus === status ? theme.palette.primary.main : 'transparent',
         marginRight: '20px',
         color:
           selectedStatus === status
-            ? theme.palette.secondary.contrastText
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.dark,
       }}
       onClick={() => handleStatusChange(status)}
