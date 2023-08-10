@@ -3,7 +3,6 @@
 import { accessTokenAtom } from '@/atoms/authAtom';
 import { jobApi } from '@/libs/job';
 import type { FullJob, FullJobUpdate, SelectionFlow } from '@/types/board';
-import type { FlowForm } from '@/types/form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Box,
@@ -23,10 +22,9 @@ import ConfirmDialog from '../common/ConfirmDialog';
 import InternshipDetail from '../common/InternDetail';
 import UrlMemoForm from '../common/UrlMemoForm';
 import CardDetailLogic from './CardDetailLogic';
-import FlowSetting from './FlowSetting';
-import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
-import StatusEditor from './StatusEditor'
 import FlowEditor from './FlowEditor';
+import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
+import StatusEditor from './StatusEditor';
 
 type CardDetailProps = {
   cardDetail: FullJob;

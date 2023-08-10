@@ -57,8 +57,8 @@ const StatusEditor = ({
   const [open, setOpen] = useState(false);
 
   const initselectedStatus = useRef(selectedStatus);
-  const initselectedProcess = useRef(selectedProcess)
-  const initapplicationDate = useRef(applicationDate)
+  const initselectedProcess = useRef(selectedProcess);
+  const initapplicationDate = useRef(applicationDate);
 
   const handleStatusChange = (status: string) => setSelectedStatus(status);
   const handleProcessChange = (process: string) => setSelectedProcess(process);
@@ -73,7 +73,7 @@ const StatusEditor = ({
 
   const handleSave = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <div>

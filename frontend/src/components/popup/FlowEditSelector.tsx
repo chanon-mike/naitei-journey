@@ -1,5 +1,4 @@
-import { SelectionFlow } from '@/types/board';
-import type { FlowForm } from '@/types/form';
+import type { SelectionFlow } from '@/types/board';
 import { FormControl, InputLabel, MenuItem } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
@@ -13,8 +12,6 @@ type FlowEditSelectorProps = {
 };
 
 const FlowEditSelector = ({ flowProcess, flowStep, setFlowProcesses }: FlowEditSelectorProps) => {
-
-
   const handleChange = (event: SelectChangeEvent) => {
     setFlowProcesses((prev) => {
       const existingProcessIndex = prev.findIndex((fp) => fp.step === flowStep);
@@ -32,7 +29,15 @@ const FlowEditSelector = ({ flowProcess, flowStep, setFlowProcesses }: FlowEditS
       }
 
       // Otherwise, add the new process
-      return [...prev, { id: flowProcess.id, job_id: flowProcess.job_id, step: flowStep, process: event.target.value as string }];
+      return [
+        ...prev,
+        {
+          id: flowProcess.id,
+          job_id: flowProcess.job_id,
+          step: flowStep,
+          process: event.target.value as string,
+        },
+      ];
     });
   };
 
