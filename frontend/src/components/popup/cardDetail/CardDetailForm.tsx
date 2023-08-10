@@ -210,7 +210,11 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
                 applicationDate={applicationDate}
                 setApplicationDate={setApplicationDate}
               />
-              <FlowEditor flowProcesses={flowProcesses} setFlowProcesses={setFlowProcesses} />
+              <FlowEditor
+                flowProcesses={flowProcesses}
+                setFlowProcesses={setFlowProcesses}
+                jobId={cardDetail.id}
+              />
             </Box>
           </DialogContent>
           <DialogActions>

@@ -171,3 +171,24 @@ def update_job_category(
         raise HTTPException(status_code=404, detail="Job not found")
 
     return job_db
+
+
+@router.post("/{job_id}/selection-flow")
+def create_selection_flow(
+    job_id: str,
+    flow: flow_repo.SelectionFlowCreate,
+    db: Session = Depends(get_db),
+    token: Payload = Depends(verify_token),
+):
+    """Create a new selection flow"""
+    job_db = job_repo.get_job(db, job_id)
+    if job_db is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    category_db = category_repo.get_category(db, job_db.category_id)
+    if token.get("sub") != category_db.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
+        )
+
+    return flow_repo.create_selection_flow(db, flow, job_id)

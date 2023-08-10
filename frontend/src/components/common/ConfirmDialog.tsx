@@ -12,7 +12,7 @@ type ConfirmDialogProps = {
 const ConfirmDialog = ({ title, children, open, setOpen, onConfirm }: ConfirmDialogProps) => {
   return (
     <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="confirm-dialog">
-      <DialogTitle id="confirm-dialog" variant="h6">
+      <DialogTitle id="confirm-dialog" variant="h6" fontSize="20px">
         {title}
       </DialogTitle>
       <DialogContent>{children}</DialogContent>
@@ -26,7 +26,7 @@ const ConfirmDialog = ({ title, children, open, setOpen, onConfirm }: ConfirmDia
             setOpen(false);
             onConfirm();
           }}
-          color="secondary"
+          color="error"
         >
           OK
         </Button>

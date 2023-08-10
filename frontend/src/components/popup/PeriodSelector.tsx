@@ -3,16 +3,16 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
-import * as React from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 
 interface PeriodSelectorProps {
   onPeriodChange: (period: string) => void;
-  period_val: string | null;
+  period_val: string;
 }
 
-const PeriodSelector: React.FC<PeriodSelectorProps> = ({ onPeriodChange, period_val }) => {
-  const PeriodString = period_val !== null ? period_val.toString() : '';
-  const [period, setperiod] = React.useState(PeriodString);
+const PeriodSelector: FC<PeriodSelectorProps> = ({ onPeriodChange, period_val }) => {
+  const [period, setperiod] = useState(period_val);
 
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;

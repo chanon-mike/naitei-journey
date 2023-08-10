@@ -1,5 +1,11 @@
 import { API_ENDPOINT } from '@/libs/envValues';
-import type { FullJobCreate, FullJobUpdate, Job, JobPositionUpdate } from '@/types/board';
+import type {
+  FullJobCreate,
+  FullJobUpdate,
+  Job,
+  JobPositionUpdate,
+  SelectionFlowBase,
+} from '@/types/board';
 
 export const jobApi = {
   getCategoryJobs: async (token: string, userId: string, type: string) => {
@@ -40,6 +46,31 @@ export const jobApi = {
       return result;
     } catch (error) {
       console.error('Error create new job:', error);
+      throw error;
+    }
+  },
+  createSelectionFlow: async (
+    token: string,
+    jobId: Job['id'],
+    selectionFlow: SelectionFlowBase
+  ) => {
+    try {
+      const response = await fetch(`${API_ENDPOINT}/job/${jobId}/selection-flow`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(selectionFlow),
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Server responded with status ${response.status}: ${text}`);
+      }
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error create new selection flow:', error);
       throw error;
     }
   },

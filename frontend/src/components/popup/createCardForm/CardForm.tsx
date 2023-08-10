@@ -96,13 +96,12 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
     setOpen(false);
   };
 
+  const handleRankingChange = (newRanking: string) => setRanking(newRanking);
+  const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSaveCard();
   };
-
-  const handleRankingChange = (newRanking: string) => setRanking(newRanking);
-  const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
 
   const dateToString = (dateObject: Date | null) => {
     if (!dateObject) return '';
