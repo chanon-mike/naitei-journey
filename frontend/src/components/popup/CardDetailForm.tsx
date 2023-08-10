@@ -2,8 +2,7 @@
 
 import { accessTokenAtom } from '@/atoms/authAtom';
 import { jobApi } from '@/libs/job';
-import type { FullJob, FullJobUpdate } from '@/types/board';
-import type { FlowForm } from '@/types/form';
+import type { FullJob, FullJobUpdate, SelectionFlow } from '@/types/board';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
@@ -14,9 +13,9 @@ import CompanyDetailForm from '../common/CompanyDetailForm';
 import ConfirmDialog from '../common/ConfirmDialog';
 import InternshipDetail from '../common/InternshipDetail';
 import UrlMemoForm from '../common/UrlMemoForm';
-import FlowSetting from './FlowSetting';
+import FlowEditor from './FlowEditor';
 import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
-import StatusSetting from './StatusSetting';
+import StatusEditor from './StatusEditor';
 
 type CardDetailProps = {
   cardDetail: FullJob;
@@ -33,7 +32,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const initDateValue = (dateString: string): Date | null =>
     dateString ? new Date(dateString) : null;
   const initStatus = (value: string): string | null => (value ? value : null);
-  const initFlow = (value: FlowForm[] | null | undefined): FlowForm[] => value || [];
+  const initFlow = (value: SelectionFlow[] | null | undefined): SelectionFlow[] => value || [];
 
   // FullJob information
   const [jobId] = useState(() => initBase(cardDetail.id));
@@ -70,6 +69,8 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   );
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState(() => initFlow(cardDetail.selection_flows));
+
+  console.log('flowProcesses', flowProcesses[0]);
 
   const transformedSelectionFlows = flowProcesses.map((flow, index) => {
     return {
@@ -174,7 +175,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
             />
 
             <Box display="flex" justifyContent="space-between">
-              <StatusSetting
+              <StatusEditor
                 selectedStatus={applicationStatus}
                 setSelectedStatus={setApplicationStatus}
                 selectedProcess={applicationProcess}
@@ -182,7 +183,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
                 applicationDate={applicationDate}
                 setApplicationDate={setApplicationDate}
               />
-              <FlowSetting flowProcesses={flowProcesses} setFlowProcesses={setFlowProcesses} />
+              <FlowEditor flowProcesses={flowProcesses} setFlowProcesses={setFlowProcesses} />
             </Box>
           </DialogContent>
           <DialogActions>
