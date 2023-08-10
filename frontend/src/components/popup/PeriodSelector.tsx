@@ -7,10 +7,12 @@ import * as React from 'react';
 
 interface PeriodSelectorProps {
   onPeriodChange: (period: string) => void;
+  period_val: string | null;
 }
 
-const PeriodSelector: React.FC<PeriodSelectorProps> = ({ onPeriodChange }) => {
-  const [period, setperiod] = React.useState('');
+const PeriodSelector: React.FC<PeriodSelectorProps> = ({ onPeriodChange, period_val }) => {
+  const PeriodString = period_val !== null ? period_val.toString() : '';
+  const [period, setperiod] = React.useState(PeriodString);
 
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;

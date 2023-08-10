@@ -52,6 +52,7 @@ const FlowSetting = ({ flowProcesses, setFlowProcesses }: FlowSettingProps) => {
           )}
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleClose}>キャンセル</Button>
           <Button onClick={handleClose}>保存</Button>
         </DialogActions>
       </Dialog>

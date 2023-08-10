@@ -3,28 +3,16 @@ import { columnsAtom } from '@/atoms/boardAtom';
 import { jobApi } from '@/libs/job';
 import type { FullJobCreate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers-pro/';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import ja from 'date-fns/locale/ja';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
 import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import AddButton from '../board/AddButton';
+import CompanyDetailForm from '../common/CompanyDetailForm';
+import InternshipDetail from '../common/InternDetail';
+import UrlMemoForm from '../common/UrlMemoForm';
 import FlowSetting from './FlowSetting';
-import PeriodSelector from './PeriodSelector';
-import RankingSelector from './RankingSelector';
 import StatusSetting from './StatusSetting';
 
 type CardFormProps = {
@@ -106,6 +94,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
     setFlowProcesses([]);
     setOpen(false);
   };
+
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSaveCard();
@@ -131,100 +120,32 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
         <DialogTitle fontWeight={'bold'}>選考カード作成</DialogTitle>
         <form onSubmit={handleFormSubmit}>
           <DialogContent>
-            <Box display="flex" justifyContent="space-between" sx={{ marginBottom: '20px' }}>
-              <TextField
-                required
-                id="outlined-basic"
-                variant="outlined"
-                label="企業名"
-                sx={{ width: '70%' }}
-                inputProps={{ style: { textAlign: 'left', fontSize: '16px' } }}
-                size="medium"
-                autoComplete="off"
-                onChange={(e) => setCompanyName(e.target.value)}
-              />
-              <RankingSelector onRankChange={handleRankingChange} value={ranking} />
-            </Box>
-            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-              <TextField
-                required
-                id="outlined-basic"
-                variant="outlined"
-                label="業種"
-                style={{ width: '45%', marginRight: '10%' }}
-                inputProps={{ style: { fontSize: '16px' } }}
-                size="medium"
-                autoComplete="off"
-                onChange={(e) => setCompanyIndustry(e.target.value)}
-              />
-              <TextField
-                required
-                id="outlined-basic"
-                variant="outlined"
-                label="職種"
-                style={{ width: '45%' }}
-                inputProps={{ style: { fontSize: '16px' } }}
-                size="medium"
-                autoComplete="off"
-                onChange={(e) => setOccupation(e.target.value)}
-              />
-            </Box>
-
-            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-              <TextField
-                id="outlined-basic"
-                variant="outlined"
-                label="日"
-                style={{ width: '20%', marginRight: '20px' }}
-                size="medium"
-                autoComplete="off"
-                type="number"
-                inputProps={{ min: 0, max: 31, style: { fontSize: '16px' } }}
-                onChange={(e) => {
-                  setInternshipDate(e.target.value);
-                }}
-              />
-              <PeriodSelector onPeriodChange={handlePeriodChange} />
-            </Box>
-            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-              <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
-                <DatePicker
-                  label="開始日"
-                  slotProps={{ textField: { size: 'small' } }}
-                  onChange={(date: Date | null) => setInternshipStartDate(date || new Date())}
-                />
-                <Typography variant="h5" fontWeight={'bold'} marginLeft={2} marginRight={2}>
-                  ~
-                </Typography>
-                <DatePicker
-                  label="終了日"
-                  slotProps={{ textField: { size: 'small' } }}
-                  onChange={(date: Date | null) => setInternshipEndDate(date || new Date())}
-                />
-              </LocalizationProvider>
-            </Box>
-            <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
-              <TextField
-                id="outlined-basic"
-                variant="outlined"
-                label="URL"
-                style={{ width: '100%' }}
-                inputProps={{ style: { fontSize: '16px' } }}
-                size="small"
-                autoComplete="off"
-                onChange={(e) => setUrl(e.target.value)}
-              />
-            </Box>
-            <Box marginBottom={'20px'}>
-              <TextField
-                id="outlined-multiline-static"
-                label="メモ"
-                style={{ width: '100%' }}
-                multiline
-                rows={4}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Box>
+            <CompanyDetailForm
+              companyName={companyName}
+              setCompanyName={setCompanyName}
+              ranking={ranking}
+              handleRankingChange={handleRankingChange}
+              companyIndustry={companyIndustry}
+              setCompanyIndustry={setCompanyIndustry}
+              occupation={occupation}
+              setOccupation={setOccupation}
+            />
+            <InternshipDetail
+              internshipDate={internshipDate}
+              setInternshipDate={setInternshipDate}
+              internshipPeriod={internshipPeriod}
+              handlePeriodChange={handlePeriodChange}
+              internshipStartDate={internshipStartDate}
+              setInternshipStartDate={setInternshipStartDate}
+              internshipEndDate={internshipEndDate}
+              setInternshipEndDate={setInternshipEndDate}
+            />
+            <UrlMemoForm
+              url={url}
+              setUrl={setUrl}
+              description={description}
+              setDescription={setDescription}
+            />
             <Box display="flex" justifyContent="space-between">
               <StatusSetting
                 selectedStatus={applicationStatus}

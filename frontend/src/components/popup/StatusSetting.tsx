@@ -161,6 +161,7 @@ const StatusSetting = ({
           </Box>
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleClose}>キャンセル</Button>
           <Button onClick={handleClose}>保存</Button>
         </DialogActions>
       </Dialog>
