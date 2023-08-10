@@ -21,13 +21,7 @@ const Board: FC<BoardProps> = ({ id, type, name, jobs, maxIndex, boardColor }) =
   return (
     <SortableContext id={id} items={jobs} strategy={rectSortingStrategy}>
       <div ref={setNodeRef}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-          }}
-        >
+        <Box display="flex" justifyContent="center">
           <Paper sx={{ minWidth: '250px', borderRadius: '15px' }} elevation={1}>
             <Box
               display="flex"
@@ -41,7 +35,7 @@ const Board: FC<BoardProps> = ({ id, type, name, jobs, maxIndex, boardColor }) =
                 borderTopLeftRadius: '15px',
               }}
             >
-              <Typography id="outlined-basic" variant="h6" component="div" sx={{ p: 1 }}>
+              <Typography id="outlined-basic" variant="h6" sx={{ p: 1 }}>
                 {name}
               </Typography>
             </Box>

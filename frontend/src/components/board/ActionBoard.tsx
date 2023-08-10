@@ -16,6 +16,7 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Container, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import Board from './Board';
 
@@ -216,9 +217,12 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       onDragOver={handleDragOver}
     >
       <Container>
-        <Box>
-          <Typography variant="h3" textAlign="center" color="text" fontWeight="bold" sx={{ mb: 3 }}>
+        <Box textAlign="left" sx={{ mb: 3 }}>
+          <Typography variant="h3" color="text" sx={{ mb: 1 }}>
             {type}
+          </Typography>
+          <Typography variant="body1" color="text">
+            今日の日付は{moment(new Date()).format('YYYY年M月D日')}!
           </Typography>
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="row">
