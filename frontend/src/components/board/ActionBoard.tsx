@@ -237,6 +237,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
                 type={type}
                 name={column.name}
                 jobs={column.jobs}
+                maxIndex={column.jobs.length}
               />
             </Box>
           ))}

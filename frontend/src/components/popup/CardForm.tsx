@@ -18,14 +18,14 @@ import StatusSetting from './StatusSetting';
 type CardFormProps = {
   categoryId: string;
   categoryType: string;
+  maxIndex: number;
 };
 
 // TODO: Reduce state variables and refactor code
-const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
+const CardForm = ({ categoryId, categoryType, maxIndex }: CardFormProps) => {
   const [accessToken] = useAtom(accessTokenAtom);
   const [open, setOpen] = useState(false);
   const [columns, setColumns] = useAtom(columnsAtom);
-
   // Job information
   const [companyName, setCompanyName] = useState('');
   const [companyIndustry, setCompanyIndustry] = useState('');
@@ -48,7 +48,7 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
     const cardDetail: FullJobCreate = {
       job: {
         category_id: categoryId,
-        card_position: 1,
+        card_position: maxIndex,
         company_name: companyName,
         company_industry: companyIndustry,
         occupation,
@@ -104,7 +104,6 @@ const CardForm = ({ categoryId, categoryType }: CardFormProps) => {
   const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
 
   const dateToString = (dateObject: Date | null) => {
-    // get the year, month, date, hours, and minutes seprately and append to the string.
     if (!dateObject) return '';
     return moment(dateObject).format('YYYY-MM-DD');
   };
