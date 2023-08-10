@@ -8,12 +8,12 @@ import { useAtom } from 'jotai';
 import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import AddButton from '../board/AddButton';
-import CompanyDetailForm from '../common/CompanyDetailForm';
-import InternshipDetail from '../common/InternshipDetail';
-import UrlMemoForm from '../common/UrlMemoForm';
-import FlowSetting from './FlowSetting';
-import StatusSetting from './StatusSetting';
+import AddButton from '../../board/AddButton';
+import CompanyDetailForm from '../CompanyDetailForm';
+import InternshipDetail from '../InternshipDetail';
+import UrlMemoForm from '../UrlMemoForm';
+import StatusSetting from '../applicationStatus/StatusSetting';
+import FlowSetting from '../selectionFlow/FlowSetting';
 
 type CardFormProps = {
   categoryId: string;

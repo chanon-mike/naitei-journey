@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState, type FC } from 'react';
-import CardDetailForm from '../popup/CardDetailForm';
+import CardDetailForm from '../popup/cardDetail/CardDetailForm';
 
 type ActionAreaCardProps = {
   id: string;

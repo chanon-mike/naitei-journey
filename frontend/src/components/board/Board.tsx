@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { type FC } from 'react';
-import CardForm from '../popup/CardForm';
+import CardForm from '../popup/createCardForm/CardForm';
 import ActionAreaCard from './ActionAreaCard';
 
 interface BoardProps extends Category {

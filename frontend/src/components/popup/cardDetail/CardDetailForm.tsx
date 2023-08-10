@@ -9,13 +9,15 @@ import { useAtom } from 'jotai';
 import moment from 'moment';
 import type { Dispatch, FormEvent, SetStateAction } from 'react';
 import { useState, type FC } from 'react';
-import CompanyDetailForm from '../common/CompanyDetailForm';
-import ConfirmDialog from '../common/ConfirmDialog';
-import InternshipDetail from '../common/InternshipDetail';
-import UrlMemoForm from '../common/UrlMemoForm';
-import FlowEditor from './FlowEditor';
-import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
-import StatusEditor from './StatusEditor';
+import CompanyDetailForm from '../CompanyDetailForm';
+
+import InternshipDetail from '../InternshipDetail';
+import { getInternshipDateAndPeriod } from '../SplitDateAndPeriod';
+
+import ConfirmDialog from '@/components/common/ConfirmDialog';
+import UrlMemoForm from '../UrlMemoForm';
+import StatusEditor from '../applicationStatus/StatusEditor';
+import FlowEditor from '../selectionFlow/FlowEditor';
 
 type CardDetailProps = {
   cardDetail: FullJob;
