@@ -67,10 +67,10 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const [url, setUrl] = useState(cardDetail.url);
   const [description, setDescription] = useState(cardDetail.description);
   // Application status information
-  const [applicationStatus, setApplicationStatus] = useState<string | null>(
+  const [applicationStatus, setApplicationStatus] = useState<string>(
     cardDetail.application_status.status
   );
-  const [applicationProcess, setApplicationProcess] = useState<string | null>(
+  const [applicationProcess, setApplicationProcess] = useState<string>(
     cardDetail.application_status.process
   );
   const [applicationDate, setApplicationDate] = useState<Date | null>(
@@ -79,7 +79,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState(cardDetail.selection_flows);
 
-  const handleClose = () => {
+  const handleCancel = () => {
     setCompanyName(cardDetail.company_name);
     setCompanyIndustry(cardDetail.company_industry);
     setOccupation(cardDetail.occupation);
@@ -98,6 +98,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   };
 
   const handleEditCard = async () => {
+    console.log(cardDetail.card_position);
     const editedCard: FullJobUpdate = {
       job: {
         category_id: categoryId,
@@ -133,7 +134,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
       columns[0].type
     );
     setColumns(newColumns);
-    handleClose();
+    setOpen(false);
   };
 
   const deleteCard = async () => {
@@ -144,7 +145,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
       columns[0].type
     );
     setColumns(newColumns);
-    handleClose();
+    setOpen(false);
   };
 
   const handleRankingChange = (newRanking: string) => setRanking(newRanking);
@@ -156,7 +157,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
 
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} fullWidth={true}>
+      <Dialog open={open} fullWidth={true} onClose={handleCancel}>
         <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={'20px'}>
           <DialogTitle fontWeight={'bold'}>詳細</DialogTitle>
 
@@ -218,7 +219,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>キャンセル</Button>
+            <Button onClick={handleCancel}>キャンセル</Button>
             <Button type="submit">保存</Button>
           </DialogActions>
         </form>

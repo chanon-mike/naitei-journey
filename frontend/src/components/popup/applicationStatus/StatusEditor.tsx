@@ -38,10 +38,10 @@ const processes = [
 ];
 
 type StatusEditorProps = {
-  selectedStatus: string | null;
-  setSelectedStatus: Dispatch<SetStateAction<string | null>>;
-  selectedProcess: string | null;
-  setSelectedProcess: Dispatch<SetStateAction<string | null>>;
+  selectedStatus: string;
+  setSelectedStatus: Dispatch<SetStateAction<string>>;
+  selectedProcess: string;
+  setSelectedProcess: Dispatch<SetStateAction<string>>;
   applicationDate: Date | null;
   setApplicationDate: Dispatch<SetStateAction<Date | null>>;
 };
@@ -61,8 +61,8 @@ const StatusEditor = ({
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => {
-    setSelectedStatus(null);
-    setSelectedProcess(null);
+    setSelectedStatus('');
+    setSelectedProcess('');
     setApplicationDate(null);
     setOpen(false);
   };
