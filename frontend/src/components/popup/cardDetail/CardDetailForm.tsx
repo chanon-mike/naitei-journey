@@ -4,7 +4,7 @@ import { accessTokenAtom } from '@/atoms/authAtom';
 import { columnsAtom } from '@/atoms/boardAtom';
 import ConfirmDialog from '@/components/common/ConfirmDialog';
 import { jobApi } from '@/libs/job';
-import type { FullJob, FullJobUpdate } from '@/types/board';
+import type { Category, FullJob, FullJobUpdate } from '@/types/board';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
@@ -19,11 +19,18 @@ import FlowEditor from '../selectionFlow/FlowEditor';
 
 const getInternshipDateAndPeriod = (duration: string) => {
   const date = duration.match(/\d+/);
-  const date_val: string = date ? date[0] : '';
-  const period = duration.match(/[^\d]+/);
-  const period_val: string = period ? period[0] : '';
+  const dateVal: string = date ? date[0] : '';
 
-  return { date_val, period_val };
+  let periodVal = '';
+  const periods = [`日`, `週間`, `ヶ月`, `年`];
+  for (const period of periods) {
+    if (duration.includes(period)) {
+      periodVal = period;
+      break;
+    }
+  }
+
+  return { dateVal, periodVal };
 };
 
 const dateToString = (dateObject: Date | null) => {
@@ -46,7 +53,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const [accessToken] = useAtom(accessTokenAtom);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [columns, setColumns] = useAtom(columnsAtom);
-  const { date_val, period_val } = getInternshipDateAndPeriod(cardDetail.internship_duration);
+  const { dateVal, periodVal } = getInternshipDateAndPeriod(cardDetail.internship_duration);
 
   // FullJob information
   const [jobId] = useState(cardDetail.id);
@@ -56,8 +63,8 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const [occupation, setOccupation] = useState(cardDetail.occupation);
   const [ranking, setRanking] = useState(cardDetail.ranking);
   const [isInternship] = useState(cardDetail.is_internship);
-  const [internshipDate, setInternshipDate] = useState(date_val);
-  const [internshipPeriod, setInternshipPeriod] = useState(period_val);
+  const [internshipDate, setInternshipDate] = useState(dateVal);
+  const [internshipPeriod, setInternshipPeriod] = useState(periodVal);
   const [internshipStartDate, setInternshipStartDate] = useState<Date | null>(
     stringToDate(cardDetail.internship_start_date ?? '')
   );
@@ -84,8 +91,8 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
     setCompanyIndustry(cardDetail.company_industry);
     setOccupation(cardDetail.occupation);
     setRanking(cardDetail.ranking);
-    setInternshipDate(cardDetail.internship_duration);
-    setInternshipPeriod(cardDetail.internship_duration);
+    setInternshipDate(dateVal);
+    setInternshipPeriod(periodVal);
     setInternshipStartDate(stringToDate(cardDetail.internship_start_date));
     setInternshipEndDate(stringToDate(cardDetail.internship_end_date));
     setUrl(cardDetail.url);
@@ -98,7 +105,6 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   };
 
   const handleEditCard = async () => {
-    console.log(cardDetail.card_position);
     const editedCard: FullJobUpdate = {
       job: {
         category_id: categoryId,
@@ -115,8 +121,8 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
         description,
       },
       application_status: {
-        status: applicationStatus ?? '',
-        process: applicationProcess ?? '',
+        status: applicationStatus,
+        process: applicationProcess,
         date: dateToString(applicationDate),
       },
       selection_flows: flowProcesses.map((flow, index) => {
@@ -128,26 +134,26 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
       }),
     };
     await jobApi.editJob(accessToken, editedCard, jobId);
-    const newColumns = await jobApi.getCategoryJobs(
-      accessToken,
-      columns[0].user_id,
-      columns[0].type
-    );
-    setColumns(newColumns);
-    setOpen(false);
+    await handleSaveCard();
   };
 
   const deleteCard = async () => {
     await jobApi.deleteJob(accessToken, cardDetail.id);
-    const newColumns = await jobApi.getCategoryJobs(
+    await handleSaveCard();
+  };
+
+  const handleSaveCard = async () => {
+    const newColumns: Category[] = await jobApi.getCategoryJobs(
       accessToken,
       columns[0].user_id,
       columns[0].type
     );
+    newColumns.forEach((category) => {
+      category.jobs.sort((a, b) => a.card_position - b.card_position);
+    });
     setColumns(newColumns);
     setOpen(false);
   };
-
   const handleRankingChange = (newRanking: string) => setRanking(newRanking);
   const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
