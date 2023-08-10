@@ -157,16 +157,18 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
               setOccupation={setOccupation}
             />
 
-            <InternshipDetail
-              internshipDate={internshipDate}
-              setInternshipDate={setInternshipDate}
-              internshipPeriod={internshipPeriod}
-              handlePeriodChange={handlePeriodChange}
-              internshipStartDate={internshipStartDate}
-              setInternshipStartDate={setInternshipStartDate}
-              internshipEndDate={internshipEndDate}
-              setInternshipEndDate={setInternshipEndDate}
-            />
+            {cardDetail.is_internship === true && (
+              <InternshipDetail
+                internshipDate={internshipDate}
+                setInternshipDate={setInternshipDate}
+                internshipPeriod={internshipPeriod}
+                handlePeriodChange={handlePeriodChange}
+                internshipStartDate={internshipStartDate}
+                setInternshipStartDate={setInternshipStartDate}
+                internshipEndDate={internshipEndDate}
+                setInternshipEndDate={setInternshipEndDate}
+              />
+            )}
             <UrlMemoForm
               url={url}
               setUrl={setUrl}
