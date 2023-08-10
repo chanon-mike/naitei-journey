@@ -10,7 +10,7 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import AddButton from '../board/AddButton';
 import CompanyDetailForm from '../common/CompanyDetailForm';
-import InternshipDetail from '../common/InternDetail';
+import InternshipDetail from '../common/InternshipDetail';
 import UrlMemoForm from '../common/UrlMemoForm';
 import FlowSetting from './FlowSetting';
 import StatusSetting from './StatusSetting';
@@ -19,10 +19,11 @@ type CardFormProps = {
   categoryId: string;
   categoryType: string;
   maxIndex: number;
+  boardColor: string;
 };
 
 // TODO: Reduce state variables and refactor code
-const CardForm = ({ categoryId, categoryType, maxIndex }: CardFormProps) => {
+const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormProps) => {
   const [accessToken] = useAtom(accessTokenAtom);
   const [open, setOpen] = useState(false);
   const [columns, setColumns] = useAtom(columnsAtom);
@@ -112,7 +113,7 @@ const CardForm = ({ categoryId, categoryType, maxIndex }: CardFormProps) => {
     <div>
       <Box display="flex" justifyContent="center" alignItems="flex-start">
         <div onClick={() => setOpen(true)}>
-          <AddButton />
+          <AddButton boardColor={boardColor} />
         </div>
       </Box>
       <Dialog open={open} onClose={handleClose}>

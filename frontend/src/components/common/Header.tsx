@@ -12,7 +12,7 @@ const HeaderWrapper = styled(Box)(
         right: 0;
         top: 0;
         z-index: 6;
-        background-color: #fff;
+        background-color: ${theme.palette.background};
         backdrop-filter: blur(3px);
         position: fixed;
         justify-content: space-between;

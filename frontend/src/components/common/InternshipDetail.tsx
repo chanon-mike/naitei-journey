@@ -43,7 +43,7 @@ const InternshipDetail: FC<InternshipDetailProps> = ({
         />
         <PeriodSelector period_val={internshipPeriod} onPeriodChange={handlePeriodChange} />
       </Box>
-      <Box display="flex" justifyContent="flex-start" marginBottom={'20px'}>
+      <Box display="flex" justifyContent="flex-start" sx={{ mb: 2 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
           <DatePicker
             label="開始日"
@@ -51,7 +51,7 @@ const InternshipDetail: FC<InternshipDetailProps> = ({
             value={internshipStartDate}
             onChange={(date: Date | null) => setInternshipStartDate(date || new Date())}
           />
-          <Typography variant="h5" fontWeight={'bold'} marginLeft={2} marginRight={2}>
+          <Typography variant="h5" fontWeight={'bold'} marginLeft={4} marginRight={4}>
             ~
           </Typography>
           <DatePicker

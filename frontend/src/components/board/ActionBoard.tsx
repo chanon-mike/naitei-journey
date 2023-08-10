@@ -30,6 +30,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   const [columns, setColumns] = useAtom(columnsAtom);
   const [, setAccessToken] = useAtom(accessTokenAtom);
   const [fromColumn, setFromColumn] = useState<Category | null>(null);
+  const boardColor = ['primary.light', 'primary.main', 'secondary.light', 'error.light'];
 
   useEffect(() => {
     const sortedData = data.map((column) => {
@@ -78,9 +79,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     const activeColumn = findColumn(activeId, columns);
     const overColumn = findColumn(overId, columns);
 
-    //console.log('activeId:', activeId);
-    //console.log('OverId:', overId);
-
     if (!activeColumn || !overColumn || activeColumn === overColumn) {
       return null;
     }
@@ -90,10 +88,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       const overItems = overColumn.jobs;
       const foundItem = activeItems.find((i) => i.id === activeId);
       const updatedOverItems = foundItem ? [...overItems, foundItem] : [...overItems];
-
-      // console.log('activeItems:', activeItems);
-      // console.log('overitems: ', overItems);
-      // console.log('overColumn: ', overColumn);
 
       const activeIndex = activeItems.findIndex((i) => i.id === activeId);
       const overIndex = overItems.findIndex((i) => i.id === overId);
@@ -165,7 +159,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
 
     const activeIndex = activeColumn.jobs.findIndex((i) => i.id === String(active.id));
     const overIndex = overColumn.jobs.findIndex((i) => i.id === String(over.id));
-
     const activeCard = overColumn.jobs.find((i) => i.id === String(active.id));
     const updatedJobs: JobPositionUpdate[] = [];
 
@@ -197,16 +190,18 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     });
 
     setFromColumn(null);
-
     // Update category in database when drop ended
     updateCategoryDropColumn(overColumn, activeCard);
-
     // Update card_position for backend
     updateCardPositions(updatedJobs);
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -227,7 +222,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
           </Typography>
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="row">
-          {columns.map((column) => (
+          {columns.map((column, index) => (
             <Box key={column.id} minWidth="300px">
               <Board
                 id={column.id}
@@ -236,6 +231,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
                 name={column.name}
                 jobs={column.jobs}
                 maxIndex={column.jobs.length}
+                boardColor={boardColor[index]}
               />
             </Box>
           ))}

@@ -19,10 +19,10 @@ const ProcessButton: React.FC<ProcessButtonProps> = ({
       variant={selectedProcess === process ? 'contained' : 'outlined'}
       style={{
         width: '30%',
-        backgroundColor: selectedProcess === process ? theme.palette.secondary.main : 'transparent',
+        backgroundColor: selectedProcess === process ? theme.palette.primary.main : 'transparent',
         color:
           selectedProcess === process
-            ? theme.palette.secondary.contrastText
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.dark,
       }}
       onClick={() => handleProcessChange(process)}

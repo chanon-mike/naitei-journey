@@ -16,51 +16,51 @@ body {
   background-color: #fff;
   background-image: linear-gradient(
       30deg,
-      rgb(229 229 247 / 5%) 12%,
+      rgb(249 247 247/ 5%) 12%,
       transparent 12.5%,
       transparent 87%,
-      rgb(229 229 247 / 5%) 87.5%,
-      rgb(229 229 247 / 5%)
+      rgb(249 247 247/ 5%) 87.5%,
+      rgb(249 247 247/ 5%)
     ),
     linear-gradient(
       150deg,
-      rgb(229 229 247 / 5%) 12%,
+      rgb(249 247 247/ 5%) 12%,
       transparent 12.5%,
       transparent 87%,
-      rgb(229 229 247 / 5%) 87.5%,
-      rgb(229 229 247 / 5%)
+      rgb(249 247 247/ 5%) 87.5%,
+      rgb(249 247 247/ 5%)
     ),
     linear-gradient(
       30deg,
-      rgb(229 229 247 / 5%) 12%,
+      rgb(249 247 247/ 5%) 12%,
       transparent 12.5%,
       transparent 87%,
-      rgb(229 229 247 / 5%) 87.5%,
-      rgb(229 229 247 / 5%)
+      rgb(249 247 247/ 5%) 87.5%,
+      rgb(249 247 247/ 5%)
     ),
     linear-gradient(
       150deg,
-      rgb(229 229 247 / 5%) 12%,
+      rgb(249 247 247/ 5%) 12%,
       transparent 12.5%,
       transparent 87%,
-      rgb(229 229 247 / 5%) 87.5%,
-      rgb(229 229 247 / 5%)
+      rgb(249 247 247/ 5%) 87.5%,
+      rgb(249 247 247/ 5%)
     ),
     linear-gradient(
       60deg,
-      rgb(229 229 247 / 5%) 25%,
+      rgb(249 247 247/ 5%) 25%,
       transparent 25.5%,
       transparent 75%,
-      rgb(229 229 247 / 5%) 75%,
-      rgb(229 229 247 / 5%)
+      rgb(249 247 247/ 5%) 75%,
+      rgb(249 247 247/ 5%)
     ),
     linear-gradient(
       60deg,
-      rgb(229 229 247 / 5%) 25%,
+      rgb(249 247 247/ 5%) 25%,
       transparent 25.5%,
       transparent 75%,
-      rgb(229 229 247 / 5%) 75%,
-      rgb(229 229 247 / 5%)
+      rgb(249 247 247/ 5%) 75%,
+      rgb(249 247 247/ 5%)
     );
   background-size: 80px 140px;
   background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;

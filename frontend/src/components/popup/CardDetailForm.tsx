@@ -5,58 +5,37 @@ import { jobApi } from '@/libs/job';
 import type { FullJob, FullJobUpdate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
 import moment from 'moment';
-import type { FormEvent } from 'react';
+import type { Dispatch, FormEvent, SetStateAction } from 'react';
 import { useState, type FC } from 'react';
 import CompanyDetailForm from '../common/CompanyDetailForm';
 import ConfirmDialog from '../common/ConfirmDialog';
-import InternshipDetail from '../common/InternDetail';
+import InternshipDetail from '../common/InternshipDetail';
 import UrlMemoForm from '../common/UrlMemoForm';
-import CardDetailLogic from './CardDetailLogic';
 import FlowSetting from './FlowSetting';
 import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
 import StatusSetting from './StatusSetting';
 
 type CardDetailProps = {
   cardDetail: FullJob;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
+const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const [accessToken] = useAtom(accessTokenAtom);
-  const { open, setOpen, confirmOpen, setConfirmOpen, handleClose, deleteCard } = CardDetailLogic(
-    cardDetail,
-    accessToken
-  );
-
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const { date_val, period_val } = getInternshipDateAndPeriod(cardDetail.internship_duration);
 
-  function initBase(value: string): string {
-    return value ?? '';
-  }
+  const initBase = (value: string): string => value ?? '';
+  const initDateValue = (dateString: string): Date | null =>
+    dateString ? new Date(dateString) : null;
+  const initStatus = (value: string): string | null => (value ? value : null);
+  const initFlow = (value: FlowForm[] | null | undefined): FlowForm[] => value || [];
 
-  function initDateValue(dateString: string): Date | null {
-    return dateString ? new Date(dateString) : null;
-  }
-
-  function initStatus(value: string): string | null {
-    return value ? value : null;
-  }
-
-  function initFlow(value: FlowForm[] | null | undefined): FlowForm[] {
-    return value || [];
-  }
-
-  /*FullJob information*/
+  // FullJob information
   const [jobId] = useState(() => initBase(cardDetail.id));
   const [categoryId] = useState(() => initBase(cardDetail.category_id));
   const [companyName, setCompanyName] = useState(() => initBase(cardDetail.company_name));
@@ -92,8 +71,6 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState(() => initFlow(cardDetail.selection_flows));
 
-  console.log(cardDetail);
-
   const transformedSelectionFlows = flowProcesses.map((flow, index) => {
     return {
       ...flow,
@@ -101,6 +78,13 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
       job_id: jobId,
     };
   });
+
+  const handleClose = () => setOpen(false);
+
+  const deleteCard = async () => {
+    await jobApi.deleteJob(accessToken, cardDetail.id);
+    setOpen(false);
+  };
 
   const handleEditCard = async () => {
     const cardDetail: FullJobUpdate = {
@@ -138,19 +122,12 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   };
 
   const dateToString = (dateObject: Date | null) => {
-    // get the year, month, date, hours, and minutes seprately and append to the string.
     if (!dateObject) return '';
     return moment(dateObject).format('YYYY-MM-DD');
   };
 
   return (
     <div>
-      <Box display="flex" justifyContent="center" onClick={() => setOpen(true)}>
-        <Typography color="white" sx={{ p: 1 }}>
-          詳細
-        </Typography>
-      </Box>
-
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={'20px'}>
           <DialogTitle fontWeight={'bold'}>詳細</DialogTitle>
