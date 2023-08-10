@@ -2,8 +2,7 @@
 
 import { accessTokenAtom } from '@/atoms/authAtom';
 import { jobApi } from '@/libs/job';
-import type { FullJob, FullJobUpdate } from '@/types/board';
-import type { FlowForm } from '@/types/form';
+import type { FullJob, FullJobUpdate, SelectionFlow } from '@/types/board';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Box,
@@ -23,9 +22,9 @@ import ConfirmDialog from '../common/ConfirmDialog';
 import InternshipDetail from '../common/InternDetail';
 import UrlMemoForm from '../common/UrlMemoForm';
 import CardDetailLogic from './CardDetailLogic';
-import FlowSetting from './FlowSetting';
+import FlowEditor from './FlowEditor';
 import { getInternshipDateAndPeriod } from './SplitDateAndPeriod';
-import StatusSetting from './StatusSetting';
+import StatusEditor from './StatusEditor';
 
 type CardDetailProps = {
   cardDetail: FullJob;
@@ -37,8 +36,6 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
     cardDetail,
     accessToken
   );
-
-  const { date_val, period_val } = getInternshipDateAndPeriod(cardDetail.internship_duration);
 
   function initBase(value: string): string {
     return value ?? '';
@@ -52,10 +49,11 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
     return value ? value : null;
   }
 
-  function initFlow(value: FlowForm[] | null | undefined): FlowForm[] {
+  function initFlow(value: SelectionFlow[] | null | undefined): SelectionFlow[] {
     return value || [];
   }
 
+  const { date_val, period_val } = getInternshipDateAndPeriod(cardDetail.internship_duration);
   /*FullJob information*/
   const [jobId] = useState(() => initBase(cardDetail.id));
   const [categoryId] = useState(() => initBase(cardDetail.category_id));
@@ -92,7 +90,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState(() => initFlow(cardDetail.selection_flows));
 
-  console.log(cardDetail);
+  console.log('flowProcesses', flowProcesses[0]);
 
   const transformedSelectionFlows = flowProcesses.map((flow, index) => {
     return {
@@ -197,7 +195,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
             />
 
             <Box display="flex" justifyContent="space-between">
-              <StatusSetting
+              <StatusEditor
                 selectedStatus={applicationStatus}
                 setSelectedStatus={setApplicationStatus}
                 selectedProcess={applicationProcess}
@@ -205,7 +203,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail }) => {
                 applicationDate={applicationDate}
                 setApplicationDate={setApplicationDate}
               />
-              <FlowSetting flowProcesses={flowProcesses} setFlowProcesses={setFlowProcesses} />
+              <FlowEditor flowProcesses={flowProcesses} setFlowProcesses={setFlowProcesses} />
             </Box>
           </DialogContent>
           <DialogActions>

@@ -212,6 +212,8 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
     })
   );
 
+  console.log(columns);
+
   return (
     <DndContext
       sensors={sensors}
