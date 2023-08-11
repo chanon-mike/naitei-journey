@@ -1,3 +1,4 @@
+import GoogleAnalytics from '@/components/common/GoogleAnalytics';
 import Header from '@/components/common/Header';
 import ThemeRegistry from '@/components/theme/ThemeRegistry';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
@@ -14,6 +15,9 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <UserProvider>
         <body>
           <ThemeRegistry options={{ key: 'mui' }}>
