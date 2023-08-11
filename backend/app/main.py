@@ -9,7 +9,6 @@ from app.db.base import Base
 from app.db.database import engine
 from app.routers import category, debug, job, user
 
-
 configure_mappers()
 Base.metadata.create_all(bind=engine)
 

@@ -1,5 +1,4 @@
 from typing import Optional
-from app.schemas.selection_flow import SelectionFlowCreate, SelectionFlowUpdate
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -10,6 +9,7 @@ import app.repository.job as job_repo
 import app.repository.selection_flow as flow_repo
 from app.db.database import get_db
 from app.schemas.job import FullJobCreate, FullJobUpdate, JobPositionUpdate
+from app.schemas.selection_flow import SelectionFlowCreate, SelectionFlowUpdate
 from app.security.payload import Payload
 from app.security.verify_token import verify_token
 

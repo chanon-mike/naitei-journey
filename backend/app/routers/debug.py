@@ -1,7 +1,7 @@
-from app.security.auth0 import VerifyToken
-from app.security.verify_token import token_auth_scheme
 from fastapi import APIRouter, Depends, Response, status
 
+from app.security.auth0 import VerifyToken
+from app.security.verify_token import token_auth_scheme
 
 router = APIRouter(prefix="/debug", tags=["debug"])
 
