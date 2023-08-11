@@ -1,5 +1,7 @@
+import Explanation from '@/components/home/Explanation';
 import { getSession } from '@auth0/nextjs-auth0';
 import { ArrowForward } from '@mui/icons-material';
+import KeyboardDoubleArrowDownTwoToneIcon from '@mui/icons-material/KeyboardDoubleArrowDownTwoTone';
 import { Box, Button, Container, Link, Typography } from '@mui/material';
 
 const Home = async () => {
@@ -47,6 +49,21 @@ const Home = async () => {
           </Box>
         )}
       </Box>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center" // centerに変更
+        alignItems="center"
+        width="100%" // 画面の横幅全体に広がるように
+        paddingBottom={2} // 下側の余白
+      >
+        <Typography variant="h6" color="gray">
+          下にスクロール
+        </Typography>
+        <KeyboardDoubleArrowDownTwoToneIcon />
+      </Box>
+      <Explanation />
+      <Box height="150vh" />
     </Container>
   );
 };
