@@ -1,7 +1,7 @@
 import { accessTokenAtom } from '@/atoms/authAtom';
 import { columnsAtom } from '@/atoms/boardAtom';
 import { jobApi } from '@/libs/job';
-import type { FullJobCreate } from '@/types/board';
+import type { Category, FullJobCreate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
@@ -69,11 +69,14 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
       selection_flows: flowProcesses,
     };
     await jobApi.createJob(accessToken, cardDetail);
-    const newColumns = await jobApi.getCategoryJobs(
+    const newColumns: Category[] = await jobApi.getCategoryJobs(
       accessToken,
       columns[0].user_id,
       columns[0].type
     );
+    newColumns.forEach((category) => {
+      category.jobs.sort((a, b) => a.card_position - b.card_position);
+    });
     setColumns(newColumns);
     handleClose();
   };

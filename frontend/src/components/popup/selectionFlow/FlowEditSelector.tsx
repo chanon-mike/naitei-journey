@@ -49,7 +49,7 @@ const FlowEditSelector = ({ flowProcess, flowStep, setFlowProcesses }: FlowEditS
         <MenuItem value="Web">Web</MenuItem>
         <MenuItem value="1次面接">1次面接</MenuItem>
         <MenuItem value="2次面接">2次面接</MenuItem>
-        <MenuItem value="3次面接以降">3次面接</MenuItem>
+        <MenuItem value="3次面接">3次面接</MenuItem>
         <MenuItem value="最終面接">最終面接</MenuItem>
       </Select>
     </FormControl>

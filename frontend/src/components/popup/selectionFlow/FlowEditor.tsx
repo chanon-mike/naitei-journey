@@ -9,33 +9,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
 } from '@mui/material';
 import { useAtom } from 'jotai';
-import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 import FlowEditSelector from './FlowEditSelector';
-
-const FlowInput = () => {
-  return (
-    <FormControl sx={{ m: 1, minWidth: '300px' }}>
-      <InputLabel>フロー</InputLabel>
-      <Select>
-        <MenuItem value="ES">ES</MenuItem>
-        <MenuItem value="Web">Web</MenuItem>
-        <MenuItem value="1次面接">1次面接</MenuItem>
-        <MenuItem value="2次面接">2次面接</MenuItem>
-        <MenuItem value="3次面接以降">3次面接</MenuItem>
-        <MenuItem value="最終面接">最終面接</MenuItem>
-      </Select>
-    </FormControl>
-  );
-};
 
 type FlowEditProps = {
   flowProcesses: SelectionFlow[];
@@ -46,7 +26,6 @@ type FlowEditProps = {
 const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) => {
   const [accessToken] = useAtom(accessTokenAtom);
   const [open, setOpen] = useState(false);
-  const [inputList, setInputList] = useState<ReactNode[]>([]);
 
   useEffect(() => {
     const sortedFlowProcesses = flowProcesses.sort((a, b) => a.step - b.step);
@@ -57,10 +36,9 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
   const handleClose = () => setOpen(false);
 
   const onAddBtnClick = async () => {
-    setInputList([...inputList, <FlowInput key={inputList.length + 1} />]);
     const newFlowProcess: SelectionFlowBase = {
       process: '',
-      step: flowProcesses.length + inputList.length + 1,
+      step: flowProcesses.length + 1,
     };
     const flowProcessResponse: SelectionFlow = await jobApi.createSelectionFlow(
       accessToken,
@@ -97,7 +75,6 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
             ))}
 
             <Box display="flex" flexDirection="column">
-              {inputList}
               <Box display="flex" justifyContent="center" alignItems="flex-start">
                 <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
                   <IconButton aria-label="add to button" size="large" onClick={onAddBtnClick}>

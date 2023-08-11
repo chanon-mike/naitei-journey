@@ -125,13 +125,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
         process: applicationProcess,
         date: dateToString(applicationDate),
       },
-      selection_flows: flowProcesses.map((flow, index) => {
-        return {
-          ...flow,
-          id: cardDetail.selection_flows[index].id,
-          job_id: jobId,
-        };
-      }),
+      selection_flows: flowProcesses,
     };
     await jobApi.editJob(accessToken, editedCard, jobId);
     await handleSaveCard();
