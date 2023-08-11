@@ -8,6 +8,21 @@ def get_selection_flow(db: Session, job_id: str) -> SelectionFlow:
     return db.query(SelectionFlow).filter(SelectionFlow.job_id == job_id).first()
 
 
+def create_selection_flow(db: Session, flow: SelectionFlowCreate, job_id: str):
+    db_flow = SelectionFlow(
+        **{
+            "job_id": job_id,
+            "step": flow.step,
+            "process": flow.process,
+        }
+    )
+
+    db.add(db_flow)
+    db.commit()
+    db.refresh(db_flow)
+    return db_flow
+
+
 def create_selection_flows(
     db: Session, flows: list[SelectionFlowCreate], job_id: str
 ) -> list[SelectionFlow]:
@@ -34,8 +49,6 @@ def update_selection_flows(db: Session, flows: list[SelectionFlowUpdate]):
     return mappings
 
 
-def delete_selection_flows(db: Session, ids: list[str]):
-    db.query(SelectionFlow).filter(SelectionFlow.id.in_(ids)).delete(
-        synchronize_session=False
-    )
+def delete_selection_flow(db: Session, flow_id: str):
+    db.query(SelectionFlow).filter(SelectionFlow.id == flow_id).delete()
     db.commit()

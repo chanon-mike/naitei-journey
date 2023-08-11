@@ -5,7 +5,7 @@ import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 export default withPageAuthRequired(
   async function Home() {
-    const boardType = 'インターンシップ';
+    const boardType = '本選考';
     const session = await getSession();
     const data: Category[] = await jobApi.getCategoryJobs(
       session?.accessToken ?? '',
@@ -24,5 +24,5 @@ export default withPageAuthRequired(
       </main>
     );
   },
-  { returnTo: '/intern' }
+  { returnTo: '/fulltime' }
 );

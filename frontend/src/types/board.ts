@@ -69,3 +69,9 @@ export interface FullJob extends Job {
   application_status: ApplicationStatus;
   selection_flows: SelectionFlow[];
 }
+
+// Job for update position
+export interface JobPositionUpdate {
+  id: string;
+  card_position: number;
+}
