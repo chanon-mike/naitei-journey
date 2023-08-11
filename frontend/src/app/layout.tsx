@@ -1,3 +1,4 @@
+import Footer from '@/components/common/Footer';
 import GoogleAnalytics from '@/components/common/GoogleAnalytics';
 import Header from '@/components/common/Header';
 import ThemeRegistry from '@/components/theme/ThemeRegistry';
@@ -22,7 +23,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <body>
           <ThemeRegistry options={{ key: 'mui' }}>
             <Header />
-            <Box sx={{ mt: '100px' }}>{children}</Box>
+            <Box minHeight="100vh" sx={{ mt: '100px' }}>
+              {children}
+            </Box>
+            <Footer />
           </ThemeRegistry>
         </body>
       </UserProvider>
