@@ -15,7 +15,6 @@ import {
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import Board from './Board';
 
@@ -78,16 +77,13 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       onDragOver={handleDragOver}
     >
       <Container>
-        <Box textAlign="left" sx={{ mb: 3 }}>
-          <Typography variant="h3" color="text" sx={{ mb: 1 }}>
+        <Box textAlign="center">
+          <Typography variant="h2" color="text" sx={{ mb: 5 }} fontWeight="bold">
             {type}
-          </Typography>
-          <Typography variant="body1" color="text">
-            今日の日付は{moment(new Date()).format('YYYY年M月D日')}!
           </Typography>
         </Box>
         {loading ? (
-          <Box textAlign="center" mt={5}>
+          <Box textAlign="center" mt={20}>
             <CircularProgress />
           </Box>
         ) : (
