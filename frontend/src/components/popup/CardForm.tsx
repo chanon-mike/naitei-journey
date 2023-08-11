@@ -130,16 +130,18 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
               occupation={occupation}
               setOccupation={setOccupation}
             />
-            <InternshipDetail
-              internshipDate={internshipDate}
-              setInternshipDate={setInternshipDate}
-              internshipPeriod={internshipPeriod}
-              handlePeriodChange={handlePeriodChange}
-              internshipStartDate={internshipStartDate}
-              setInternshipStartDate={setInternshipStartDate}
-              internshipEndDate={internshipEndDate}
-              setInternshipEndDate={setInternshipEndDate}
-            />
+            {categoryType === 'インターンシップ' && (
+              <InternshipDetail
+                internshipDate={internshipDate}
+                setInternshipDate={setInternshipDate}
+                internshipPeriod={internshipPeriod}
+                handlePeriodChange={handlePeriodChange}
+                internshipStartDate={internshipStartDate}
+                setInternshipStartDate={setInternshipStartDate}
+                internshipEndDate={internshipEndDate}
+                setInternshipEndDate={setInternshipEndDate}
+              />
+            )}
             <UrlMemoForm
               url={url}
               setUrl={setUrl}
