@@ -1,6 +1,15 @@
 import type { FlowForm } from '@/types/form';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from '@mui/material';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import FlowSelector from './FlowSelector';
@@ -16,6 +25,14 @@ const FlowSetting = ({ flowProcesses, setFlowProcesses }: FlowSettingProps) => {
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleDeleteFlow = () => {
+    // Delete flow process at the last index
+    console.log(flowProcesses);
+    const newFlowProcesses = flowProcesses.slice(0, -1);
+    console.log(newFlowProcesses);
+    setFlowProcesses(newFlowProcesses);
+  };
 
   const getFlowProcess = (index: number) =>
     flowProcesses.find((fp) => fp.step === index + 1) || { step: index + 1, process: '' };
@@ -41,11 +58,22 @@ const FlowSetting = ({ flowProcesses, setFlowProcesses }: FlowSettingProps) => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FlowSelector
-                    flowProcess={getFlowProcess(index)}
-                    flowStep={index + 1}
-                    setFlowProcesses={setFlowProcesses}
-                  />
+                  <Box display="flex" sx={{ width: '100%' }}>
+                    <FlowSelector
+                      flowProcess={getFlowProcess(index)}
+                      flowStep={index + 1}
+                      setFlowProcesses={setFlowProcesses}
+                    />
+                    {index <= maxStep && index === flowProcesses.length - 1 && (
+                      <IconButton
+                        aria-label="delete flow"
+                        size="medium"
+                        onClick={() => handleDeleteFlow()}
+                      >
+                        <RemoveCircleOutlineIcon fontSize="inherit" color="inherit" />
+                      </IconButton>
+                    )}
+                  </Box>
                   {index !== maxStep - 1 && <ArrowDownwardIcon />}
                 </Box>
               )

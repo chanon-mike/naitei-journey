@@ -39,8 +39,8 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   // Application status information
-  const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
-  const [applicationProcess, setApplicationProcess] = useState<string | null>(null);
+  const [applicationStatus, setApplicationStatus] = useState<string>('');
+  const [applicationProcess, setApplicationProcess] = useState<string>('');
   const [applicationDate, setApplicationDate] = useState<Date | null>(null);
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
@@ -62,8 +62,8 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
         description,
       },
       application_status: {
-        status: applicationStatus ?? '',
-        process: applicationProcess ?? '',
+        status: applicationStatus,
+        process: applicationProcess,
         date: dateToString(applicationDate),
       },
       selection_flows: flowProcesses,
@@ -92,8 +92,8 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
     setInternshipEndDate(null);
     setUrl('');
     setDescription('');
-    setApplicationStatus(null);
-    setApplicationProcess(null);
+    setApplicationStatus('');
+    setApplicationProcess('');
     setApplicationDate(null);
     setFlowProcesses([]);
     setOpen(false);

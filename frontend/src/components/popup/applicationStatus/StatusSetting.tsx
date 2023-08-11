@@ -38,10 +38,10 @@ const processes = [
 ];
 
 type StatusSettingProps = {
-  selectedStatus: string | null;
-  setSelectedStatus: Dispatch<SetStateAction<string | null>>;
-  selectedProcess: string | null;
-  setSelectedProcess: Dispatch<SetStateAction<string | null>>;
+  selectedStatus: string;
+  setSelectedStatus: Dispatch<SetStateAction<string>>;
+  selectedProcess: string;
+  setSelectedProcess: Dispatch<SetStateAction<string>>;
   applicationDate: Date | null;
   setApplicationDate: Dispatch<SetStateAction<Date | null>>;
 };
