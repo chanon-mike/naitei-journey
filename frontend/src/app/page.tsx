@@ -52,10 +52,10 @@ const Home = async () => {
       <Box
         display="flex"
         flexDirection="column"
-        justifyContent="center" // centerに変更
+        justifyContent="center"
         alignItems="center"
-        width="100%" // 画面の横幅全体に広がるように
-        paddingBottom={2} // 下側の余白
+        width="100%"
+        paddingBottom={2}
       >
         <Typography variant="h6" color="gray">
           下にスクロール
@@ -63,7 +63,7 @@ const Home = async () => {
         <KeyboardDoubleArrowDownTwoToneIcon />
       </Box>
       <Explanation />
-      <Box height="150vh" />
+      <Box height="80vh" />
     </Container>
   );
 };

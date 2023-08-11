@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Link, Typography, keyframes } from '@mui/material';
+import { Box, Typography, keyframes } from '@mui/material';
 import { useEffect, useState } from 'react';
 import MovieExplanation from './MovieExplanation';
 
@@ -73,29 +73,12 @@ const Explanation = () => {
         アカウントを作り、ボードにアクセスしましょう
       </Typography>
 
-      <Box display="flex" justifyContent="center" marginBottom={3}>
-        <Typography variant="h2" marginBottom={5}>
-          あなたの
-        </Typography>
-        <Typography variant="h2" marginBottom={5} color="primary.main">
+      <Box display="flex" justifyContent="center" marginBottom={10}>
+        <Typography variant="h2">あなたの</Typography>
+        <Typography variant="h2" color="primary.main">
           内定までの道
         </Typography>
-        <Typography variant="h2" marginBottom={5}>
-          が始まります
-        </Typography>
-      </Box>
-
-      <Box display="flex" gap="10px" flexDirection="column" alignItems="center" marginBottom={7}>
-        <Link href="/intern" underline="none">
-          <Button variant="outlined" color="primary" sx={{ width: '200px' }}>
-            インターンシップへ
-          </Button>
-        </Link>
-        <Link href="/fulltime" underline="none">
-          <Button variant="outlined" color="secondary" sx={{ width: '200px' }}>
-            本選考へ
-          </Button>
-        </Link>
+        <Typography variant="h2">が始まります</Typography>
       </Box>
 
       <MovieExplanation />
