@@ -87,17 +87,34 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail, boardColor })
       justifyContent="center"
       margin={'20px'}
     >
-      <Card sx={{ maxWidth: 250, height: 100, minWidth: 200, borderRadius: 2 }}>
+      <Card sx={{ height: 100, width: 200, borderRadius: 2 }}>
         <CardActionArea style={{ height: '100%' }}>
           <CardContent {...listeners} onClick={() => setOpenDetail(true)}>
             <Box display="flex" justifyContent="space-between" marginBottom={0}>
-              <Typography variant="h6">{cardDetail.company_name}</Typography>
+              <Typography
+                variant="h6"
+                style={{
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {cardDetail.company_name}
+              </Typography>
               <Typography variant="h6" color={boardColor} fontWeight={'bold'}>
                 {cardDetail.ranking}
               </Typography>
             </Box>
 
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+              color="text.secondary"
+            >
               {cardDetail.company_industry}・{cardDetail.occupation}
             </Typography>
 
