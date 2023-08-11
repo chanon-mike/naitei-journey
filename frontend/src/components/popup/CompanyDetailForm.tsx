@@ -31,7 +31,7 @@ const CompanyDetailForm: FC<CompanyDetailFormProps> = ({
           id="outlined-basic"
           variant="outlined"
           label="企業名"
-          sx={{ width: '70%' }}
+          sx={{ width: '70%', mr: 5 }}
           inputProps={{ style: { textAlign: 'left', fontSize: '16px' } }}
           value={companyName}
           size="medium"
@@ -40,13 +40,13 @@ const CompanyDetailForm: FC<CompanyDetailFormProps> = ({
         />
         <RankingSelector rank={ranking} onRankChange={handleRankingChange} />
       </Box>
-      <Box display="flex" alignItems="center" marginBottom={'20px'}>
+      <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom={'20px'}>
         <TextField
           required
           id="outlined-basic"
           variant="outlined"
           label="業種"
-          sx={{ width: '45%', marginRight: '10%' }}
+          sx={{ width: '45%' }}
           inputProps={{ style: { fontSize: '16px' } }}
           size="medium"
           autoComplete="off"

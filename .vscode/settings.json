@@ -17,8 +17,5 @@
     "editor.tabSize": 4,
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
 }

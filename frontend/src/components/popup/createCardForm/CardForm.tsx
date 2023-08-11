@@ -27,6 +27,8 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
   const [accessToken] = useAtom(accessTokenAtom);
   const [open, setOpen] = useState(false);
   const [columns, setColumns] = useAtom(columnsAtom);
+  const [loading, setLoading] = useState(false);
+
   // Job information
   const [companyName, setCompanyName] = useState('');
   const [companyIndustry, setCompanyIndustry] = useState('');
@@ -46,6 +48,8 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
   const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
 
   const handleSaveCard = async () => {
+    setLoading(true);
+
     const cardDetail: FullJobCreate = {
       job: {
         category_id: categoryId,
@@ -78,6 +82,7 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
       category.jobs.sort((a, b) => a.card_position - b.card_position);
     });
     setColumns(newColumns);
+    setLoading(false);
     handleClose();
   };
 
@@ -163,8 +168,17 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>キャンセル</Button>
-            <Button type="submit">保存</Button>
+            {loading ? (
+              <Box>
+                <Button disabled>キャンセル</Button>
+                <Button disabled>保存中...</Button>
+              </Box>
+            ) : (
+              <Box>
+                <Button onClick={handleClose}>キャンセル</Button>
+                <Button type="submit">保存</Button>
+              </Box>
+            )}
           </DialogActions>
         </form>
       </Dialog>

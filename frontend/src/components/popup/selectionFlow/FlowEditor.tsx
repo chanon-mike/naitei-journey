@@ -29,10 +29,12 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
   const [accessToken] = useAtom(accessTokenAtom);
   const [columns, setColumns] = useAtom(columnsAtom);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const maxIndex = 6;
 
   const handleClickOpen = () => setOpen(true);
   const handleSave = async () => {
+    setLoading(true);
     await jobApi.editSelectionFlow(accessToken, jobId, flowProcesses);
     const newColumns: Category[] = await jobApi.getCategoryJobs(
       accessToken,
@@ -43,6 +45,7 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
       category.jobs.sort((a, b) => a.card_position - b.card_position);
     });
     setColumns(newColumns);
+    setLoading(false);
     setOpen(false);
   };
 
@@ -117,7 +120,11 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleSave}>保存</Button>
+            {loading ? (
+              <Button disabled>保存中...</Button>
+            ) : (
+              <Button onClick={handleSave}>保存</Button>
+            )}
           </DialogActions>
         </Box>
       </Dialog>

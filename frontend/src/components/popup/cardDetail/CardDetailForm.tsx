@@ -53,6 +53,8 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   const [accessToken] = useAtom(accessTokenAtom);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [columns, setColumns] = useAtom(columnsAtom);
+  const [loading, setLoading] = useState(false);
+
   const { dateVal, periodVal } = getInternshipDateAndPeriod(cardDetail.internship_duration);
 
   // FullJob information
@@ -105,6 +107,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   };
 
   const handleEditCard = async () => {
+    setLoading(true);
     const editedCard: FullJobUpdate = {
       job: {
         category_id: categoryId,
@@ -132,6 +135,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   };
 
   const deleteCard = async () => {
+    setLoading(true);
     await jobApi.deleteJob(accessToken, cardDetail.id);
     await handleLoadCards();
   };
@@ -146,6 +150,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
       category.jobs.sort((a, b) => a.card_position - b.card_position);
     });
     setColumns(newColumns);
+    setLoading(false);
     setOpen(false);
   };
   const handleRankingChange = (newRanking: string) => setRanking(newRanking);
@@ -219,8 +224,17 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCancel}>キャンセル</Button>
-            <Button type="submit">保存</Button>
+            {loading ? (
+              <Box>
+                <Button disabled>キャンセル</Button>
+                <Button disabled>保存中...</Button>
+              </Box>
+            ) : (
+              <Box>
+                <Button onClick={handleCancel}>キャンセル</Button>
+                <Button type="submit">保存</Button>
+              </Box>
+            )}
           </DialogActions>
         </form>
       </Dialog>

@@ -8,7 +8,6 @@ URL: https://naitei-journey.vercel.app/
 
 ![image](https://github.com/chanon-mike/naitei-journey/assets/27944646/00266221-3943-4bcb-8c5a-7f79823a6a00)
 
-
 ## ローカル環境構築
 
 ローカル環境変数を追加し、.env.example を.env にコピーし、環境に合わせて編集します。
@@ -81,6 +80,15 @@ cd /backend/app/db/
 alembic revision --autogenerate -m '変更内容'
 # マイグレーションを行う
 alembic upgrade head
+```
+
+### フロントエンドのバグ
+
+現在、フロントエンドが Docker で起動できないバグがあります。そのため、Docker のコンテイナーをストップしてから、フロントエンドはローカルで起動してください。
+
+```bash
+cd frontend
+npm run dev
 ```
 
 ## ER 図
