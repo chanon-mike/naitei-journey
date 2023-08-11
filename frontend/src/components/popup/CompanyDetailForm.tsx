@@ -1,6 +1,6 @@
 import { Box, TextField } from '@mui/material';
 import type { FC } from 'react';
-import RankingSelector from '../popup/RankingSelector';
+import RankingSelector from './RankingSelector';
 
 type CompanyDetailFormProps = {
   companyName: string;

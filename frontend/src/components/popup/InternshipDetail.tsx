@@ -2,18 +2,19 @@ import { Box, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import ja from 'date-fns/locale/ja';
+import type { Dispatch, SetStateAction } from 'react';
 import { type FC } from 'react';
 import PeriodSelector from '../popup/PeriodSelector';
 
 type InternshipDetailProps = {
   internshipDate: string;
-  setInternshipDate: (value: string) => void;
+  setInternshipDate: Dispatch<SetStateAction<string>>;
   internshipPeriod: string;
   handlePeriodChange: (period: string) => void;
   internshipStartDate: Date | null;
-  setInternshipStartDate: (date: Date | null) => void;
+  setInternshipStartDate: Dispatch<SetStateAction<Date | null>>;
   internshipEndDate: Date | null;
-  setInternshipEndDate: (date: Date | null) => void;
+  setInternshipEndDate: Dispatch<SetStateAction<Date | null>>;
 };
 
 const InternshipDetail: FC<InternshipDetailProps> = ({

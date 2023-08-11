@@ -9,6 +9,7 @@ import app.repository.job as job_repo
 import app.repository.selection_flow as flow_repo
 from app.db.database import get_db
 from app.schemas.job import FullJobCreate, FullJobUpdate, JobPositionUpdate
+from app.schemas.selection_flow import SelectionFlowCreate, SelectionFlowUpdate
 from app.security.payload import Payload
 from app.security.verify_token import verify_token
 
@@ -124,7 +125,7 @@ def update_job(
         )
 
     status_repo.update_application_status(db, full_job.application_status, job_id)
-    flow_repo.update_selection_flows(db, full_job.selection_flows)
+    # flow_repo.update_selection_flows(db, full_job.selection_flows)
 
     return {"message": "Successfully updated job data"}
 
@@ -171,3 +172,76 @@ def update_job_category(
         raise HTTPException(status_code=404, detail="Job not found")
 
     return job_db
+
+
+@router.post("/{job_id}/selection-flow")
+def create_selection_flow(
+    job_id: str,
+    flow: SelectionFlowCreate,
+    db: Session = Depends(get_db),
+    token: Payload = Depends(verify_token),
+):
+    """Create a new selection flow"""
+    job_db = job_repo.get_job(db, job_id)
+    if job_db is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    category_db = category_repo.get_category(db, job_db.category_id)
+    if token.get("sub") != category_db.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
+        )
+
+    return flow_repo.create_selection_flow(db, flow, job_id)
+
+
+@router.put("/{job_id}/selection-flow")
+def update_selection_flows(
+    job_id: str,
+    flows: list[SelectionFlowUpdate],
+    db: Session = Depends(get_db),
+    token: Payload = Depends(verify_token),
+):
+    """Update existing selection flows"""
+    try:
+        job_db = job_repo.get_job(db, job_id)
+        if job_db is None:
+            raise HTTPException(status_code=404, detail="Job not found")
+
+        category_db = category_repo.get_category(db, job_db.category_id)
+        if token.get("sub") != category_db.user_id:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
+            )
+
+        flow_repo.update_selection_flows(db, flows)
+
+        return {"message": f"Successfully updated selection flows for job {job_id}"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.delete("/{job_id}/selection-flow/{flow_id}")
+def delete_selection_flow(
+    job_id: str,
+    flow_id: str,
+    db: Session = Depends(get_db),
+    token: Payload = Depends(verify_token),
+):
+    """Delete an existing selection flow"""
+    try:
+        job_db = job_repo.get_job(db, job_id)
+        if job_db is None:
+            raise HTTPException(status_code=404, detail="Job not found")
+
+        category_db = category_repo.get_category(db, job_db.category_id)
+        if token.get("sub") != category_db.user_id:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
+            )
+
+        flow_repo.delete_selection_flow(db, flow_id)
+
+        return {"message": f"Selection flow {flow_id} is deleted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

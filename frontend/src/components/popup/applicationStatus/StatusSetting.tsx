@@ -13,9 +13,9 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ja from 'date-fns/locale/ja';
 import type { Dispatch, SetStateAction } from 'react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import ProcessButton from './ProcessButton';
-import FlowButton from './StatusButton';
+import StatusButton from './StatusButton';
 
 const statuses1 = [
   { id: 'es', name: 'ES' },
@@ -37,43 +37,30 @@ const processes = [
   { id: 'waitng', name: '結果待ち' },
 ];
 
-type StatusEditorProps = {
-  selectedStatus: string | null;
-  setSelectedStatus: Dispatch<SetStateAction<string | null>>;
-  selectedProcess: string | null;
-  setSelectedProcess: Dispatch<SetStateAction<string | null>>;
+type StatusSettingProps = {
+  selectedStatus: string;
+  setSelectedStatus: Dispatch<SetStateAction<string>>;
+  selectedProcess: string;
+  setSelectedProcess: Dispatch<SetStateAction<string>>;
   applicationDate: Date | null;
   setApplicationDate: Dispatch<SetStateAction<Date | null>>;
 };
 
-const StatusEditor = ({
+const StatusSetting = ({
   selectedStatus,
   setSelectedStatus,
   selectedProcess,
   setSelectedProcess,
   applicationDate,
   setApplicationDate,
-}: StatusEditorProps) => {
+}: StatusSettingProps) => {
   const [open, setOpen] = useState(false);
-
-  const initselectedStatus = useRef(selectedStatus);
-  const initselectedProcess = useRef(selectedProcess);
-  const initapplicationDate = useRef(applicationDate);
 
   const handleStatusChange = (status: string) => setSelectedStatus(status);
   const handleProcessChange = (process: string) => setSelectedProcess(process);
 
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => {
-    setSelectedStatus(initselectedStatus.current);
-    setSelectedProcess(initselectedProcess.current);
-    setApplicationDate(initapplicationDate.current);
-    setOpen(false);
-  };
-
-  const handleSave = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   return (
     <div>
@@ -93,7 +80,7 @@ const StatusEditor = ({
               marginTop={'20px'}
             >
               {statuses1.map((status) => (
-                <FlowButton
+                <StatusButton
                   key={status.id}
                   selectedStatus={selectedStatus}
                   status={status.name}
@@ -108,7 +95,7 @@ const StatusEditor = ({
               marginTop={'20px'}
             >
               {statuses2.map((status) => (
-                <FlowButton
+                <StatusButton
                   key={status.id}
                   selectedStatus={selectedStatus}
                   status={status.name}
@@ -123,7 +110,7 @@ const StatusEditor = ({
               marginTop={'20px'}
             >
               {statuses3.map((status) => (
-                <FlowButton
+                <StatusButton
                   key={status.id}
                   selectedStatus={selectedStatus}
                   status={status.name}
@@ -174,12 +161,11 @@ const StatusEditor = ({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>キャンセル</Button>
-          <Button onClick={handleSave}>保存</Button>
+          <Button onClick={handleClose}>閉じる</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-export default StatusEditor;
+export default StatusSetting;

@@ -1,19 +1,19 @@
 import { accessTokenAtom } from '@/atoms/authAtom';
 import { columnsAtom } from '@/atoms/boardAtom';
 import { jobApi } from '@/libs/job';
-import type { FullJobCreate } from '@/types/board';
+import type { Category, FullJobCreate } from '@/types/board';
 import type { FlowForm } from '@/types/form';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
 import moment from 'moment';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import AddButton from '../board/AddButton';
-import CompanyDetailForm from '../common/CompanyDetailForm';
-import InternshipDetail from '../common/InternshipDetail';
-import UrlMemoForm from '../common/UrlMemoForm';
-import FlowSetting from './FlowSetting';
-import StatusSetting from './StatusSetting';
+import AddButton from '../../board/AddButton';
+import CompanyDetailForm from '../CompanyDetailForm';
+import InternshipDetail from '../InternshipDetail';
+import UrlMemoForm from '../UrlMemoForm';
+import StatusSetting from '../applicationStatus/StatusSetting';
+import FlowSetting from '../selectionFlow/FlowSetting';
 
 type CardFormProps = {
   categoryId: string;
@@ -39,8 +39,8 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   // Application status information
-  const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
-  const [applicationProcess, setApplicationProcess] = useState<string | null>(null);
+  const [applicationStatus, setApplicationStatus] = useState<string>('');
+  const [applicationProcess, setApplicationProcess] = useState<string>('');
   const [applicationDate, setApplicationDate] = useState<Date | null>(null);
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState<FlowForm[]>([]);
@@ -62,18 +62,21 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
         description,
       },
       application_status: {
-        status: applicationStatus ?? '',
-        process: applicationProcess ?? '',
+        status: applicationStatus,
+        process: applicationProcess,
         date: dateToString(applicationDate),
       },
       selection_flows: flowProcesses,
     };
     await jobApi.createJob(accessToken, cardDetail);
-    const newColumns = await jobApi.getCategoryJobs(
+    const newColumns: Category[] = await jobApi.getCategoryJobs(
       accessToken,
       columns[0].user_id,
       columns[0].type
     );
+    newColumns.forEach((category) => {
+      category.jobs.sort((a, b) => a.card_position - b.card_position);
+    });
     setColumns(newColumns);
     handleClose();
   };
@@ -89,20 +92,19 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
     setInternshipEndDate(null);
     setUrl('');
     setDescription('');
-    setApplicationStatus(null);
-    setApplicationProcess(null);
+    setApplicationStatus('');
+    setApplicationProcess('');
     setApplicationDate(null);
     setFlowProcesses([]);
     setOpen(false);
   };
 
+  const handleRankingChange = (newRanking: string) => setRanking(newRanking);
+  const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSaveCard();
   };
-
-  const handleRankingChange = (newRanking: string) => setRanking(newRanking);
-  const handlePeriodChange = (newPeriod: string) => setInternshipPeriod(newPeriod);
 
   const dateToString = (dateObject: Date | null) => {
     if (!dateObject) return '';

@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { useAtom } from 'jotai';
 import { useState, type FC } from 'react';
-import ConfirmDialog from '../common/ConfirmDialog';
+import ConfirmDialog from '../../common/ConfirmDialog';
 
 type CardDetailProps = {
   cardDetail: FullJob;

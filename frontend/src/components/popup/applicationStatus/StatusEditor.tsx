@@ -37,30 +37,39 @@ const processes = [
   { id: 'waitng', name: '結果待ち' },
 ];
 
-type StatusSettingProps = {
-  selectedStatus: string | null;
-  setSelectedStatus: Dispatch<SetStateAction<string | null>>;
-  selectedProcess: string | null;
-  setSelectedProcess: Dispatch<SetStateAction<string | null>>;
+type StatusEditorProps = {
+  selectedStatus: string;
+  setSelectedStatus: Dispatch<SetStateAction<string>>;
+  selectedProcess: string;
+  setSelectedProcess: Dispatch<SetStateAction<string>>;
   applicationDate: Date | null;
   setApplicationDate: Dispatch<SetStateAction<Date | null>>;
 };
 
-const StatusSetting = ({
+const StatusEditor = ({
   selectedStatus,
   setSelectedStatus,
   selectedProcess,
   setSelectedProcess,
   applicationDate,
   setApplicationDate,
-}: StatusSettingProps) => {
+}: StatusEditorProps) => {
   const [open, setOpen] = useState(false);
 
   const handleStatusChange = (status: string) => setSelectedStatus(status);
   const handleProcessChange = (process: string) => setSelectedProcess(process);
 
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setSelectedStatus('');
+    setSelectedProcess('');
+    setApplicationDate(null);
+    setOpen(false);
+  };
+
+  const handleSave = () => {
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -161,12 +170,11 @@ const StatusSetting = ({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>キャンセル</Button>
-          <Button onClick={handleClose}>保存</Button>
+          <Button onClick={handleSave}>閉じる</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-export default StatusSetting;
+export default StatusEditor;
