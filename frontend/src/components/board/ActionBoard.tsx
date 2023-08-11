@@ -83,7 +83,7 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
           </Typography>
         </Box>
         {loading ? (
-          <Box textAlign="center" mt={5}>
+          <Box textAlign="center" mt={20}>
             <CircularProgress />
           </Box>
         ) : (

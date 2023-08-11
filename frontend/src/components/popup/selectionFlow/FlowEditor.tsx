@@ -120,7 +120,11 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleSave}>{loading ? '保存中...' : '保存'}</Button>
+            {loading ? (
+              <Button disabled>保存中...</Button>
+            ) : (
+              <Button onClick={handleSave}>保存</Button>
+            )}
           </DialogActions>
         </Box>
       </Dialog>

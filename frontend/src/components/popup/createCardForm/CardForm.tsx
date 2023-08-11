@@ -168,8 +168,17 @@ const CardForm = ({ categoryId, categoryType, maxIndex, boardColor }: CardFormPr
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>キャンセル</Button>
-            <Button type="submit">{loading ? '保存中...' : '保存'}</Button>
+            {loading ? (
+              <Box>
+                <Button disabled>キャンセル</Button>
+                <Button disabled>保存中...</Button>
+              </Box>
+            ) : (
+              <Box>
+                <Button onClick={handleClose}>キャンセル</Button>
+                <Button type="submit">保存</Button>
+              </Box>
+            )}
           </DialogActions>
         </form>
       </Dialog>
