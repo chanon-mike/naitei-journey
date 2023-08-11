@@ -4,6 +4,7 @@ import type {
   FullJobUpdate,
   Job,
   JobPositionUpdate,
+  SelectionFlow,
   SelectionFlowBase,
 } from '@/types/board';
 
@@ -139,6 +140,27 @@ export const jobApi = {
       throw error;
     }
   },
+  editSelectionFlow: async (token: string, jobId: string, selectionFlow: SelectionFlow[]) => {
+    try {
+      const response = await fetch(`${API_ENDPOINT}/job/${jobId}/selection-flow/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(selectionFlow),
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Server responded with status ${response.status}: ${text}`);
+      }
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error edit a selection flow:', error);
+      throw error;
+    }
+  },
   deleteJob: async (token: string, jobId: Job['id']) => {
     try {
       const response = await fetch(`${API_ENDPOINT}/job/${jobId}`, {
@@ -156,6 +178,29 @@ export const jobApi = {
       return result;
     } catch (error) {
       console.error('Error delete a job:', error);
+      throw error;
+    }
+  },
+  deleteSelectionFlow: async (token: string, jobId: Job['id'], selectionFlowId: string) => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINT}/job/${jobId}/selection-flow/${selectionFlowId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Server responded with status ${response.status}: ${text}`);
+      }
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error delete a selection flow:', error);
       throw error;
     }
   },

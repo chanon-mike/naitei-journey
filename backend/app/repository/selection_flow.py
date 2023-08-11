@@ -49,8 +49,6 @@ def update_selection_flows(db: Session, flows: list[SelectionFlowUpdate]):
     return mappings
 
 
-def delete_selection_flows(db: Session, ids: list[str]):
-    db.query(SelectionFlow).filter(SelectionFlow.id.in_(ids)).delete(
-        synchronize_session=False
-    )
+def delete_selection_flow(db: Session, flow_id: str):
+    db.query(SelectionFlow).filter(SelectionFlow.id == flow_id).delete()
     db.commit()

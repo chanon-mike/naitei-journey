@@ -1,7 +1,9 @@
 import { accessTokenAtom } from '@/atoms/authAtom';
+import { columnsAtom } from '@/atoms/boardAtom';
 import { jobApi } from '@/libs/job';
-import type { SelectionFlow, SelectionFlowBase } from '@/types/board';
+import type { Category, SelectionFlow, SelectionFlowBase } from '@/types/board';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {
   Box,
   Button,
@@ -25,17 +27,32 @@ type FlowEditProps = {
 
 const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) => {
   const [accessToken] = useAtom(accessTokenAtom);
+  const [columns, setColumns] = useAtom(columnsAtom);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const sortedFlowProcesses = flowProcesses.sort((a, b) => a.step - b.step);
-    setFlowProcesses(sortedFlowProcesses);
-  }, [flowProcesses, setFlowProcesses]);
+  const maxIndex = 6;
 
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleSave = async () => {
+    await jobApi.editSelectionFlow(accessToken, jobId, flowProcesses);
+    const newColumns: Category[] = await jobApi.getCategoryJobs(
+      accessToken,
+      columns[0].user_id,
+      columns[0].type
+    );
+    newColumns.forEach((category) => {
+      category.jobs.sort((a, b) => a.card_position - b.card_position);
+    });
+    setColumns(newColumns);
+    setOpen(false);
+  };
 
-  const onAddBtnClick = async () => {
+  const handleDeleteFlow = async (flowId: string): Promise<void> => {
+    await jobApi.deleteSelectionFlow(accessToken, jobId, flowId);
+    const newFlowProcesses = flowProcesses.filter((flow) => flow.id !== flowId);
+    setFlowProcesses(newFlowProcesses);
+  };
+
+  const handleAddBtnClick = async () => {
     const newFlowProcess: SelectionFlowBase = {
       process: '',
       step: flowProcesses.length + 1,
@@ -48,16 +65,21 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
     setFlowProcesses((prev) => [...prev, flowProcessResponse]);
   };
 
+  useEffect(() => {
+    const sortedFlowProcesses = flowProcesses.sort((a, b) => a.step - b.step);
+    setFlowProcesses(sortedFlowProcesses);
+  }, [flowProcesses, setFlowProcesses]);
+
   return (
     <div>
       <Button variant="outlined" style={{ width: '100%' }} onClick={handleClickOpen}>
         選考フロー
       </Button>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleSave}>
         <Box sx={{ minWidth: '352px' }}>
           <DialogTitle fontWeight={'bold'}>選考フロー</DialogTitle>
-          <DialogContent>
+          <DialogContent sx={{ pb: 0 }}>
             {flowProcesses.map((process, index) => (
               <Box
                 key={index}
@@ -74,18 +96,28 @@ const FlowEditor = ({ flowProcesses, setFlowProcesses, jobId }: FlowEditProps) =
               </Box>
             ))}
 
-            <Box display="flex" flexDirection="column">
-              <Box display="flex" justifyContent="center" alignItems="flex-start">
-                <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-                  <IconButton aria-label="add to button" size="large" onClick={onAddBtnClick}>
+            <Box display="flex" justifyContent="center" alignItems="flex-start">
+              <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+                {flowProcesses.length > 0 && flowProcesses.length <= maxIndex && (
+                  <IconButton
+                    aria-label="delete flow"
+                    size="large"
+                    onClick={() => handleDeleteFlow(flowProcesses[flowProcesses.length - 1].id)}
+                    sx={{ mt: 2 }}
+                  >
+                    <RemoveCircleOutlineIcon fontSize="inherit" />
+                  </IconButton>
+                )}
+                {flowProcesses.length < maxIndex && (
+                  <IconButton aria-label="add to button" size="large" onClick={handleAddBtnClick}>
                     <AddCircleOutlineIcon fontSize="inherit" />
                   </IconButton>
-                </Stack>
-              </Box>
+                )}
+              </Stack>
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>閉じる</Button>
+            <Button onClick={handleSave}>保存</Button>
           </DialogActions>
         </Box>
       </Dialog>

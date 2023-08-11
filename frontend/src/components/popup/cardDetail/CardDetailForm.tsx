@@ -86,7 +86,7 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
   // Selection flow information
   const [flowProcesses, setFlowProcesses] = useState(cardDetail.selection_flows);
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     setCompanyName(cardDetail.company_name);
     setCompanyIndustry(cardDetail.company_industry);
     setOccupation(cardDetail.occupation);
@@ -128,15 +128,15 @@ const CardDetailForm: FC<CardDetailProps> = ({ cardDetail, open, setOpen }) => {
       selection_flows: flowProcesses,
     };
     await jobApi.editJob(accessToken, editedCard, jobId);
-    await handleSaveCard();
+    await handleLoadCards();
   };
 
   const deleteCard = async () => {
     await jobApi.deleteJob(accessToken, cardDetail.id);
-    await handleSaveCard();
+    await handleLoadCards();
   };
 
-  const handleSaveCard = async () => {
+  const handleLoadCards = async () => {
     const newColumns: Category[] = await jobApi.getCategoryJobs(
       accessToken,
       columns[0].user_id,
