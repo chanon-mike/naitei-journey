@@ -28,9 +28,7 @@ const FlowSetting = ({ flowProcesses, setFlowProcesses }: FlowSettingProps) => {
 
   const handleDeleteFlow = () => {
     // Delete flow process at the last index
-    console.log(flowProcesses);
     const newFlowProcesses = flowProcesses.slice(0, -1);
-    console.log(newFlowProcesses);
     setFlowProcesses(newFlowProcesses);
   };
 

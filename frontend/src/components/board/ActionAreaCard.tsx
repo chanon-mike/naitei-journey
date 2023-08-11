@@ -87,8 +87,8 @@ const ActionAreaCard: FC<ActionAreaCardProps> = ({ id, cardDetail, boardColor })
       justifyContent="center"
       margin={'20px'}
     >
-      <Card sx={{ maxWidth: 250, maxHeight: 200, minWidth: 200, borderRadius: 2 }}>
-        <CardActionArea>
+      <Card sx={{ maxWidth: 250, height: 100, minWidth: 200, borderRadius: 2 }}>
+        <CardActionArea style={{ height: '100%' }}>
           <CardContent {...listeners} onClick={() => setOpenDetail(true)}>
             <Box display="flex" justifyContent="space-between" marginBottom={0}>
               <Typography variant="h6">{cardDetail.company_name}</Typography>

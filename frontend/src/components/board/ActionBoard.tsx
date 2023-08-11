@@ -141,14 +141,14 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
   ): Promise<void> => {
     if (!activeCard) return;
 
-    console.log('category', await jobApi.editJobCategory(accessToken, activeCard.id, column.id));
+    await jobApi.editJobCategory(accessToken, activeCard.id, column.id);
   };
 
   // Update all card positions in the column for the  database when drop ended
   const updateCardPositions = async (updatedJobs: JobPositionUpdate[]): Promise<void> => {
     if (updatedJobs.length === 0) return;
 
-    console.log('card positions', await jobApi.editCardPositions(accessToken, updatedJobs));
+    await jobApi.editCardPositions(accessToken, updatedJobs);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -207,8 +207,6 @@ const ActionBoard = ({ type, userId, data, accessToken }: ActionBoardProps) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  console.log(columns);
 
   return (
     <DndContext
