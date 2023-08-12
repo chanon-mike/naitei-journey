@@ -1,4 +1,5 @@
 'use client';
+
 import { Box, Typography, keyframes } from '@mui/material';
 import { useEffect, useState } from 'react';
 import MovieExplanation from './MovieExplanation';
@@ -31,51 +32,51 @@ const Explanation = () => {
 
   const animationStyles = showDescription
     ? {
-        opacity: 1,
-        animation: `${fadeIn} 1.5s forwards`,
-      }
+      opacity: 1,
+      animation: `${fadeIn} 1.5s forwards`,
+    }
     : {
-        opacity: 0,
-      };
+      opacity: 0,
+    };
 
   return (
-    <Box sx={animationStyles}>
-      <Box display="flex" alignItems="flex-end" marginBottom={8}>
-        <Typography variant="h1" color="primary.main">
+    <Box sx={animationStyles} marginTop={10} id="explanation">
+      <Box display="flex" justifyContent="center" marginBottom={8}>
+        <Typography variant="h2" color="primary.light">
           内定Journey
         </Typography>
         <Typography variant="h2">とは</Typography>
       </Box>
 
-      <Box display="flex" marginBottom={5}>
-        <Typography variant="h2">就活状況を</Typography>
-        <Typography variant="h2" color="success.main">
+      <Box display="flex" justifyContent="center" marginBottom={5}>
+        <Typography variant="h5">就活状況を</Typography>
+        <Typography variant="h5" color="success.main">
           一括管理
         </Typography>
-        <Typography variant="h2">できるツールです</Typography>
+        <Typography variant="h5">できるツールです</Typography>
       </Box>
 
-      <Box display="flex" alignItems="flex-end" marginBottom={7}>
-        <Typography variant="h3">あなたを内定獲得まで</Typography>
-        <Typography variant="h2" color="success.main">
+      <Box display="flex" justifyContent="center" marginBottom={7}>
+        <Typography variant="h5">あなたを内定獲得まで</Typography>
+        <Typography variant="h5" color="success.main">
           サポート
         </Typography>
-        <Typography variant="h3">します</Typography>
+        <Typography variant="h5">します</Typography>
       </Box>
 
-      <Typography variant="h3" marginBottom={5}>
-        始め方は簡単です！
-      </Typography>
-      <Typography variant="h3" marginBottom={5}>
-        まずは、
-      </Typography>
-      <Typography variant="h3" marginBottom={7}>
-        アカウントを作り、ボードにアクセスしましょう
-      </Typography>
+      <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center" marginBottom={7}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          始め方は簡単です！
+        </Typography>
+        <Typography variant="h5">
+          まずは、アカウントを作り、ボードにアクセスしましょう
+        </Typography>
+      </Box>
+
 
       <Box display="flex" justifyContent="center" marginBottom={10}>
         <Typography variant="h2">あなたの</Typography>
-        <Typography variant="h2" color="primary.main">
+        <Typography variant="h2" color="primary.main" fontWeight="bold">
           内定までの道
         </Typography>
         <Typography variant="h2">が始まります</Typography>

@@ -57,13 +57,13 @@ const Home = async () => {
         width="100%"
         paddingBottom={2}
       >
-        <Typography variant="h6" color="gray">
+        <Typography variant="body1">
           下にスクロール
         </Typography>
         <KeyboardDoubleArrowDownTwoToneIcon />
       </Box>
       <Explanation />
-      <Box height="80vh" />
+      <Box height="10vh" />
     </Container>
   );
 };

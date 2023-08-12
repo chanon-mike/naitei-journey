@@ -1,13 +1,18 @@
 'use client';
-import { Box, Typography } from '@mui/material';
+
+import { Box } from '@mui/material';
 
 const MovieExplanation = () => {
   return (
-    <Box>
-      <Typography variant="h1" color="error.light">
-        使い方
-      </Typography>
-      <Typography variant="h1">動画</Typography>
+    <Box display="flex" justifyContent="center">
+      <iframe
+        width="100%"
+        height="650"
+        src="https://www.youtube.com/embed/cjXLNUXjS8U"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Embedded youtube"
+      />
     </Box>
   );
 };
