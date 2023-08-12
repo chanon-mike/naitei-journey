@@ -1,12 +1,12 @@
 # 内定 Journey
 
-就活管理アプリ
+内定Journeyとは就活状況を一括管理できるツールです! まずは、アカウントを作り、ボードにアクセスしましょう。
 
 URL: https://naitei-journey.vercel.app/
 
-この作品は技育 CAMP のマンスリーハッカソンで作成し、技育展に登壇します
+この作品は技育 CAMP のマンスリーハッカソンで作成し、技育展に登壇します。
 
-![image](https://github.com/chanon-mike/naitei-journey/assets/27944646/00266221-3943-4bcb-8c5a-7f79823a6a00)
+![image](https://github.com/chanon-mike/naitei-journey/assets/27944646/288c3564-905e-47af-acb1-885e9ae79890)
 
 ## ローカル環境構築
 
