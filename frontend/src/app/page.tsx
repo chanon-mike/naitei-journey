@@ -57,9 +57,7 @@ const Home = async () => {
         width="100%"
         paddingBottom={2}
       >
-        <Typography variant="body1">
-          下にスクロール
-        </Typography>
+        <Typography variant="body1">下にスクロール</Typography>
         <KeyboardDoubleArrowDownTwoToneIcon />
       </Box>
       <Explanation />

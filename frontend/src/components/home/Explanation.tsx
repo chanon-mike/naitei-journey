@@ -32,12 +32,12 @@ const Explanation = () => {
 
   const animationStyles = showDescription
     ? {
-      opacity: 1,
-      animation: `${fadeIn} 1.5s forwards`,
-    }
+        opacity: 1,
+        animation: `${fadeIn} 1.5s forwards`,
+      }
     : {
-      opacity: 0,
-    };
+        opacity: 0,
+      };
 
   return (
     <Box sx={animationStyles} marginTop={10} id="explanation">
@@ -64,15 +64,18 @@ const Explanation = () => {
         <Typography variant="h5">します</Typography>
       </Box>
 
-      <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center" marginBottom={7}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+        alignItems="center"
+        marginBottom={7}
+      >
         <Typography variant="h4" sx={{ mb: 2 }}>
           始め方は簡単です！
         </Typography>
-        <Typography variant="h5">
-          まずは、アカウントを作り、ボードにアクセスしましょう
-        </Typography>
+        <Typography variant="h5">まずは、アカウントを作り、ボードにアクセスしましょう</Typography>
       </Box>
-
 
       <Box display="flex" justifyContent="center" marginBottom={10}>
         <Typography variant="h2">あなたの</Typography>
